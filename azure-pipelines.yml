@@ -40,7 +40,7 @@ stages:
       useCache: true
       configuration: Release
       updateAssemblyInfo: true
-      publishWeb: true
+      publishWeb: false
       buildOnLinux: true
       buildOnWindows: true
       publishOnWindows: true
