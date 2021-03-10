@@ -46,6 +46,7 @@ stages:
       publishOnWindows: true
       packOnLinux: true
       projectsToPack: src/Sphinx.Web.Shared/Sphinx.Web.Shared.csproj
+      projectsToPublish: src/Sphinx.Web.Server/Sphinx.Web.Server.csproj
   - template: /ci/azure-pipelines/stages/dotnet/01. test.yml@templates
     parameters:
       useCache: true
