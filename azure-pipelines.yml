@@ -43,6 +43,7 @@ stages:
       publishWeb: true
       buildOnLinux: true
       buildOnWindows: true
+      publishOnWindows: true
       packOnLinux: true
   - template: /ci/azure-pipelines/stages/dotnet/01. test.yml@templates
     parameters:
