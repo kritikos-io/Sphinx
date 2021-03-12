@@ -76,7 +76,7 @@ stages:
       environmentRelease: Release
       jobNameRelease: Release
       feedNameRelease: NugetKritikos
-  - template: ci/azure.yml
+  - template: ci/azure-stage.yml
     parameters:
       environment: Release
       subscription: Sphinx
