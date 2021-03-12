@@ -84,4 +84,5 @@ stages:
       webApp: sphinxweb
       slotName: production
       deployToSlot: true
+      artifact: $(Build.Repository.Name)-$(Build.BuildNumber)-windows-latest
       # artifact:
