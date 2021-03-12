@@ -51,7 +51,7 @@ stages:
       packOnLinux: true
       projectsToPack: src/Sphinx.Web.Shared/Sphinx.Web.Shared.csproj
       projectsToPublish: src/Sphinx.Web.Server/Sphinx.Web.Server.csproj
-      publishArtifactName: Sphinx-$(Build.BuildNumber)-win
+      publishArtifactName: azure
   - template: /ci/azure-pipelines/stages/dotnet/01. test.yml@templates
     parameters:
       useCache: true
@@ -85,4 +85,4 @@ stages:
       webApp: sphinxweb
       slotName: production
       deployToSlot: true
-      artifact: Sphinx-$(Build.BuildNumber)-win
+      artifact: azure
