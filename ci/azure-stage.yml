@@ -22,7 +22,7 @@ parameters:
   default: '*.zip'
 
 stages:
-- stage: Deploy
+- stage: Publish
   displayName: Deploys nugets
   dependsOn:
     - Build
