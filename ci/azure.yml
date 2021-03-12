@@ -1,4 +1,6 @@
 parameters:
+- name: environment
+  type: string
 - name: subscription
   type: string
 - name: resourceGroup
@@ -21,7 +23,7 @@ stages:
     - Build
     - Test
   jobs:
-  - deployment: ${{ parameters.jobName }}
+  - deployment:
     displayName: Deploy app ${{ parameters.webApp }} ${{ parameters.slotName }}
     environment: ${{ parameters.environment }}
     strategy:
@@ -31,6 +33,7 @@ stages:
             - download: current
               artifact: ${{ parameters.artifact }}
             - task: AzureRmWebAppDeployment@4
+              displayName: Upload to ${{ parameters.slotName }} slot
               inputs:
                 ConnectionType: 'AzureRM'
                 appType: 'webApp'

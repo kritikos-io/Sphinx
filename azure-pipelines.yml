@@ -78,6 +78,7 @@ stages:
       feedNameRelease: NugetKritikos
   - template: ci/azure.yml
     parameters:
+      environment: Release
       subscription: Sphinx
       resourceGroup: sphinx
       webApp: sphinxweb
