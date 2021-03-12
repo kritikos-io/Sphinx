@@ -30,6 +30,10 @@ variables:
   - group: ApiKeys
   - name: SONAR_PROJECT
     value: kritikos-io_DevOps.Tools
+  - name: isMaster
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  - name: isDevelop
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
 
 stages:
   - template: /ci/azure-pipelines/stages/general/00. gitversion.yml@templates
@@ -72,3 +76,11 @@ stages:
       environmentRelease: Release
       jobNameRelease: Release
       feedNameRelease: NugetKritikos
+  - template: ci/azure.yml
+    parameters:
+      subscription: Sphinx
+      resourceGroup: sphinx
+      webApp: sphinxweb
+      slotName: production
+      deployToSlot: true
+      # artifact:

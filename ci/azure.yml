@@ -1,0 +1,33 @@
+parameters:
+- name: subscription
+  type: string
+- name: resourceGroup
+  type: string
+- name: webApp
+  type: string
+- name: slotName
+  type: string
+- name: deployToSlot
+  type: boolean
+  default: false
+- name: artifact
+  type: string
+  default: $(System.DefaultWorkingDirectory)/**/*.zip
+
+stages:
+  stage: Publish
+  displayName: Publishes web app to azure
+  dependsOn:
+    - Build
+    - Test
+  jobs:
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      appType: 'webApp'
+      azureSubscription: ${{ parameters.subscription }}
+      ResourceGroupName: ${{ parameters.resourceGroup }}
+      WebAppName: ${{ parameters.webApp }}
+      deployToSlotOrASE: ${{ parameters.deployToSlot }}
+      SlotName: ${{ parameters.slotName }}
+      packageForLinux: ${{ parameters.artifact }}
