@@ -21,13 +21,15 @@ stages:
     - Build
     - Test
   jobs:
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
-      appType: 'webApp'
-      azureSubscription: ${{ parameters.subscription }}
-      ResourceGroupName: ${{ parameters.resourceGroup }}
-      WebAppName: ${{ parameters.webApp }}
-      deployToSlotOrASE: ${{ parameters.deployToSlot }}
-      SlotName: ${{ parameters.slotName }}
-      packageForLinux: ${{ parameters.artifact }}
+  - job:
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        appType: 'webApp'
+        azureSubscription: ${{ parameters.subscription }}
+        ResourceGroupName: ${{ parameters.resourceGroup }}
+        WebAppName: ${{ parameters.webApp }}
+        deployToSlotOrASE: ${{ parameters.deployToSlot }}
+        SlotName: ${{ parameters.slotName }}
+        packageForLinux: ${{ parameters.artifact }}
