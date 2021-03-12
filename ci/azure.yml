@@ -15,7 +15,7 @@ parameters:
   default: $(System.DefaultWorkingDirectory)/**/*.zip
 
 stages:
-  stage: Publish
+- stage: Publish
   displayName: Publishes web app to azure
   dependsOn:
     - Build
