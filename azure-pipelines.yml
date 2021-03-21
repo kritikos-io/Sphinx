@@ -77,12 +77,13 @@ stages:
       environmentRelease: Release
       jobNameRelease: Release
       feedNameRelease: NugetKritikos
-  - template: ci/azure-stage.yml
+  - template: /ci/azure-pipelines/stages/general/01. azureapp.yml@templates
     parameters:
       environment: Release
       subscription: Sphinx
       resourceGroup: sphinx
       webApp: sphinxweb
-      slotName: production
+      slotNameDevel: dev
+      slotNameStage: stage
       deployToSlot: true
       artifact: azure-win
