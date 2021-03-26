@@ -58,7 +58,7 @@ stages:
       configuration: Debug
       testOnLinux: true
       testOnWindows: true
-      coverageOnLinux: true
+      coverageOnLinux: false
       sonarOnLinux: true
   - template: /ci/azure-pipelines/stages/dotnet/03. intellicode.yml@templates
     parameters:
