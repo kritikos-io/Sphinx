@@ -29,7 +29,11 @@ variables:
   - group: DotNet
   - group: ApiKeys
   - name: SONAR_PROJECT
-    value: kritikos-io_DevOps.Tools
+    value: kritikos-io_Sphinx
+  - name: isMaster
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  - name: isDevelop
+    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
 
 stages:
   - template: /ci/azure-pipelines/stages/general/00. gitversion.yml@templates
@@ -40,10 +44,14 @@ stages:
       useCache: true
       configuration: Release
       updateAssemblyInfo: true
-      publishWeb: true
+      publishWeb: false
       buildOnLinux: true
       buildOnWindows: true
+      publishOnWindows: true
       packOnLinux: true
+      projectsToPack: src/Sphinx.Web.Shared/Sphinx.Web.Shared.csproj
+      projectsToPublish: src/Sphinx.Web.Server/Sphinx.Web.Server.csproj
+      publishArtifactName: azure
   - template: /ci/azure-pipelines/stages/dotnet/01. test.yml@templates
     parameters:
       useCache: true
@@ -51,9 +59,7 @@ stages:
       testOnLinux: true
       testOnWindows: true
       coverageOnLinux: false
-      sonarOnLinux: false
-      codecovOnLinux: false
-      coverallsOnLinux: false
+      sonarOnLinux: true
   - template: /ci/azure-pipelines/stages/dotnet/03. intellicode.yml@templates
     parameters:
       useCache: true
@@ -69,3 +75,13 @@ stages:
       environmentRelease: Release
       jobNameRelease: Release
       feedNameRelease: NugetKritikos
+  - template: /ci/azure-pipelines/stages/general/01. azureapp.yml@templates
+    parameters:
+      environment: Release
+      subscription: Sphinx
+      resourceGroup: sphinx
+      webApp: sphinxweb
+      slotNameDevel: dev
+      slotNameStage: stage
+      deployToSlot: true
+      artifact: azure-win
