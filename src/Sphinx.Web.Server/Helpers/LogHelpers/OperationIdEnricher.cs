@@ -1,4 +1,4 @@
-namespace Kritikos.Sphinx.Web.Server.Helpers.Log
+namespace Kritikos.Sphinx.Web.Server.Helpers.LogHelpers
 {
   using Serilog.Core;
   using Serilog.Events;
