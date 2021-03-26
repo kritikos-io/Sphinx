@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql.local",
+      "connectionId": "DefaultConnection"
+    },
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "appInsights1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/Sphinx-Insights",
+      "type": "appInsights.azure",
+      "connectionId": "APPINSIGHTS_CONNECTIONSTRING",
+      "secretStore": "LocalSecretsFile"
+    },
+    "storage1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/sphinxstorageaccount",
+      "type": "storage.azure",
+      "connectionId": "SphinxStorageAccount",
+      "secretStore": "LocalSecretsFile"
+    }
+  }
+}
