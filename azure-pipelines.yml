@@ -29,7 +29,7 @@ variables:
   - group: DotNet
   - group: ApiKeys
   - name: SONAR_PROJECT
-    value: kritikos-io_DevOps.Tools
+    value: kritikos-io_Sphinx
   - name: isMaster
     value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
   - name: isDevelop
@@ -58,10 +58,8 @@ stages:
       configuration: Debug
       testOnLinux: true
       testOnWindows: true
-      coverageOnLinux: false
-      sonarOnLinux: false
-      codecovOnLinux: false
-      coverallsOnLinux: false
+      coverageOnLinux: true
+      sonarOnLinux: true
   - template: /ci/azure-pipelines/stages/dotnet/03. intellicode.yml@templates
     parameters:
       useCache: true
