@@ -3,7 +3,7 @@ namespace Kritikos.Sphinx.Web.Server.Helpers.Extensions
   using System;
   using System.IO;
 
-  using Kritikos.Sphinx.Web.Server.Helpers.Log;
+  using Kritikos.Sphinx.Web.Server.Helpers.LogHelpers;
 
   using Microsoft.ApplicationInsights.Extensibility;
   using Microsoft.AspNetCore.Hosting;
