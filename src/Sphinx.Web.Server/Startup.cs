@@ -2,7 +2,6 @@ namespace Kritikos.Sphinx.Web.Server
 {
   using Kritikos.Configuration.Persistence.Extensions;
   using Kritikos.Configuration.Persistence.Services;
-  using Kritikos.Kerberos.Persistence;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
 
@@ -37,16 +36,10 @@ namespace Kritikos.Sphinx.Web.Server
             Configuration.GetConnectionString("Sphinx"),
             pgsql => pgsql.EnableRetryOnFailure(3))
           .EnableCommonOptions(Environment));
-      services.AddDbContextPool<KerberosDbContext>(
-        options => options.UseNpgsql(
-            Configuration.GetConnectionString("Kerberos"),
-            pgsql => pgsql.EnableRetryOnFailure(3))
-          .EnableCommonOptions(Environment));
 
       if (Environment.IsDevelopment())
       {
         services.AddHostedService<MigrationService<SphinxDbContext>>();
-        services.AddHostedService<MigrationService<KerberosDbContext>>();
       }
 
       services.AddDatabaseDeveloperPageExceptionFilter();
