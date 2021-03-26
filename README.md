@@ -30,6 +30,7 @@ Please, open a legacy powershell session ("Windows Powershell x86" on the start 
 - [George Leonidis][esentis]
   - Database Management
 - [Filippos Georgantas][pgeorgantas]
+- [Lefteris Michailides][just-sudo-it]
 
 [akritikos]: https://github.com/pgeorgantas
 [dimtsap]: https://github.com/dimtsap
