@@ -55,7 +55,9 @@ namespace Kritikos.Sphinx.Web.Server.Helpers.Extensions
           .MinimumLevel.ControlledBy(Program.LevelSwitch)
           .Filter.ByExcluding(configuration["Serilog:Seq:Ignored"])
           .WriteTo.File(
-            Path.Combine(Directory.GetCurrentDirectory(), "Logs", $"{environment.ApplicationName}-.log"),
+            configuration.GetValue("AzureDeployment", false)
+              ? $@"D:\home\LogFiles\Application\{environment.ApplicationName}.txt"
+              : Path.Combine(Directory.GetCurrentDirectory(), "Logs", $"{environment.ApplicationName}-.log"),
             fileSizeLimitBytes: 31_457_280,
             rollingInterval: RollingInterval.Day,
             rollOnFileSizeLimit: true,
