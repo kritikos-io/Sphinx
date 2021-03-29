@@ -71,18 +71,19 @@ namespace Kritikos.Sphinx.Web.Server
 
       if (string.IsNullOrWhiteSpace(pem))
       {
-        identity.AddDeveloperSigningCredential();
+        identity.AddApiAuthorization<SphinxUser, SphinxDbContext>();
       }
       else
       {
         var key = ECDsa.Create();
         key.ImportECPrivateKey(Convert.FromBase64String(pem), out _);
         var credentials = new SigningCredentials(new ECDsaSecurityKey(key), "ES512");
-        identity.AddSigningCredential(credentials);
-      }
 
-      identity
-        .AddApiAuthorization<SphinxUser, SphinxDbContext>();
+        identity.AddApiAuthorization<SphinxUser, SphinxDbContext>(options =>
+        {
+          options.SigningCredential = credentials;
+        });
+      }
 
       services.AddAuthentication()
         .AddIdentityServerJwt();
@@ -124,8 +125,8 @@ namespace Kritikos.Sphinx.Web.Server
 
       app.UseEndpoints(endpoints =>
       {
-        endpoints.MapRazorPages();
         endpoints.MapControllers();
+        endpoints.MapRazorPages();
         endpoints.MapFallbackToFile("index.html");
       });
     }
