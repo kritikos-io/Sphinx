@@ -34,7 +34,7 @@ namespace Kritikos.Sphinx.Web.Server
       try
       {
         var host = CreateHostBuilder(args).Build();
-        logger = host.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Startup>>();
+        logger = host.Services.GetRequiredService<ILogger<Startup>>();
 
         await host.RunAsync();
         return 0;
