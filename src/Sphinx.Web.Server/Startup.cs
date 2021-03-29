@@ -1,5 +1,8 @@
 namespace Kritikos.Sphinx.Web.Server
 {
+  using System;
+  using System.Security.Cryptography;
+
   using Kritikos.Configuration.Persistence.Extensions;
   using Kritikos.Configuration.Persistence.Services;
   using Kritikos.Sphinx.Data.Persistence;
@@ -13,6 +16,7 @@ namespace Kritikos.Sphinx.Web.Server
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.Extensions.Hosting;
+  using Microsoft.IdentityModel.Tokens;
 
   using Serilog;
 
@@ -61,7 +65,23 @@ namespace Kritikos.Sphinx.Web.Server
         })
         .AddEntityFrameworkStores<SphinxDbContext>();
 
-      services.AddIdentityServer()
+      var identity = services.AddIdentityServer();
+
+      var pem = Configuration["Identity:Key"];
+
+      if (string.IsNullOrWhiteSpace(pem))
+      {
+        identity.AddDeveloperSigningCredential();
+      }
+      else
+      {
+        var key = ECDsa.Create();
+        key.ImportECPrivateKey(Convert.FromBase64String(pem), out _);
+        var credentials = new SigningCredentials(new ECDsaSecurityKey(key), "ES512");
+        identity.AddSigningCredential(credentials);
+      }
+
+      identity
         .AddApiAuthorization<SphinxUser, SphinxDbContext>();
 
       services.AddAuthentication()

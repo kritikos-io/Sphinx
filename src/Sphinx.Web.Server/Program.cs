@@ -35,8 +35,6 @@ namespace Kritikos.Sphinx.Web.Server
       {
         var host = CreateHostBuilder(args).Build();
         logger = host.Services.GetRequiredService<ILogger<Startup>>();
-        var config = host.Services.GetRequiredService<IConfiguration>() as IConfigurationRoot;
-        logger.LogWarning("Config values are {ConfigurationRoot}", config.GetDebugValues());
 
         await host.RunAsync();
         return 0;
