@@ -42,10 +42,10 @@ namespace Kritikos.Sphinx.Web.Server
             pgsql => pgsql.EnableRetryOnFailure(3))
           .EnableCommonOptions(Environment));
 
-      if (Environment.IsDevelopment())
-      {
-        services.AddHostedService<MigrationService<SphinxDbContext>>();
-      }
+      services.AddHealthChecks()
+        .AddDbContextCheck<SphinxDbContext>();
+
+      services.AddHostedService<MigrationService<SphinxDbContext>>();
 
       services.AddDatabaseDeveloperPageExceptionFilter();
 
