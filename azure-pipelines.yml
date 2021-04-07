@@ -41,7 +41,7 @@ stages:
       updateAssemblyInfo: true
   - template: /ci/azure-pipelines/stages/dotnet/00. build.yml@templates
     parameters:
-      useCache: true
+      useCache: false
       configuration: Release
       updateAssemblyInfo: true
       publishWeb: false
@@ -54,7 +54,7 @@ stages:
       publishArtifactName: azure
   - template: /ci/azure-pipelines/stages/dotnet/01. test.yml@templates
     parameters:
-      useCache: true
+      useCache: false
       configuration: Debug
       testOnLinux: true
       testOnWindows: true
@@ -62,7 +62,7 @@ stages:
       sonarOnLinux: true
   - template: /ci/azure-pipelines/stages/dotnet/03. intellicode.yml@templates
     parameters:
-      useCache: true
+      useCache: false
       updateAssemblyInfo: true
       branch: develop
   - template: /ci/azure-pipelines/stages/dotnet/02. nuget-deploy.yml@templates
