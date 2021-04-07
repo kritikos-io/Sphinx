@@ -223,17 +223,6 @@
           "Microsoft.Extensions.Options": "2.1.0"
         }
       },
-      "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore": {
-        "type": "Direct",
-        "requested": "[5.0.5, )",
-        "resolved": "5.0.5",
-        "contentHash": "XXdmqDfxkJ7N/ALSyJSoaHGMqulWQwDr/osuQEX33ym5VQ8MTERWDH7u9mYljGbzO8IZ0gf5n+f86WYFHcpMHA==",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "5.0.5",
-          "Microsoft.Extensions.Diagnostics.HealthChecks": "5.0.5",
-          "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions": "5.0.5"
-        }
-      },
       "Serilog.AspNetCore": {
         "type": "Direct",
         "requested": "[4.1.0, )",

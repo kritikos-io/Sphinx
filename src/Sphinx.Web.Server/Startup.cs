@@ -1,24 +1,32 @@
 namespace Kritikos.Sphinx.Web.Server
 {
   using System;
+  using System.IO;
   using System.Security.Cryptography;
 
+  using HealthChecks.UI.Client;
+
   using Kritikos.Configuration.Persistence.Extensions;
+  using Kritikos.Configuration.Persistence.HealthCheck.DependencyInjection;
   using Kritikos.Configuration.Persistence.Services;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
 
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Builder;
+  using Microsoft.AspNetCore.Diagnostics.HealthChecks;
   using Microsoft.AspNetCore.Hosting;
-  using Microsoft.AspNetCore.Http;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.Extensions.Hosting;
   using Microsoft.IdentityModel.Tokens;
+  using Microsoft.OpenApi.Models;
 
   using Serilog;
+
+  using Swashbuckle.AspNetCore.Filters;
+  using Swashbuckle.AspNetCore.SwaggerUI;
 
   public class Startup
   {
@@ -42,8 +50,26 @@ namespace Kritikos.Sphinx.Web.Server
             pgsql => pgsql.EnableRetryOnFailure(3))
           .EnableCommonOptions(Environment));
 
-      services.AddHealthChecks()
-        .AddDbContextCheck<SphinxDbContext>();
+      services.AddHealthChecksUI(setup =>
+        {
+          setup.SetHeaderText("Sphinx - Health Status");
+          setup.AddHealthCheckEndpoint("self", "status");
+          setup.SetEvaluationTimeInSeconds(60);
+          setup.MaximumHistoryEntriesPerEndpoint(200);
+        })
+        .AddInMemoryStorage();
+
+      services
+        .AddHealthChecks()
+        .AddDbContext<SphinxDbContext>()
+        .AddSendGrid(Configuration["SendGrid:ApiKey"], name: "SendGrid")
+        .AddAzureBlobStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Blob Storage")
+        .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage")
+        .AddSeqPublisher(seq =>
+        {
+          seq.ApiKey = Configuration["Seq:ApiKey"];
+          seq.Endpoint = Configuration["Seq:Uri"];
+        });
 
       services.AddHostedService<MigrationService<SphinxDbContext>>();
 
@@ -88,17 +114,47 @@ namespace Kritikos.Sphinx.Web.Server
       services.AddAuthentication()
         .AddIdentityServerJwt();
 
+      services.AddSwaggerGen(swag =>
+      {
+        swag.SwaggerDoc(
+          "v1",
+          new OpenApiInfo { Title = "Sphinx API", Version = "v1", });
+
+        swag.EnableAnnotations(true, true);
+        swag.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+        swag.OperationFilter<SecurityRequirementsOperationFilter>();
+
+        swag.DescribeAllParametersInCamelCase();
+
+        swag.IncludeXmlComments(Path.Combine(
+          AppContext.BaseDirectory,
+          $"{typeof(Startup).Assembly.GetName().Name}.xml"));
+      });
+
       services.AddControllersWithViews();
+      services.AddMvc();
       services.AddRazorPages();
     }
 
     public void Configure(IApplicationBuilder app)
     {
+      app.UseSwagger();
       if (Environment.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
         app.UseMigrationsEndPoint();
         app.UseWebAssemblyDebugging();
+        app.UseSwaggerUI(swag =>
+        {
+          swag.SwaggerEndpoint("/swagger/v1/swagger.json", "Sphinx API v1");
+          swag.DocExpansion(DocExpansion.None);
+          swag.EnableDeepLinking();
+          swag.EnableFilter();
+          swag.EnableValidator();
+          swag.DisplayOperationId();
+          swag.DisplayRequestDuration();
+          swag.ShowExtensions();
+        });
       }
       else
       {
@@ -106,11 +162,22 @@ namespace Kritikos.Sphinx.Web.Server
         app.UseHsts();
       }
 
+      app.UseRouting();
+      app.UseReDoc(c =>
+      {
+        c.RoutePrefix = "docs";
+        c.DocumentTitle = "Psyche.Web.Host v1";
+        c.SpecUrl("/swagger/v1/swagger.json");
+        c.ExpandResponses("none");
+        c.RequiredPropsFirst();
+        c.SortPropsAlphabetically();
+        c.HideDownloadButton();
+        c.HideHostname();
+      });
+
       app.UseHttpsRedirection();
       app.UseBlazorFrameworkFiles();
       app.UseStaticFiles();
-
-      app.UseRouting();
 
       app.UseSerilogIngestion(obj =>
       {
@@ -125,6 +192,19 @@ namespace Kritikos.Sphinx.Web.Server
 
       app.UseEndpoints(endpoints =>
       {
+        endpoints.MapHealthChecks(
+          "/status",
+          new HealthCheckOptions()
+          {
+            Predicate = r => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+            AllowCachingResponses = false,
+          });
+        endpoints.MapHealthChecksUI(setup =>
+        {
+          setup.UIPath = "/health";
+          setup.AddCustomStylesheet("health.css");
+        });
         endpoints.MapControllers();
         endpoints.MapRazorPages();
         endpoints.MapFallbackToFile("index.html");

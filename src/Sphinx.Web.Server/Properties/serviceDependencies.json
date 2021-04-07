@@ -10,6 +10,12 @@
     "storage1": {
       "type": "storage",
       "connectionId": "SphinxStorageAccount"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "",
+      "suggestion": "true",
+      "ignored": "true"
     }
   }
 }
