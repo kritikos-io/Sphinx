@@ -114,11 +114,11 @@
       },
       "Kritikos.Configuration.Persistence.HealthCheck": {
         "type": "Direct",
-        "requested": "[1.0.1, )",
-        "resolved": "1.0.1",
-        "contentHash": "ox2iQlUlK2fIUxZpfsqHYAmBsnTkiAnngImwkKS/teBVPxo4CdGgU2Sv7hncbTbw4SfQ0jWNW9dW7VOAA1eOog==",
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "Fu5aalM2a9xfWf4CtWHGX5Mx1piX/AgS4cjqbS0U8/NpwCcrWzvm6VanF0SymLI6iMrdAyD4sWeWKm2W4fbRbw==",
         "dependencies": {
-          "Kritikos.Configuration.Persistence": "1.0.1",
+          "Kritikos.Configuration.Persistence": "1.1.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "5.0.5"
         }
       },
@@ -517,17 +517,17 @@
       },
       "Kritikos.Configuration.Peristence.IdentityServer": {
         "type": "Transitive",
-        "resolved": "1.0.1",
-        "contentHash": "h/iz89CvXTJJmH0zNTwSt0wvSXxM9/CDd1DCdkPTWjbmNvXvKttkpxlqMvLsA2yTveFOcgfDykfYMNcTRG/c1g==",
+        "resolved": "1.1.0",
+        "contentHash": "i7YWw8sGZm5sXfUFDZJdYkP8XiDjv5l6wNrKdcdAR9bZD1q6seWmHlMk96qHfcf97ByRrjN3NVxc7+uvWQla2Q==",
         "dependencies": {
-          "Kritikos.Configuration.Persistence": "1.0.1",
+          "Kritikos.Configuration.Persistence": "1.1.0",
           "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": "5.0.5"
         }
       },
       "Kritikos.Configuration.Persistence": {
         "type": "Transitive",
-        "resolved": "1.0.1",
-        "contentHash": "TVby+5TE9JgOApFu+1sXLmIGm16wYvB5LJqE87EgiLmLxw+hAvrR+Te3GMVy7/J+1G+xFKDB6XaO/cRck32RAg==",
+        "resolved": "1.1.0",
+        "contentHash": "relamN+sNIPkWQyvfUfUytHUq1RNeEZvrqnJpdVF1WlRLsECI78CYV/Dc0ezd0l7TNTtO/6ISC49x1lS0V+prg==",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Relational": "5.0.5",
           "Microsoft.Extensions.Hosting": "5.0.0",
@@ -2561,7 +2561,7 @@
       "Kritikos.Sphinx.Data.Persistence": {
         "type": "Project",
         "dependencies": {
-          "Kritikos.Configuration.Peristence.IdentityServer": "1.0.1",
+          "Kritikos.Configuration.Peristence.IdentityServer": "1.1.0",
           "Kritikos.Sphinx.Web.Shared": "1.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.2",
           "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.1.0"
