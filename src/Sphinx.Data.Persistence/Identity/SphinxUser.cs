@@ -13,5 +13,11 @@ namespace Kritikos.Sphinx.Data.Persistence.Identity
 
     /// <inheritdoc />
     public DateTimeOffset UpdatedAt { get; set; }
+
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+
+    public string PhoneNumber { get; set; }
   }
 }
