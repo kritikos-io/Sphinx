@@ -14,6 +14,7 @@ namespace Kritikos.Sphinx.Web.Server
 
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Builder;
+  using Microsoft.AspNetCore.DataProtection;
   using Microsoft.AspNetCore.Diagnostics.HealthChecks;
   using Microsoft.AspNetCore.Hosting;
   using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,14 @@ namespace Kritikos.Sphinx.Web.Server
             Configuration.GetConnectionString("Sphinx"),
             pgsql => pgsql.EnableRetryOnFailure(3))
           .EnableCommonOptions(Environment));
+
+      services.AddDbContext<DataProtectionDbContext>(options =>
+        options.UseNpgsql(
+          Configuration.GetConnectionString("MyKeysConnection")));
+
+      // using Microsoft.AspNetCore.DataProtection;
+      services.AddDataProtection()
+        .PersistKeysToDbContext<DataProtectionDbContext>();
 
       services.AddHealthChecksUI(setup =>
         {
