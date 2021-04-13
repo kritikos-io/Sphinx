@@ -113,25 +113,9 @@ namespace Kritikos.Sphinx.Web.Server
         })
         .AddEntityFrameworkStores<SphinxDbContext>();
 
-      var identity = services.AddIdentityServer();
-
-      var pem = Configuration["Identity:Key"];
-
-      if (string.IsNullOrWhiteSpace(pem))
-      {
-        identity.AddApiAuthorization<SphinxUser, SphinxDbContext>();
-      }
-      else
-      {
-        var key = ECDsa.Create();
-        key.ImportECPrivateKey(Convert.FromBase64String(pem), out _);
-        var credentials = new SigningCredentials(new ECDsaSecurityKey(key), "ES512");
-
-        identity.AddApiAuthorization<SphinxUser, SphinxDbContext>(options =>
-        {
-          options.SigningCredential = credentials;
-        });
-      }
+      services
+        .AddIdentityServer()
+        .AddApiAuthorization<SphinxUser, SphinxDbContext>();
 
       services.AddAuthentication()
         .AddIdentityServerJwt();

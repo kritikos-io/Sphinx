@@ -1,10 +1,13 @@
 namespace Kritikos.Sphinx.Web.Server
 {
   using System;
+  using System.Linq;
+  using System.Security.Cryptography.X509Certificates;
   using System.Threading.Tasks;
 
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
+  using Kritikos.Sphinx.Web.Shared.Enums;
 
   using Microsoft.ApplicationInsights.Extensibility;
   using Microsoft.AspNetCore.Hosting;
@@ -35,6 +38,14 @@ namespace Kritikos.Sphinx.Web.Server
       {
         var host = CreateHostBuilder(args).Build();
         logger = host.Services.GetRequiredService<ILogger<Startup>>();
+
+        var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+        store.Open(OpenFlags.ReadOnly);
+        foreach (var certificate in store.Certificates)
+        {
+          logger.LogInformation("Found certificate: {Certificate}",certificate);
+        }
+        logger.LogInformation("Detected Certificates: {Certificates}",store.Certificates);
 
         await host.RunAsync();
         return 0;
