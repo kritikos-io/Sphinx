@@ -209,7 +209,6 @@ namespace Kritikos.Sphinx.Web.Server
         endpoints.MapHealthChecksUI(setup =>
         {
           setup.UIPath = "/health";
-          setup.AddCustomStylesheet("health.css");
         });
         endpoints.MapControllers();
         endpoints.MapRazorPages();
