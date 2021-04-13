@@ -114,11 +114,11 @@
       },
       "Kritikos.Configuration.Persistence.HealthCheck": {
         "type": "Direct",
-        "requested": "[1.1.0, )",
-        "resolved": "1.1.0",
-        "contentHash": "Fu5aalM2a9xfWf4CtWHGX5Mx1piX/AgS4cjqbS0U8/NpwCcrWzvm6VanF0SymLI6iMrdAyD4sWeWKm2W4fbRbw==",
+        "requested": "[1.1.1, )",
+        "resolved": "1.1.1",
+        "contentHash": "mnYE3zlQKoeJKqw696qOIR+2bgGXc9cmdY7Lbh9emC94q0860KgR/90DN1J9qAgpzYSxLjhpMf6QMMyuGtiw1Q==",
         "dependencies": {
-          "Kritikos.Configuration.Persistence": "1.1.0",
+          "Kritikos.Configuration.Persistence": "1.1.1",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "5.0.5"
         }
       },
@@ -340,6 +340,12 @@
         "resolved": "1.1.31",
         "contentHash": "2f2k7bbhDd132ArglCKpzKoWBcp3uzbIFcb4aosnlqIKlfYKDE2HevBVRNVa+LkWFnjXFFWs47Bo96fu8iS//Q=="
       },
+      "SonarAnalyzer.CSharp": {
+        "type": "Direct",
+        "requested": "[8.20.0.28934, )",
+        "resolved": "8.20.0.28934",
+        "contentHash": "7sorg1+g8sDdzyysEy/fwidXTjVhaVJbu/XZ//bkZJW9BOhXAdb2NV/ZS6VHl3ur2fYUQCFGkb9cZ6NbOI71FA=="
+      },
       "StyleCop.Analyzers": {
         "type": "Direct",
         "requested": "[1.2.0-beta.333, )",
@@ -351,23 +357,23 @@
       },
       "Swashbuckle.AspNetCore": {
         "type": "Direct",
-        "requested": "[6.1.1, )",
-        "resolved": "6.1.1",
-        "contentHash": "qeGNdISDXqZT2oYWwFWgCiYTnJFxU3qYzZ+xyM/iU/kvI/KWlJGHTxlhLb3giAFxFZM5nRgkHGFb8yfNgr7+kQ==",
+        "requested": "[6.1.2, )",
+        "resolved": "6.1.2",
+        "contentHash": "u5Sk1soeczf/5Sh4mkW9OKn1MAfqbbtTQBqBGs75pYJBZnhsSwfChau4GCFfpXxZCMU29ZhC7VXyZKh3Fji4Ig==",
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "3.0.0",
-          "Swashbuckle.AspNetCore.Swagger": "6.1.1",
-          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.1",
-          "Swashbuckle.AspNetCore.SwaggerUI": "6.1.1"
+          "Swashbuckle.AspNetCore.Swagger": "6.1.2",
+          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.2",
+          "Swashbuckle.AspNetCore.SwaggerUI": "6.1.2"
         }
       },
       "Swashbuckle.AspNetCore.Annotations": {
         "type": "Direct",
-        "requested": "[6.1.1, )",
-        "resolved": "6.1.1",
-        "contentHash": "7687LzF/F3dfqBg7AyPtVPDdMr05a/4mfWQFoKsQUeJQugDMHSyepMqrZKG10VGIEZlR38wtQ68z8XudecxjIw==",
+        "requested": "[6.1.2, )",
+        "resolved": "6.1.2",
+        "contentHash": "WdDOXY6sw9XoXPnKmp9OKOKyVx+oSs8Hm6Anbw2z+U3z8oVL2g1EL2Bxb12EBIjyR6j+E1ywrFoi13O373JHMg==",
         "dependencies": {
-          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.1"
+          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.2"
         }
       },
       "Swashbuckle.AspNetCore.Filters": {
@@ -385,9 +391,9 @@
       },
       "Swashbuckle.AspNetCore.ReDoc": {
         "type": "Direct",
-        "requested": "[6.1.1, )",
-        "resolved": "6.1.1",
-        "contentHash": "JDHaHBCiAAYc03a4XMKzUgLsH4VJBXuxdzEfWrfgn5zW7oXG01eJCz6MyTQdRDMJ42SjSkXNvddAoGL+0mdk+A=="
+        "requested": "[6.1.2, )",
+        "resolved": "6.1.2",
+        "contentHash": "fmyjLbykzPi+V+XuPCWuMHQJHjPl3Ap8mjIHp7pvDPvZtOsEl3Y04iVjSvd+W8XgIO8EB4Kcb5DcyDrR9ubZWA=="
       },
       "AspNetCore.HealthChecks.UI.Core": {
         "type": "Transitive",
@@ -517,17 +523,17 @@
       },
       "Kritikos.Configuration.Peristence.IdentityServer": {
         "type": "Transitive",
-        "resolved": "1.1.0",
-        "contentHash": "i7YWw8sGZm5sXfUFDZJdYkP8XiDjv5l6wNrKdcdAR9bZD1q6seWmHlMk96qHfcf97ByRrjN3NVxc7+uvWQla2Q==",
+        "resolved": "1.1.1",
+        "contentHash": "I15rY+cIO+hjVIpvsg8W88w4D4TJOnqVUxFWrGo2CiCjiTN6JGEHV2ylTs8WZcp2S8SUma0xghCVlKOhMJZgww==",
         "dependencies": {
-          "Kritikos.Configuration.Persistence": "1.1.0",
+          "Kritikos.Configuration.Persistence": "1.1.1",
           "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": "5.0.5"
         }
       },
       "Kritikos.Configuration.Persistence": {
         "type": "Transitive",
-        "resolved": "1.1.0",
-        "contentHash": "relamN+sNIPkWQyvfUfUytHUq1RNeEZvrqnJpdVF1WlRLsECI78CYV/Dc0ezd0l7TNTtO/6ISC49x1lS0V+prg==",
+        "resolved": "1.1.1",
+        "contentHash": "GAECB1AR0apawYC4bM510EX+7dMOJ9b0yY+aMdGY7EiL0aO1TQ09LZh0fF/pSU1wPJIcQD1BqCl3yNRY9q+TYw==",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Relational": "5.0.5",
           "Microsoft.Extensions.Hosting": "5.0.0",
@@ -1713,24 +1719,24 @@
       },
       "Swashbuckle.AspNetCore.Swagger": {
         "type": "Transitive",
-        "resolved": "6.1.1",
-        "contentHash": "JbLsVspdKevDJ6NZT+uP06Zfr1iCDbFjmIvUyoG88GgFkM/Daaq2EGUAG7INZl+FEcoVxPG9A+yWRik75ATGbw==",
+        "resolved": "6.1.2",
+        "contentHash": "0x6aI9QAqBqO6ykwT/S41EYoF6JLNA4Y7AZqu3qVpQeqJazpJBCfvvY0hvedbbL8mwBDZWbup8229UIoZO/9UA==",
         "dependencies": {
           "Microsoft.OpenApi": "1.2.3"
         }
       },
       "Swashbuckle.AspNetCore.SwaggerGen": {
         "type": "Transitive",
-        "resolved": "6.1.1",
-        "contentHash": "kfoGF5scayoUVXo9wIN8OgvdYJr97V/yPdSrLNXcvbthOCU1vXTv8HJQMJ3OGyG9CpIAp2wfHI2gCmvbVKkMCQ==",
+        "resolved": "6.1.2",
+        "contentHash": "uyKbxMkC4Fol/TVn9VYa2pQs9Mp11JaZyFYY7Q5GGG4yqjjSzM4mpWKmhxotl++myK+0uBVtY0unmEjdMItVCA==",
         "dependencies": {
-          "Swashbuckle.AspNetCore.Swagger": "6.1.1"
+          "Swashbuckle.AspNetCore.Swagger": "6.1.2"
         }
       },
       "Swashbuckle.AspNetCore.SwaggerUI": {
         "type": "Transitive",
-        "resolved": "6.1.1",
-        "contentHash": "NlR3zDm0kGWNClJWPzWrGBoQn4SY6Fgpz9D5p30bKsUYzFfM7L5vVo88BktpUyCJb6zHtCOsazN+vzQn7NVjUg=="
+        "resolved": "6.1.2",
+        "contentHash": "McaeMF4smYn6qK4ijJ2qvlKVt9gmXgYA3bAk7f9MH953o5C+U6vwKNPl8Vi/JdxZwWTAWm4Ex+BV+K/v1D0oeA=="
       },
       "System.Buffers": {
         "type": "Transitive",
@@ -2615,7 +2621,7 @@
       "Kritikos.Sphinx.Data.Persistence": {
         "type": "Project",
         "dependencies": {
-          "Kritikos.Configuration.Peristence.IdentityServer": "1.1.0",
+          "Kritikos.Configuration.Peristence.IdentityServer": "1.1.1",
           "Kritikos.Sphinx.Web.Shared": "1.0.0",
           "Microsoft.AspNetCore.DataProtection.EntityFrameworkCore": "5.0.5",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.2",
