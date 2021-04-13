@@ -71,6 +71,7 @@ namespace Kritikos.Sphinx.Web.Server
       services
         .AddHealthChecks()
         .AddDbContext<SphinxDbContext>()
+        .AddDbContext<DataProtectionDbContext>()
         .AddSendGrid(Configuration["SendGrid:ApiKey"], name: "SendGrid")
         .AddAzureBlobStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Blob Storage")
         .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage")
