@@ -14,6 +14,7 @@ namespace Kritikos.Sphinx.Web.Server
 
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Builder;
+  using Microsoft.AspNetCore.DataProtection;
   using Microsoft.AspNetCore.Diagnostics.HealthChecks;
   using Microsoft.AspNetCore.Hosting;
   using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,14 @@ namespace Kritikos.Sphinx.Web.Server
             pgsql => pgsql.EnableRetryOnFailure(3))
           .EnableCommonOptions(Environment));
 
+      services.AddDbContextPool<DataProtectionDbContext>(options =>
+        options.UseNpgsql(
+          Configuration.GetConnectionString("MyKeysConnection")));
+
+      services.AddDataProtection()
+        .SetApplicationName($"{Environment.ApplicationName}-{Environment.EnvironmentName}")
+        .PersistKeysToDbContext<DataProtectionDbContext>();
+
       services.AddHealthChecksUI(setup =>
         {
           setup.SetHeaderText("Sphinx - Health Status");
@@ -61,7 +70,8 @@ namespace Kritikos.Sphinx.Web.Server
 
       services
         .AddHealthChecks()
-        .AddDbContext<SphinxDbContext>()
+        .AddDbContext<SphinxDbContext>("Sphinx")
+        .AddDbContext<DataProtectionDbContext>("DataProtection")
         .AddSendGrid(Configuration["SendGrid:ApiKey"], name: "SendGrid")
         .AddAzureBlobStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Blob Storage")
         .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage")
@@ -72,6 +82,7 @@ namespace Kritikos.Sphinx.Web.Server
         });
 
       services.AddHostedService<MigrationService<SphinxDbContext>>();
+      services.AddHostedService<MigrationService<DataProtectionDbContext>>();
 
       services.AddDatabaseDeveloperPageExceptionFilter();
 
