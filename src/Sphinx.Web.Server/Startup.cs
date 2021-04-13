@@ -55,8 +55,8 @@ namespace Kritikos.Sphinx.Web.Server
         options.UseNpgsql(
           Configuration.GetConnectionString("MyKeysConnection")));
 
-      // using Microsoft.AspNetCore.DataProtection;
       services.AddDataProtection()
+        .SetApplicationName($"{Environment.ApplicationName}-{Environment.EnvironmentName}")
         .PersistKeysToDbContext<DataProtectionDbContext>();
 
       services.AddHealthChecksUI(setup =>
