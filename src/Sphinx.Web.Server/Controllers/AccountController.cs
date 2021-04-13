@@ -11,7 +11,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.Extensions.Logging;
 
-  [Microsoft.AspNetCore.Components.Route("api/account")]
+  [Route("api/account")]
   public class AccountController : BaseController<AccountController>
   {
     private readonly IDataProtector dataProtector;
@@ -30,6 +30,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       roleManager = rolesManager;
     }
 
+    [HttpPost("")]
     public async Task<ActionResult> Register(CancellationToken cancellationToken)
     {
       var foo = new SphinxUser { Email = dataProtector.Protect("foobar@email.com"), };

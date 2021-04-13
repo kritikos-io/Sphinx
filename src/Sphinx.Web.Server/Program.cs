@@ -19,7 +19,7 @@ namespace Kritikos.Sphinx.Web.Server
   using Serilog.Core;
   using Serilog.Extensions.Logging;
 
-  public class Program
+  public static class Program
   {
     internal static readonly LoggingLevelSwitch LevelSwitch = new();
     private static Microsoft.Extensions.Logging.ILogger logger = new NullLogger<Startup>();
@@ -36,14 +36,6 @@ namespace Kritikos.Sphinx.Web.Server
       {
         var host = CreateHostBuilder(args).Build();
         logger = host.Services.GetRequiredService<ILogger<Startup>>();
-
-        var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-        store.Open(OpenFlags.ReadOnly);
-        foreach (var certificate in store.Certificates)
-        {
-          logger.LogInformation("Found certificate: {Certificate}",certificate);
-        }
-        logger.LogInformation("Detected Certificates: {Certificates}",store.Certificates);
 
         await host.RunAsync();
         return 0;
