@@ -1,13 +1,11 @@
 namespace Kritikos.Sphinx.Web.Server
 {
   using System;
-  using System.Linq;
   using System.Security.Cryptography.X509Certificates;
   using System.Threading.Tasks;
 
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
-  using Kritikos.Sphinx.Web.Shared.Enums;
 
   using Microsoft.ApplicationInsights.Extensibility;
   using Microsoft.AspNetCore.Hosting;
