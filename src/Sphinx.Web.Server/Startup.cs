@@ -8,9 +8,11 @@ namespace Kritikos.Sphinx.Web.Server
 
   using Kritikos.Configuration.Persistence.Extensions;
   using Kritikos.Configuration.Persistence.HealthCheck.DependencyInjection;
+  using Kritikos.Configuration.Persistence.Interceptors;
   using Kritikos.Configuration.Persistence.Services;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
+  using Kritikos.Sphinx.Web.Server.Helpers;
 
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Builder;
@@ -43,13 +45,21 @@ namespace Kritikos.Sphinx.Web.Server
 
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddHttpContextAccessor();
       services.AddApplicationInsightsTelemetry();
 
-      services.AddDbContextPool<SphinxDbContext>(
-        options => options.UseNpgsql(
-            Configuration.GetConnectionString("Sphinx"),
-            pgsql => pgsql.EnableRetryOnFailure(3))
-          .EnableCommonOptions(Environment));
+      services.AddSingleton<IAuditorProvider<Guid>, AuditorProvider>();
+      services.AddSingleton<AuditSaveChangesInterceptor<Guid>>();
+      services.AddSingleton<TimestampSaveChangesInterceptor>();
+
+      services.AddDbContextPool<SphinxDbContext>((serviceProvider, options) => options
+        .UseNpgsql(
+          Configuration.GetConnectionString("Sphinx"),
+          pgsql => pgsql.EnableRetryOnFailure(3))
+        .EnableCommonOptions(Environment)
+        .AddInterceptors(
+          serviceProvider.GetRequiredService<TimestampSaveChangesInterceptor>(),
+          serviceProvider.GetRequiredService<AuditSaveChangesInterceptor<Guid>>()));
 
       services.AddDbContextPool<DataProtectionDbContext>(options =>
         options.UseNpgsql(
