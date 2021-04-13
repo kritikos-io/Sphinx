@@ -81,6 +81,7 @@ namespace Kritikos.Sphinx.Web.Server
         });
 
       services.AddHostedService<MigrationService<SphinxDbContext>>();
+      services.AddHostedService<MigrationService<DataProtectionDbContext>>();
 
       services.AddDatabaseDeveloperPageExceptionFilter();
 
