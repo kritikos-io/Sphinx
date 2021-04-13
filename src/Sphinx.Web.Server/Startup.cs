@@ -51,7 +51,7 @@ namespace Kritikos.Sphinx.Web.Server
             pgsql => pgsql.EnableRetryOnFailure(3))
           .EnableCommonOptions(Environment));
 
-      services.AddDbContext<DataProtectionDbContext>(options =>
+      services.AddDbContextPool<DataProtectionDbContext>(options =>
         options.UseNpgsql(
           Configuration.GetConnectionString("MyKeysConnection")));
 
