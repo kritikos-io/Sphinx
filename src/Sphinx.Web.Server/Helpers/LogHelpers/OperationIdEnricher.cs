@@ -1,5 +1,7 @@
 namespace Kritikos.Sphinx.Web.Server.Helpers.LogHelpers
 {
+  using System.Diagnostics;
+
   using Serilog.Core;
   using Serilog.Events;
 
@@ -7,10 +9,15 @@ namespace Kritikos.Sphinx.Web.Server.Helpers.LogHelpers
   {
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
     {
-      if (logEvent.Properties.TryGetValue("RequestId", out var requestId))
+      var activity = Activity.Current;
+
+      if (activity == null)
       {
-        logEvent.AddPropertyIfAbsent(new LogEventProperty("operationId", requestId));
+        return;
       }
+
+      logEvent.AddPropertyIfAbsent(new LogEventProperty("OperationId", new ScalarValue(activity.Id)));
+      logEvent.AddPropertyIfAbsent(new LogEventProperty("ParentId", new ScalarValue(activity.Parent?.Id)));
     }
   }
 }

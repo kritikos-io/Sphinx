@@ -51,6 +51,8 @@ namespace Kritikos.Sphinx.Web.Server.Helpers.Extensions
       => logConfiguration
         .Enrich.With(OperationIdEnricher)
         .CreateStartupLogger()
+        .Enrich.WithProperty("Application", environment.ApplicationName)
+        .Enrich.WithProperty("Environment", environment.EnvironmentName)
         .WriteTo.Logger(log => log
           .MinimumLevel.ControlledBy(Program.LevelSwitch)
           .Filter.ByExcluding(configuration["Serilog:Seq:Ignored"])

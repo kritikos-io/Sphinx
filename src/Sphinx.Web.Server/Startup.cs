@@ -2,28 +2,27 @@ namespace Kritikos.Sphinx.Web.Server
 {
   using System;
   using System.IO;
-  using System.Security.Cryptography;
 
   using HealthChecks.UI.Client;
 
   using Kritikos.Configuration.Persistence.Extensions;
-  using Kritikos.Configuration.Persistence.HealthCheck.DependencyInjection;
   using Kritikos.Configuration.Persistence.Interceptors;
   using Kritikos.Configuration.Persistence.Services;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Web.Server.Helpers;
+  using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
 
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Builder;
   using Microsoft.AspNetCore.DataProtection;
   using Microsoft.AspNetCore.Diagnostics.HealthChecks;
   using Microsoft.AspNetCore.Hosting;
+  using Microsoft.AspNetCore.Identity;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.Extensions.Hosting;
-  using Microsoft.IdentityModel.Tokens;
   using Microsoft.OpenApi.Models;
 
   using Serilog;
@@ -46,6 +45,7 @@ namespace Kritikos.Sphinx.Web.Server
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddHttpContextAccessor();
+      services.AddScoped<RazorToStringRenderer>();
       services.AddApplicationInsightsTelemetry();
 
       services.AddSingleton<IAuditorProvider<Guid>, AuditorProvider>();
@@ -80,38 +80,34 @@ namespace Kritikos.Sphinx.Web.Server
 
       services
         .AddHealthChecks()
-
-        // .AddDbContext<SphinxDbContext>("Sphinx")
-        // .AddDbContext<DataProtectionDbContext>("DataProtection")
+        .AddDbContextCheck<SphinxDbContext>(nameof(SphinxDbContext))
+        .AddDbContextCheck<DataProtectionDbContext>(nameof(DataProtectionDbContext))
         .AddSendGrid(Configuration["SendGrid:ApiKey"], name: "SendGrid")
         .AddAzureBlobStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Blob Storage")
-        .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage")
-        .AddSeqPublisher(seq =>
-        {
-          seq.ApiKey = Configuration["Seq:ApiKey"];
-          seq.Endpoint = Configuration["Seq:Uri"];
-        });
+        .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage");
 
       services.AddHostedService<MigrationService<SphinxDbContext>>();
       services.AddHostedService<MigrationService<DataProtectionDbContext>>();
 
       services.AddDatabaseDeveloperPageExceptionFilter();
 
-      services.AddDefaultIdentity<SphinxUser>(options =>
-        {
-          var isDevelopment = Environment.IsDevelopment();
+      services.AddIdentity<SphinxUser, SphinxRole>(options =>
+       {
+         var isDevelopment = Environment.IsDevelopment();
 
-          options.SignIn.RequireConfirmedAccount = !isDevelopment;
-          options.SignIn.RequireConfirmedEmail = !isDevelopment;
+         options.SignIn.RequireConfirmedAccount = !isDevelopment;
+         options.SignIn.RequireConfirmedEmail = !isDevelopment;
 
-          options.User.RequireUniqueEmail = !isDevelopment;
+         options.User.RequireUniqueEmail = !isDevelopment;
 
-          options.Password.RequireDigit = !isDevelopment;
-          options.Password.RequireLowercase = !isDevelopment;
-          options.Password.RequireNonAlphanumeric = !isDevelopment;
-          options.Password.RequireUppercase = !isDevelopment;
-        })
-        .AddEntityFrameworkStores<SphinxDbContext>();
+         options.Password.RequireDigit = !isDevelopment;
+         options.Password.RequireLowercase = !isDevelopment;
+         options.Password.RequireNonAlphanumeric = !isDevelopment;
+         options.Password.RequireUppercase = !isDevelopment;
+       })
+        .AddEntityFrameworkStores<SphinxDbContext>()
+        .AddDefaultUI()
+        .AddDefaultTokenProviders();
 
       services
         .AddIdentityServer()
@@ -136,6 +132,8 @@ namespace Kritikos.Sphinx.Web.Server
           AppContext.BaseDirectory,
           $"{typeof(Startup).Assembly.GetName().Name}.xml"));
       });
+
+      services.AddCorrelation();
 
       services.AddControllersWithViews();
       services.AddMvc();
@@ -182,6 +180,7 @@ namespace Kritikos.Sphinx.Web.Server
       });
 
       app.UseHttpsRedirection();
+      app.UseCorrelation();
       app.UseBlazorFrameworkFiles();
       app.UseStaticFiles();
 
