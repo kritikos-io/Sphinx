@@ -3,6 +3,7 @@ namespace Kritikos.Sphinx.Web.Client
   using System;
   using System.Threading.Tasks;
 
+  using Kritikos.Sphinx.Web.Client.Helpers;
   using Kritikos.Sphinx.Web.Shared.API;
 
   using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -15,7 +16,7 @@ namespace Kritikos.Sphinx.Web.Client
   using Serilog.Core;
   using Serilog.Events;
 
-  public class Program
+  public static class Program
   {
     private static readonly LoggingLevelSwitch LevelSwitch = new(LogEventLevel.Information);
 
@@ -31,7 +32,8 @@ namespace Kritikos.Sphinx.Web.Client
         {
           c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         })
-        .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+        .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
+        .AddHttpMessageHandler<CorrelationMessageHandler>();
 
       builder.Services.AddApiAuthorization();
       builder.Services.AddLogging(configure => configure.AddSerilog());

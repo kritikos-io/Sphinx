@@ -1,8 +1,5 @@
 namespace Kritikos.Sphinx.Web.Server.Controllers
 {
-  using System.Threading;
-  using System.Threading.Tasks;
-
   using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Web.Server.Helpers;
 
@@ -11,15 +8,17 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.Extensions.Logging;
 
-  [Microsoft.AspNetCore.Components.Route("api/account")]
+  [Route("api/account")]
   public class AccountController : BaseController<AccountController>
   {
     private readonly IDataProtector dataProtector;
     private readonly UserManager<SphinxUser> userManager;
     private readonly RoleManager<SphinxRole> roleManager;
+    private readonly RazorToStringRenderer razor;
 
     public AccountController(
       IDataProtectionProvider protectionProvider,
+      RazorToStringRenderer razorRenderer,
       UserManager<SphinxUser> usersManager,
       RoleManager<SphinxRole> rolesManager,
       ILogger<AccountController> logger)
@@ -28,15 +27,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       dataProtector = protectionProvider.CreateProtector(DataProtectionPurposes.UserManagement);
       userManager = usersManager;
       roleManager = rolesManager;
-    }
-
-    public async Task<ActionResult> Register(CancellationToken cancellationToken)
-    {
-      var foo = new SphinxUser { Email = dataProtector.Protect("foobar@email.com"), };
-
-      await userManager.CreateAsync(foo, "secretpassword");
-
-      return Ok();
+      razor = razorRenderer;
     }
   }
 }
