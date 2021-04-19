@@ -1,22 +1,25 @@
 namespace Kritikos.Sphinx.Web.Client.Helpers
 {
+  using System;
+  using System.Linq;
   using System.Net.Http;
   using System.Threading;
   using System.Threading.Tasks;
 
   public class CorrelationMessageHandler : DelegatingHandler
   {
+    private const string CorrelationIdHeaderName = "X-Correlation-Id";
+
     #region Overrides of DelegatingHandler
     protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-      return base.Send(request, cancellationToken);
-    }
+      request.Headers.TryGetValues(CorrelationIdHeaderName, out var values);
+      if (!values?.Any() ?? false)
+      {
+        request.Headers.Add(CorrelationIdHeaderName, Guid.NewGuid().ToString("D"));
+      }
 
-    protected override Task<HttpResponseMessage> SendAsync(
-      HttpRequestMessage request,
-      CancellationToken cancellationToken)
-    {
-      return base.SendAsync(request, cancellationToken);
+      return base.Send(request, cancellationToken);
     }
 
     #endregion
