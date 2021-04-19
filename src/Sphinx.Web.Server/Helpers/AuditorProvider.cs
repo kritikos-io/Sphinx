@@ -17,10 +17,12 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
     }
 
     /// <inheritdoc />
-    public Guid GetAuditor() =>
-      Guid.TryParse(accessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier), out var guid)
+    public Guid GetAuditor()
+    {
+      return Guid.TryParse(accessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier), out var guid)
         ? guid
         : GetFallbackAuditor();
+    }
 
     /// <inheritdoc />
     public Guid GetFallbackAuditor() => new("195ab048-e818-5133-a6cf-4868a8a31d61");
