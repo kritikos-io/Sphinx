@@ -1,19 +1,12 @@
 namespace Kritikos.Sphinx.Data.Persistence.Models
 {
-  public enum StimulusType
-  {
-    None,
-    Text,
-    Image,
-    Audio,
-    Video,
-  }
+  using Kritikos.Sphinx.Web.Shared.Enums;
 
   public abstract class Stimulus
   {
     public long Id { get; set; }
 
-    public StimulusType Type { get; set; }
+    public StimulusMediaType Type { get; set; }
 
     public DataSet DataSet { get; set; }
 
