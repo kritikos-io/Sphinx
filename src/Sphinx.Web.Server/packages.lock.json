@@ -83,11 +83,11 @@
       },
       "Azure.Storage.Blobs": {
         "type": "Direct",
-        "requested": "[12.8.1, )",
-        "resolved": "12.8.1",
-        "contentHash": "3OTQuB1XF4g0HXj8SNw52HSi1aDZeK7xesAce/5YivO9+9Y5AOp5baq9IzEz9/FY9Ig7zDyyI+rpckJtNrJuAA==",
+        "requested": "[12.8.3, )",
+        "resolved": "12.8.3",
+        "contentHash": "zzOYZIszZRySYmSQFaVJtFcmlSG6FoOe87ik2ggeU/mT35OgtODjQStczrqEx3wQ0Bl9gr+lv40USl1PMMF3RA==",
         "dependencies": {
-          "Azure.Storage.Common": "12.7.1",
+          "Azure.Storage.Common": "12.7.2",
           "System.Text.Json": "4.6.0"
         }
       },
@@ -322,9 +322,9 @@
       },
       "Serilog.Sinks.Seq": {
         "type": "Direct",
-        "requested": "[5.0.0, )",
-        "resolved": "5.0.0",
-        "contentHash": "jBVpmd7O5YdY9mOkn+k6hmjjrejeq7FOfT64MeMr0Rdmy+AeQbYKOirlOKuX/Vl0xvHWQEtICC34J7TZZkrY6g==",
+        "requested": "[5.0.1, )",
+        "resolved": "5.0.1",
+        "contentHash": "SyoNjPcnV+vuOGtBErh2pMp4uimyqHqv8UnKcN8VY7c1DuDdbxelaWn1PI5gu/tyblhKy/mFSa3Jcvth07a5+A==",
         "dependencies": {
           "Serilog": "2.10.0",
           "Serilog.Formatting.Compact": "1.1.0",
@@ -350,6 +350,12 @@
         "resolved": "1.1.31",
         "contentHash": "2f2k7bbhDd132ArglCKpzKoWBcp3uzbIFcb4aosnlqIKlfYKDE2HevBVRNVa+LkWFnjXFFWs47Bo96fu8iS//Q=="
       },
+      "SonarAnalyzer.CSharp": {
+        "type": "Direct",
+        "requested": "[8.22.0.31243, )",
+        "resolved": "8.22.0.31243",
+        "contentHash": "WhBWn657RKj8ta8EbFd9huKcH8VZqR7cHiJfMG/UZnx99DolpsEpXfF7bScYx8cM0wZcW5mvsKalR29el0ao0A=="
+      },
       "StyleCop.Analyzers": {
         "type": "Direct",
         "requested": "[1.2.0-beta.333, )",
@@ -361,23 +367,23 @@
       },
       "Swashbuckle.AspNetCore": {
         "type": "Direct",
-        "requested": "[6.1.2, )",
-        "resolved": "6.1.2",
-        "contentHash": "u5Sk1soeczf/5Sh4mkW9OKn1MAfqbbtTQBqBGs75pYJBZnhsSwfChau4GCFfpXxZCMU29ZhC7VXyZKh3Fji4Ig==",
+        "requested": "[6.1.4, )",
+        "resolved": "6.1.4",
+        "contentHash": "aglxV+kJA5wP0RoAS8Rrh4Jp7bmVEcDAAofdSyGfea4TSEtNRLam9Fq0A4+0asUWDRk1N0/6VnuLC6+ev50wSQ==",
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "3.0.0",
-          "Swashbuckle.AspNetCore.Swagger": "6.1.2",
-          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.2",
-          "Swashbuckle.AspNetCore.SwaggerUI": "6.1.2"
+          "Swashbuckle.AspNetCore.Swagger": "6.1.4",
+          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.4",
+          "Swashbuckle.AspNetCore.SwaggerUI": "6.1.4"
         }
       },
       "Swashbuckle.AspNetCore.Annotations": {
         "type": "Direct",
-        "requested": "[6.1.2, )",
-        "resolved": "6.1.2",
-        "contentHash": "WdDOXY6sw9XoXPnKmp9OKOKyVx+oSs8Hm6Anbw2z+U3z8oVL2g1EL2Bxb12EBIjyR6j+E1ywrFoi13O373JHMg==",
+        "requested": "[6.1.4, )",
+        "resolved": "6.1.4",
+        "contentHash": "sEAPcJ3s0XigrDWcufXmDipCxuPayEhWYo15RfN9xiPOq3G2rmH9G+wSaJwLrDJ0+xMLe+Q41cRM3TKd5E8y1A==",
         "dependencies": {
-          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.2"
+          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.4"
         }
       },
       "Swashbuckle.AspNetCore.Filters": {
@@ -395,9 +401,9 @@
       },
       "Swashbuckle.AspNetCore.ReDoc": {
         "type": "Direct",
-        "requested": "[6.1.2, )",
-        "resolved": "6.1.2",
-        "contentHash": "fmyjLbykzPi+V+XuPCWuMHQJHjPl3Ap8mjIHp7pvDPvZtOsEl3Y04iVjSvd+W8XgIO8EB4Kcb5DcyDrR9ubZWA=="
+        "requested": "[6.1.4, )",
+        "resolved": "6.1.4",
+        "contentHash": "mmMcnAjStb7UFREWGgzSncIyxZ3ohxmbk+sbj0MnqcxWKc2IojrCDTuh7QSrfSqBbVaKESVQROZWJXNFRDPHvw=="
       },
       "AspNetCore.HealthChecks.UI.Core": {
         "type": "Transitive",
@@ -448,8 +454,8 @@
       },
       "Azure.Storage.Common": {
         "type": "Transitive",
-        "resolved": "12.7.1",
-        "contentHash": "3f5auvdpx3LZpQq/bdqVurxuoaoIjnupefmBdDuOF7K70XFB2mTLLcx4erzZnUK7X82GKh/qkJGb5lyQFPgDVg==",
+        "resolved": "12.7.2",
+        "contentHash": "v2gY7rk+4qHaLmDYo1Fl+Q/g/JqlEtifm1YgQe+08rkglJRIFbcw1ih4Fzj0FD6d/u5yVQBEcwzFtTW47ERzhQ==",
         "dependencies": {
           "Azure.Core": "1.8.1"
         }
@@ -528,7 +534,7 @@
       "Kritikos.Configuration.Peristence.IdentityServer": {
         "type": "Transitive",
         "resolved": "1.1.1",
-        "contentHash": "zAWgDgqwgqHl4Xk2luCIKi4tX8vatTOfUq1UxdVxlh6VRhQv0V5m3NNEB8L/vUpqMoASvyriqonm0X/tMTdchg==",
+        "contentHash": "I15rY+cIO+hjVIpvsg8W88w4D4TJOnqVUxFWrGo2CiCjiTN6JGEHV2ylTs8WZcp2S8SUma0xghCVlKOhMJZgww==",
         "dependencies": {
           "Kritikos.Configuration.Persistence": "1.1.1",
           "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": "5.0.5"
@@ -1622,21 +1628,21 @@
       },
       "Npgsql": {
         "type": "Transitive",
-        "resolved": "5.0.3",
-        "contentHash": "IDx2tijhyXGz7tVXQH0iGnCnW0ReSUy3UC99ytSklJKscob5WV8eLZWuT/jqYBq0l07RmZOSrdjUEDEetsgDIA==",
+        "resolved": "5.0.4",
+        "contentHash": "wuJUsrhOKaR41ZB9Ecw9ZEpQzMQ5bRahl7w+pt4noVMDkDPbw4cMHV8UfNKeZSPLXaN4yWXPR2QgJ+2vG/85VQ==",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "4.6.0"
         }
       },
       "Npgsql.EntityFrameworkCore.PostgreSQL": {
         "type": "Transitive",
-        "resolved": "5.0.2",
-        "contentHash": "xdhI0Y1uMxEUbH00T9kLk5m4JN8b4bAHv8fX+nU3GzdEsIgI0k0tKM4ZJ/RjkvGE1L5h4Y+oBZNNqzgetOTBtg==",
+        "resolved": "5.0.5.1",
+        "contentHash": "yTFRZ5jMOu+Ez94YJzYKlxnbSO7h0BDSCM38xVN8ynZrS01xfP4/g8o/+InOarCkT6stZPMPD910STIsXYNQ5w==",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "5.0.2",
-          "Microsoft.EntityFrameworkCore.Abstractions": "5.0.2",
-          "Microsoft.EntityFrameworkCore.Relational": "5.0.2",
-          "Npgsql": "5.0.2"
+          "Microsoft.EntityFrameworkCore": "5.0.5",
+          "Microsoft.EntityFrameworkCore.Abstractions": "5.0.5",
+          "Microsoft.EntityFrameworkCore.Relational": "5.0.5",
+          "Npgsql": "5.0.4"
         }
       },
       "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
@@ -1877,24 +1883,24 @@
       },
       "Swashbuckle.AspNetCore.Swagger": {
         "type": "Transitive",
-        "resolved": "6.1.2",
-        "contentHash": "0x6aI9QAqBqO6ykwT/S41EYoF6JLNA4Y7AZqu3qVpQeqJazpJBCfvvY0hvedbbL8mwBDZWbup8229UIoZO/9UA==",
+        "resolved": "6.1.4",
+        "contentHash": "5XRKPKXpQRJMdOwHgotSZjWYGKnvresUIKiUOecmDrsiTkRpUd15QJMS/+HKYjjOvWnJthYwhLJG3pABJOHwOg==",
         "dependencies": {
           "Microsoft.OpenApi": "1.2.3"
         }
       },
       "Swashbuckle.AspNetCore.SwaggerGen": {
         "type": "Transitive",
-        "resolved": "6.1.2",
-        "contentHash": "uyKbxMkC4Fol/TVn9VYa2pQs9Mp11JaZyFYY7Q5GGG4yqjjSzM4mpWKmhxotl++myK+0uBVtY0unmEjdMItVCA==",
+        "resolved": "6.1.4",
+        "contentHash": "i0Y3a3XMKz7r9vMNtB7TUIsWXpz9uJwnJ42NV3lAnmem7XpTykxm/cFJqHc9CqVBdbPf7XPvhUvEiUybRlocIg==",
         "dependencies": {
-          "Swashbuckle.AspNetCore.Swagger": "6.1.2"
+          "Swashbuckle.AspNetCore.Swagger": "6.1.4"
         }
       },
       "Swashbuckle.AspNetCore.SwaggerUI": {
         "type": "Transitive",
-        "resolved": "6.1.2",
-        "contentHash": "McaeMF4smYn6qK4ijJ2qvlKVt9gmXgYA3bAk7f9MH953o5C+U6vwKNPl8Vi/JdxZwWTAWm4Ex+BV+K/v1D0oeA=="
+        "resolved": "6.1.4",
+        "contentHash": "Ue8Ag73DOXPPB/NCqT7oN1PYSj35IETWROsIZG9EbwAtFDcgonWOrHbefjMFUGyPalNm6CSmVm1JInpURnxMgw=="
       },
       "System.Buffers": {
         "type": "Transitive",
@@ -2923,7 +2929,7 @@
           "Kritikos.Configuration.Peristence.IdentityServer": "1.1.1",
           "Kritikos.Sphinx.Web.Shared": "1.0.0",
           "Microsoft.AspNetCore.DataProtection.EntityFrameworkCore": "5.0.5",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.2",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.5.1",
           "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.1.0"
         }
       },
