@@ -2,8 +2,16 @@ namespace Kritikos.Sphinx.Data.Persistence.Models
 {
   using System;
 
-  public class TestSession
+  using Kritikos.Sphinx.Data.Persistence.Helpers;
+
+  using Microsoft.EntityFrameworkCore;
+
+  public class TestSession : SphinxEntity<Guid, TestSession>
   {
-    public Guid Id { get; set; }
+    internal static void OnModelCreating(ModelBuilder builder)
+      => builder.Entity<TestSession>(entity =>
+      {
+        OnModelCreating(entity);
+      });
   }
 }

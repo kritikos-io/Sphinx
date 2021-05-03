@@ -5,6 +5,7 @@ namespace Kritikos.Sphinx.Data.Persistence
   using Kritikos.Configuration.Peristence.IdentityServer;
   using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Data.Persistence.Models;
+  using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
 
   using Microsoft.EntityFrameworkCore;
 
@@ -27,32 +28,18 @@ namespace Kritikos.Sphinx.Data.Persistence
 
     public DbSet<SignificantStimulus> SignificantStimuli { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-      base.OnModelCreating(modelBuilder);
-      modelBuilder.Entity<Stimulus>(x =>
-      {
-        x.HasDiscriminator(y => y.isSignificant)
-            .HasValue<SignificantStimulus>(true)
-            .HasValue<InsignificantStimulus>(false)
-            .IsComplete();
-        x.Property(y => y.Type)
-            .HasConversion<string>();
-      });
+      base.OnModelCreating(builder);
 
-      modelBuilder.Entity<SessionQuestion>(x =>
-      {
-        x.HasOne(y => y.Session)
-            .WithMany()
-            .HasForeignKey("TestSessionId");
-        x.HasOne(y => y.Primary)
-            .WithMany()
-            .HasForeignKey("PrimaryId");
-        x.HasOne(y => y.Secondary)
-            .WithMany()
-            .HasForeignKey("SecondaryId");
-        x.HasKey("TestSessionId", "PrimaryId", "SecondaryId");
-      });
+      DataSet.OnModelCreating(builder);
+
+      Stimulus.OnModelCreating(builder);
+      InsignificantStimulus.OnModelCreating(builder);
+      SignificantStimulus.OnModelCreating(builder);
+
+      TestSession.OnModelCreating(builder);
+      SessionQuestion.OnModelCreating(builder);
     }
   }
 }

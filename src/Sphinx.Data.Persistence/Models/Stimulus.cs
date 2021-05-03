@@ -1,17 +1,41 @@
+#nullable disable
 namespace Kritikos.Sphinx.Data.Persistence.Models
 {
+  using Kritikos.Sphinx.Data.Persistence.Helpers;
+  using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
   using Kritikos.Sphinx.Web.Shared.Enums;
 
-  public abstract class Stimulus
-  {
-    public long Id { get; set; }
+  using Microsoft.EntityFrameworkCore;
 
-    public StimulusMediaType Type { get; set; }
+  public abstract class Stimulus : SphinxEntity<long, Stimulus>
+  {
+    public StimulusMediaType MediaType { get; set; }
+
+    public StimulusType Type { get; set; }
+
+    public string Content { get; set; } = string.Empty;
 
     public DataSet DataSet { get; set; }
 
-    public string Content { get; set; }
+    internal static void OnModelCreating(ModelBuilder builder)
+      => builder.Entity<Stimulus>(entity =>
+      {
+        OnModelCreating(entity);
 
-    public bool isSignificant { get; set; }
+        entity.HasOne(e => e.DataSet)
+          .WithMany(e => e.Stimuli)
+          .IsRequired();
+
+        entity.HasDiscriminator(e => e.Type)
+          .HasValue<SignificantStimulus>(StimulusType.Significant)
+          .HasValue<InsignificantStimulus>(StimulusType.Insignificant)
+          .IsComplete();
+
+        entity.Property(e => e.Type)
+          .HasConversion<string>();
+
+        entity.Property(e => e.MediaType)
+          .HasConversion<string>();
+      });
   }
 }
