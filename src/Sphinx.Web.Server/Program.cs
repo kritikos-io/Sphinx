@@ -3,6 +3,7 @@ namespace Kritikos.Sphinx.Web.Server
   using System;
   using System.Threading.Tasks;
 
+  using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
 
@@ -35,6 +36,9 @@ namespace Kritikos.Sphinx.Web.Server
       {
         var host = CreateHostBuilder(args).Build();
         logger = host.Services.GetRequiredService<ILogger<Startup>>();
+        await Seeder.Seed(
+          host.Services.GetRequiredService<IServiceScopeFactory>(),
+          host.Services.GetRequiredService<ILogger<SphinxDbContext>>());
 
         await host.RunAsync();
         return 0;
