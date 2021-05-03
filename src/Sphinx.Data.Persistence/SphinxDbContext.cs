@@ -1,3 +1,4 @@
+#nullable disable
 namespace Kritikos.Sphinx.Data.Persistence
 {
   using System;

@@ -4,7 +4,7 @@ namespace Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli
 
   public class InsignificantStimulus : Stimulus
   {
-    internal static void OnModelCreating(ModelBuilder builder)
+    internal static new void OnModelCreating(ModelBuilder builder)
       => builder.Entity<InsignificantStimulus>(entity =>
       {
       });
