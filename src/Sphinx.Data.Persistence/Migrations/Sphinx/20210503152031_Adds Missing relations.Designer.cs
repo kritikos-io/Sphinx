@@ -3,15 +3,17 @@ using System;
 using Kritikos.Sphinx.Data.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
 {
     [DbContext(typeof(SphinxDbContext))]
-    partial class SphinxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210503152031_Adds Missing relations")]
+    partial class AddsMissingrelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1031,7 +1033,7 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.HasIndex("SecondaryStimulusId")
                         .IsUnique();
 
-                    b.ToTable("SignificantMatches");
+                    b.ToTable("SignificantMatch");
                 });
 
             modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Stimulus", b =>

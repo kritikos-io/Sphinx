@@ -3,15 +3,17 @@ using System;
 using Kritikos.Sphinx.Data.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
 {
     [DbContext(typeof(SphinxDbContext))]
-    partial class SphinxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427100657_Finalizes persistence models")]
+    partial class Finalizespersistencemodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -964,21 +966,9 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -990,48 +980,19 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.Property<Guid>("TestSessionId")
                         .HasColumnType("uuid");
 
-                    b.Property<long>("PrimaryStimulusId")
+                    b.Property<long>("PrimaryId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SecondaryStimulusId")
+                    b.Property<long>("SecondaryId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.HasKey("TestSessionId", "PrimaryId", "SecondaryId");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
+                    b.HasIndex("PrimaryId");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("TestSessionId", "PrimaryStimulusId", "SecondaryStimulusId");
-
-                    b.HasIndex("PrimaryStimulusId");
-
-                    b.HasIndex("SecondaryStimulusId")
-                        .IsUnique();
+                    b.HasIndex("SecondaryId");
 
                     b.ToTable("SessionQuestions");
-                });
-
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.SignificantMatch", b =>
-                {
-                    b.Property<long>("PrimaryStimulusId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("SecondaryStimulusId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("PrimaryStimulusId", "SecondaryStimulusId");
-
-                    b.HasIndex("SecondaryStimulusId")
-                        .IsUnique();
-
-                    b.ToTable("SignificantMatches");
                 });
 
             modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Stimulus", b =>
@@ -1042,30 +1003,18 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Content")
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("DataSetId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("MediaType")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("DataSetId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uuid");
+                    b.Property<bool>("isSignificant")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -1073,25 +1022,13 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
 
                     b.ToTable("Stimuli");
 
-                    b.HasDiscriminator<string>("Type").IsComplete(true);
+                    b.HasDiscriminator<bool>("isSignificant").IsComplete(true);
                 });
 
             modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.TestSession", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -1200,14 +1137,14 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.InsignificantStimulus", b =>
+            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.InsignificantStimulus", b =>
                 {
                     b.HasBaseType("Kritikos.Sphinx.Data.Persistence.Models.Stimulus");
 
-                    b.HasDiscriminator().HasValue("Insignificant");
+                    b.HasDiscriminator().HasValue(false);
                 });
 
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.SignificantStimulus", b =>
+            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.SignificantStimulus", b =>
                 {
                     b.HasBaseType("Kritikos.Sphinx.Data.Persistence.Models.Stimulus");
 
@@ -1215,21 +1152,7 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasDiscriminator().HasValue("Significant");
-                });
-
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.PrimarySignificantStimulus", b =>
-                {
-                    b.HasBaseType("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.SignificantStimulus");
-
-                    b.HasDiscriminator().HasValue("Significant, Primary");
-                });
-
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.SecondarySignificantStimulus", b =>
-                {
-                    b.HasBaseType("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.SignificantStimulus");
-
-                    b.HasDiscriminator().HasValue("Significant, Secondary");
+                    b.HasDiscriminator().HasValue(true);
                 });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResourceClaim", b =>
@@ -1423,18 +1346,18 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                 {
                     b.HasOne("Kritikos.Sphinx.Data.Persistence.Models.Stimulus", "Primary")
                         .WithMany()
-                        .HasForeignKey("PrimaryStimulusId")
+                        .HasForeignKey("PrimaryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Kritikos.Sphinx.Data.Persistence.Models.Stimulus", "Secondary")
-                        .WithOne()
-                        .HasForeignKey("Kritikos.Sphinx.Data.Persistence.Models.SessionQuestion", "SecondaryStimulusId")
+                        .WithMany()
+                        .HasForeignKey("SecondaryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Kritikos.Sphinx.Data.Persistence.Models.TestSession", "Session")
-                        .WithMany("Questions")
+                        .WithMany()
                         .HasForeignKey("TestSessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1446,32 +1369,11 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.Navigation("Session");
                 });
 
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.SignificantMatch", b =>
-                {
-                    b.HasOne("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.PrimarySignificantStimulus", "Primary")
-                        .WithMany("Matches")
-                        .HasForeignKey("PrimaryStimulusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.SecondarySignificantStimulus", "Secondary")
-                        .WithOne("Match")
-                        .HasForeignKey("Kritikos.Sphinx.Data.Persistence.Models.SignificantMatch", "SecondaryStimulusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Primary");
-
-                    b.Navigation("Secondary");
-                });
-
             modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Stimulus", b =>
                 {
                     b.HasOne("Kritikos.Sphinx.Data.Persistence.Models.DataSet", "DataSet")
-                        .WithMany("Stimuli")
-                        .HasForeignKey("DataSetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("DataSetId");
 
                     b.Navigation("DataSet");
                 });
@@ -1571,26 +1473,6 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.Navigation("Properties");
 
                     b.Navigation("UserClaims");
-                });
-
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.DataSet", b =>
-                {
-                    b.Navigation("Stimuli");
-                });
-
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.TestSession", b =>
-                {
-                    b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.PrimarySignificantStimulus", b =>
-                {
-                    b.Navigation("Matches");
-                });
-
-            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.SecondarySignificantStimulus", b =>
-                {
-                    b.Navigation("Match");
                 });
 #pragma warning restore 612, 618
         }
