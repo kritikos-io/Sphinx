@@ -29,6 +29,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Models
         entity.HasDiscriminator(e => e.Type)
           .HasValue<SignificantStimulus>(StimulusType.Significant)
           .HasValue<InsignificantStimulus>(StimulusType.Insignificant)
+          .HasValue<PrimarySignificantStimulus>(StimulusType.Significant | StimulusType.Primary)
+          .HasValue<SecondarySignificantStimulus>(StimulusType.Significant | StimulusType.Secondary)
           .IsComplete();
 
         entity.Property(e => e.Type)

@@ -21,14 +21,19 @@ namespace Kritikos.Sphinx.Data.Persistence.Models
       => builder.Entity<SessionQuestion>(entity =>
       {
         entity.HasOne(y => y.Session)
-          .WithMany()
+          .WithMany(e => e.Questions)
           .HasForeignKey(SessionId);
+
         entity.HasOne(y => y.Primary)
           .WithMany()
-          .HasForeignKey(PrimaryId);
+          .HasForeignKey(PrimaryId)
+          .IsRequired();
+
         entity.HasOne(y => y.Secondary)
-          .WithMany()
-          .HasForeignKey(SecondaryId);
+          .WithOne()
+          .HasForeignKey(typeof(SessionQuestion), SecondaryId)
+          .IsRequired();
+
         entity.HasKey(SessionId, PrimaryId, SecondaryId);
       });
   }

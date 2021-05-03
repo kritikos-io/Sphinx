@@ -1,5 +1,8 @@
 namespace Kritikos.Sphinx.Web.Shared.Enums
 {
+  using System;
+
+  [Flags]
   public enum StimulusType
   {
     None = 0,

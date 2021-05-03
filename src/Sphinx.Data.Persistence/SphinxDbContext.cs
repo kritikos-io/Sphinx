@@ -29,6 +29,8 @@ namespace Kritikos.Sphinx.Data.Persistence
 
     public DbSet<SignificantStimulus> SignificantStimuli { get; set; }
 
+    public DbSet<SignificantMatch> SignificantMatches { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
@@ -38,6 +40,10 @@ namespace Kritikos.Sphinx.Data.Persistence
       Stimulus.OnModelCreating(builder);
       InsignificantStimulus.OnModelCreating(builder);
       SignificantStimulus.OnModelCreating(builder);
+      PrimarySignificantStimulus.OnModelCreating(builder);
+      SecondarySignificantStimulus.OnModelCreating(builder);
+
+      SignificantMatch.OnModelCreating(builder);
 
       TestSession.OnModelCreating(builder);
       SessionQuestion.OnModelCreating(builder);
