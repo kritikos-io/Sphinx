@@ -18,5 +18,10 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
       public const string ClientParametersRequested =
         "Client {ClientId} requested parameter info and was sent {Parameters}";
     }
+
+    public static class Entity
+    {
+      public const string NotFound = "Requested {Entity} with id {Id}. Could not be located.";
+    }
   }
 }
