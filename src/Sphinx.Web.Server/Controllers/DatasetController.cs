@@ -71,9 +71,9 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<DatasetRetrieveDto>> UpdateDataset(Guid id, DatasetUpdateDto model, CancellationToken cancellationToken=default)
+    public async Task<ActionResult<DatasetRetrieveDto>> UpdateDataset(Guid id, DatasetUpdateDto model, CancellationToken cancellationToken = default)
     {
-      if (!ModelState!.IsValid)
+      if (!ModelState.IsValid)
       {
         return BadRequest(ModelState.Values);
       }
@@ -89,7 +89,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       datasetToBeUpdated.Name = model.Name;
 
       dbContext.DataSets.Update(datasetToBeUpdated);
-      await dbContext.SaveChangesAsync();
+      await dbContext.SaveChangesAsync(cancellationToken);
 
       var dto = new DatasetRetrieveDto { Id = datasetToBeUpdated.Id, Name = datasetToBeUpdated.Name };
 
@@ -97,7 +97,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteDataset(Guid id, CancellationToken cancellationToken)
+    public async Task<ActionResult> DeleteDataset(Guid id, CancellationToken cancellationToken = default)
     {
       if (!ModelState.IsValid)
       {
@@ -113,7 +113,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       }
 
       dbContext.DataSets.Remove(dataset);
-      await dbContext.SaveChangesAsync();
+      await dbContext.SaveChangesAsync(cancellationToken);
 
       return Ok();
     }
