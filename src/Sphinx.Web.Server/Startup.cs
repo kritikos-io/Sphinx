@@ -8,8 +8,11 @@ namespace Kritikos.Sphinx.Web.Server
   using Kritikos.Configuration.Persistence.Extensions;
   using Kritikos.Configuration.Persistence.Interceptors;
   using Kritikos.Configuration.Persistence.Services;
+  using Kritikos.PureMap;
+  using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
+  using Kritikos.Sphinx.Web.Server.Controllers;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
 
@@ -47,6 +50,7 @@ namespace Kritikos.Sphinx.Web.Server
       services.AddHttpContextAccessor();
       services.AddScoped<RazorToStringRenderer>();
       services.AddApplicationInsightsTelemetry();
+      services.AddSingleton<IPureMapper>(_ => new PureMapper(MapProfile.DtoMapping));
 
       services.AddSingleton<IAuditorProvider<Guid>, AuditorProvider>();
       services.AddSingleton<AuditSaveChangesInterceptor<Guid>>();

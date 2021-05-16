@@ -5,6 +5,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
@@ -22,14 +23,12 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   [ApiController]
   public class InsignificantStimuliController : BaseController<InsignificantStimuliController>
   {
-    private readonly SphinxDbContext dbContext;
-
     public InsignificantStimuliController(
-      ILogger<InsignificantStimuliController> logger,
-      SphinxDbContext dbContext)
-      : base(logger)
+      SphinxDbContext dbContext,
+      IPureMapper mapper,
+      ILogger<InsignificantStimuliController> logger)
+      : base(dbContext, mapper, logger)
     {
-      this.dbContext = dbContext;
     }
 
     [HttpPost("")]
@@ -47,8 +46,8 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest("The type of the stimuli cannot be significant");
       }
 
-      var datasetIds = await dbContext.DataSets.Select(x => x.Id).ToListAsync(cancellationToken);
-      var dataset = await dbContext.DataSets.SingleOrDefaultAsync(x => x.Id == model.DataSetId, cancellationToken);
+      var datasetIds = await DbContext.DataSets.Select(x => x.Id).ToListAsync(cancellationToken);
+      var dataset = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == model.DataSetId, cancellationToken);
 
       if (dataset == null)
       {
@@ -61,8 +60,8 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         MediaType = model.MediaType, Type = model.Type, Content = model.Content, DataSet = dataset,
       };
 
-      dbContext.InsignificantStimuli.Add(stimulus);
-      await dbContext.SaveChangesAsync(cancellationToken);
+      DbContext.InsignificantStimuli.Add(stimulus);
+      await DbContext.SaveChangesAsync(cancellationToken);
 
       var dto = new InsignificantStimulusRetrieveDto()
       {
@@ -70,11 +69,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         Content = stimulus.Content,
         MediaType = stimulus.MediaType,
         Type = stimulus.Type,
-        DataSet = new DatasetRetrieveDto()
-        {
-          Id = stimulus.DataSet.Id,
-          Name = stimulus.DataSet.Name,
-        },
+        DataSet = new DatasetRetrieveDto() { Id = stimulus.DataSet.Id, Name = stimulus.DataSet.Name, },
       };
 
       return CreatedAtAction(nameof(RetrieveInsignificantStimulus), new { id = stimulus.Id }, dto);
@@ -89,7 +84,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest(ModelState.Values);
       }
 
-      var stimulus = await dbContext.InsignificantStimuli
+      var stimulus = await DbContext.InsignificantStimuli
         .Include(x => x.DataSet)
         .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
@@ -105,11 +100,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         Content = stimulus.Content,
         MediaType = stimulus.MediaType,
         Type = stimulus.Type,
-        DataSet = new DatasetRetrieveDto()
-        {
-          Id = stimulus.DataSet.Id,
-          Name = stimulus.DataSet.Name,
-        },
+        DataSet = new DatasetRetrieveDto() { Id = stimulus.DataSet.Id, Name = stimulus.DataSet.Name, },
       };
 
       return Ok(dto);
@@ -129,7 +120,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest("You cannot update the Type of the Stimulus from Insignificant to Significant");
       }
 
-      var stimulusToBeUpdated = await dbContext.InsignificantStimuli
+      var stimulusToBeUpdated = await DbContext.InsignificantStimuli
         .Include(x => x.DataSet)
         .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
@@ -141,7 +132,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (model.DataSetId != stimulusToBeUpdated.DataSet.Id)
       {
-        var newDataSet = await dbContext.DataSets.SingleOrDefaultAsync(x => x.Id == model.DataSetId, cancellationToken);
+        var newDataSet = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == model.DataSetId, cancellationToken);
         if (newDataSet == null)
         {
           return NotFound("The dataset you want to move the stimulus to does not exist");
@@ -154,8 +145,8 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       stimulusToBeUpdated.Type = model.Type;
       stimulusToBeUpdated.Content = model.Content;
 
-      dbContext.InsignificantStimuli.Update(stimulusToBeUpdated);
-      await dbContext.SaveChangesAsync(cancellationToken);
+      DbContext.InsignificantStimuli.Update(stimulusToBeUpdated);
+      await DbContext.SaveChangesAsync(cancellationToken);
 
       var dto = new InsignificantStimulusRetrieveDto()
       {
@@ -165,8 +156,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         Type = stimulusToBeUpdated.Type,
         DataSet = new DatasetRetrieveDto()
         {
-          Id = stimulusToBeUpdated.DataSet.Id,
-          Name = stimulusToBeUpdated.DataSet.Name,
+          Id = stimulusToBeUpdated.DataSet.Id, Name = stimulusToBeUpdated.DataSet.Name,
         },
       };
 
@@ -174,14 +164,14 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteInsignificantStimulus(long id, CancellationToken cancellationToken=default)
+    public async Task<ActionResult> DeleteInsignificantStimulus(long id, CancellationToken cancellationToken = default)
     {
       if (!ModelState.IsValid)
       {
         return BadRequest(ModelState.Values);
       }
 
-      var stimulus = await dbContext.InsignificantStimuli.SingleOrDefaultAsync(x => x.Id == id,cancellationToken);
+      var stimulus = await DbContext.InsignificantStimuli.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
       if (stimulus == null)
       {
@@ -189,8 +179,8 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return NotFound();
       }
 
-      dbContext.InsignificantStimuli.Remove(stimulus);
-      await dbContext.SaveChangesAsync(cancellationToken);
+      DbContext.InsignificantStimuli.Remove(stimulus);
+      await DbContext.SaveChangesAsync(cancellationToken);
 
       return Ok();
     }

@@ -112,6 +112,15 @@
           "System.Text.Json": "4.6.0"
         }
       },
+      "Kritikos.PureMapper": {
+        "type": "Direct",
+        "requested": "[1.0.3, )",
+        "resolved": "1.0.3",
+        "contentHash": "4MqUtgWEBP64eKgkDBvaCx11FS6RQMTAW7EOLzURn6dBc9gWibD3w/hq6kRdOK0jVBluNCBwHihmqbfKrE/0wg==",
+        "dependencies": {
+          "Nessos.Expressions.Splicer": "1.0.2"
+        }
+      },
       "Microsoft.ApplicationInsights.AspNetCore": {
         "type": "Direct",
         "requested": "[2.17.0, )",
@@ -1611,6 +1620,11 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0"
         }
+      },
+      "Nessos.Expressions.Splicer": {
+        "type": "Transitive",
+        "resolved": "1.0.2",
+        "contentHash": "Be/mbOdJW6uyWyX6Y3osE6chsI5xzuGuRNtKMFPKRpAm7S4QnrUyg8vQjKy/ItQL9Qm3j2LKFO7LRAH9aQEWfA=="
       },
       "NETStandard.Library": {
         "type": "Transitive",

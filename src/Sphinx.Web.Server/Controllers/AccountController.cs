@@ -1,5 +1,7 @@
 namespace Kritikos.Sphinx.Web.Server.Controllers
 {
+  using Kritikos.PureMap.Contracts;
+  using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Web.Server.Helpers;
 
@@ -21,8 +23,10 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       RazorToStringRenderer razorRenderer,
       UserManager<SphinxUser> usersManager,
       RoleManager<SphinxRole> rolesManager,
+      SphinxDbContext dbContext,
+      IPureMapper mapper,
       ILogger<AccountController> logger)
-      : base(logger)
+      : base(dbContext, mapper, logger)
     {
       dataProtector = protectionProvider.CreateProtector(DataProtectionPurposes.UserManagement);
       userManager = usersManager;

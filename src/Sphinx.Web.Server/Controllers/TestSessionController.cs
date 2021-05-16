@@ -7,6 +7,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Web.Server.Helpers;
@@ -20,12 +21,9 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   [ApiController]
   public class TestSessionController : BaseController<TestSessionController>
   {
-    private readonly SphinxDbContext dbContext;
-
-    public TestSessionController(ILogger<TestSessionController> logger, SphinxDbContext dbContext)
-      : base(logger)
+    public TestSessionController(SphinxDbContext dbContext, IPureMapper mapper, ILogger<TestSessionController> logger)
+      : base(dbContext, mapper, logger)
     {
-      this.dbContext = dbContext;
     }
 
     [HttpPost("")]
@@ -38,8 +36,8 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       var testSession = new TestSession();
 
-      dbContext.TestSessions.Add(testSession);
-      await dbContext.SaveChangesAsync(cancellationToken);
+      DbContext.TestSessions.Add(testSession);
+      await DbContext.SaveChangesAsync(cancellationToken);
 
       var dto = new TestSessionRetrieveDto() { Id = testSession.Id };
 
@@ -56,7 +54,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest(ModelState.Values);
       }
 
-      var testSession = await dbContext.TestSessions.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+      var testSession = await DbContext.TestSessions.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
       if (testSession == null)
       {
@@ -77,7 +75,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest(ModelState.Values);
       }
 
-      var testSession = await dbContext.TestSessions.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+      var testSession = await DbContext.TestSessions.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
       if (testSession == null)
       {
@@ -85,8 +83,8 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return NotFound();
       }
 
-      dbContext.Remove(testSession);
-      await dbContext.SaveChangesAsync(cancellationToken);
+      DbContext.Remove(testSession);
+      await DbContext.SaveChangesAsync(cancellationToken);
 
       return Ok();
     }
