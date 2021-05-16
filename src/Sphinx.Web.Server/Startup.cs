@@ -7,12 +7,13 @@ namespace Kritikos.Sphinx.Web.Server
 
   using Kritikos.Configuration.Persistence.Extensions;
   using Kritikos.Configuration.Persistence.Interceptors;
+  using Kritikos.Configuration.Persistence.Interceptors.SaveChanges;
+  using Kritikos.Configuration.Persistence.Interceptors.Services;
   using Kritikos.Configuration.Persistence.Services;
   using Kritikos.PureMap;
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
-  using Kritikos.Sphinx.Web.Server.Controllers;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
 
@@ -89,10 +90,7 @@ namespace Kritikos.Sphinx.Web.Server
         .AddSendGrid(Configuration["SendGrid:ApiKey"], name: "SendGrid")
         .AddAzureBlobStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Blob Storage")
         .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage");
-
-      services.AddHostedService<MigrationService<SphinxDbContext>>();
-      services.AddHostedService<MigrationService<DataProtectionDbContext>>();
-
+      
       services.AddDatabaseDeveloperPageExceptionFilter();
 
       services.AddIdentity<SphinxUser, SphinxRole>(options =>

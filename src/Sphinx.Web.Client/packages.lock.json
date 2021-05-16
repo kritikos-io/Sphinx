@@ -138,6 +138,11 @@
         "resolved": "5.0.0",
         "contentHash": "3CPSQpCzEmI9o+1G79TnPCjF40omCdnoXj2Rg76BDwGj5+LZnFPjV+t35eedlvl+uthmholk/XXxXTYgJWSexw=="
       },
+      "Kritikos.Configuration.Persistence.Contracts": {
+        "type": "Transitive",
+        "resolved": "2.0.0",
+        "contentHash": "jvksXOZ7RD77RD/0Efz4Osi5F8u4/ebcVdoYJdtncHUWfjL4se1tjAR7EJqGghlF5OWHjaQLyN3Wb3oNvyW9Uw=="
+      },
       "Microsoft.AspNetCore.Authorization": {
         "type": "Transitive",
         "resolved": "5.0.6",
@@ -548,6 +553,7 @@
       "Kritikos.Sphinx.Web.Shared": {
         "type": "Project",
         "dependencies": {
+          "Kritikos.Configuration.Persistence.Contracts": "2.0.0",
           "Refit.HttpClientFactory": "6.0.38"
         }
       }

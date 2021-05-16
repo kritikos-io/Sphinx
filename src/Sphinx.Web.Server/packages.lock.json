@@ -112,6 +112,17 @@
           "System.Text.Json": "4.6.0"
         }
       },
+      "Kritikos.Configuration.Persistence.Interceptors": {
+        "type": "Direct",
+        "requested": "[2.0.0, )",
+        "resolved": "2.0.0",
+        "contentHash": "DC22PauxFT2UiR/BVSCnuNSQWEHznYcbGyN64QdG4V+twM6M1EtsRyX0IQvbhTP69kU+8L0RBdcjGHywDQnI4w==",
+        "dependencies": {
+          "Kritikos.Configuration.Persistence": "2.0.0",
+          "Microsoft.EntityFrameworkCore": "5.0.5",
+          "System.Text.Json": "5.0.2"
+        }
+      },
       "Kritikos.Extensions.Linq": {
         "type": "Direct",
         "requested": "[0.1.7, )",
@@ -551,22 +562,28 @@
       },
       "Kritikos.Configuration.Peristence.IdentityServer": {
         "type": "Transitive",
-        "resolved": "1.1.1",
-        "contentHash": "I15rY+cIO+hjVIpvsg8W88w4D4TJOnqVUxFWrGo2CiCjiTN6JGEHV2ylTs8WZcp2S8SUma0xghCVlKOhMJZgww==",
+        "resolved": "2.0.0",
+        "contentHash": "k3fftx9dFGw3dQRDNc29iIuVDKoQfuDWy7G6aH0uTOl97pScQYSu665nOoHmIUwof1rObLLIrkHYW0PE2UUGIg==",
         "dependencies": {
-          "Kritikos.Configuration.Persistence": "1.1.1",
+          "Kritikos.Configuration.Persistence": "2.0.0",
           "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": "5.0.5"
         }
       },
       "Kritikos.Configuration.Persistence": {
         "type": "Transitive",
-        "resolved": "1.1.1",
-        "contentHash": "GAECB1AR0apawYC4bM510EX+7dMOJ9b0yY+aMdGY7EiL0aO1TQ09LZh0fF/pSU1wPJIcQD1BqCl3yNRY9q+TYw==",
+        "resolved": "2.0.0",
+        "contentHash": "4ZGxOasav9SF+JcsEW3kX7wvGAQ3y/xs9dU/Pi+jjLMhmxQGr2aq8A51hVOLTdfZp/GgWaGrYtpiYWEywS29OQ==",
         "dependencies": {
+          "Kritikos.Configuration.Persistence.Contracts": "2.0.0",
           "Microsoft.EntityFrameworkCore.Relational": "5.0.5",
           "Microsoft.Extensions.Hosting": "5.0.0",
           "System.ComponentModel.Annotations": "5.0.0"
         }
+      },
+      "Kritikos.Configuration.Persistence.Contracts": {
+        "type": "Transitive",
+        "resolved": "2.0.0",
+        "contentHash": "jvksXOZ7RD77RD/0Efz4Osi5F8u4/ebcVdoYJdtncHUWfjL4se1tjAR7EJqGghlF5OWHjaQLyN3Wb3oNvyW9Uw=="
       },
       "KubernetesClient": {
         "type": "Transitive",
@@ -2789,8 +2806,8 @@
       },
       "System.Text.Json": {
         "type": "Transitive",
-        "resolved": "4.7.2",
-        "contentHash": "TcMd95wcrubm9nHvJEQs70rC0H/8omiSGGpU4FQ/ZA1URIqD4pjmFJh2Mfv1yH1eHgJDWTi2hMDXwTET+zOOyg=="
+        "resolved": "5.0.2",
+        "contentHash": "I47dVIGiV6SfAyppphxqupertT/5oZkYLDCX6vC3HpOI4ZLjyoKAreUoem2ie6G0RbRuFrlqz/PcTQjfb2DOfQ=="
       },
       "System.Text.RegularExpressions": {
         "type": "Transitive",
@@ -2949,7 +2966,7 @@
       "Kritikos.Sphinx.Data.Persistence": {
         "type": "Project",
         "dependencies": {
-          "Kritikos.Configuration.Peristence.IdentityServer": "1.1.1",
+          "Kritikos.Configuration.Peristence.IdentityServer": "2.0.0",
           "Kritikos.Sphinx.Web.Shared": "1.0.0",
           "Microsoft.AspNetCore.DataProtection.EntityFrameworkCore": "5.0.6",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.6",
@@ -2974,6 +2991,7 @@
       "Kritikos.Sphinx.Web.Shared": {
         "type": "Project",
         "dependencies": {
+          "Kritikos.Configuration.Persistence.Contracts": "2.0.0",
           "Refit.HttpClientFactory": "6.0.38"
         }
       }
