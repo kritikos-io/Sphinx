@@ -2,10 +2,12 @@ namespace Kritikos.Sphinx.Web.Shared.RetrieveDto
 {
   using System;
 
-  public class DatasetRetrieveDto
-  {
-    public string Name { get; set; } = string.Empty;
+  using Kritikos.Configuration.Persistence.Contracts.Behavioral;
 
+  public class DatasetRetrieveDto : IEntity<Guid>
+  {
     public Guid Id { get; set; }
+
+    public string Name { get; set; } = string.Empty;
   }
 }

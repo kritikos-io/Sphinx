@@ -6,17 +6,20 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Kritikos.Extensions.Linq;
+  using Kritikos.PureMap;
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Web.Server.Helpers;
+  using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
+  using Kritikos.Sphinx.Web.Shared;
   using Kritikos.Sphinx.Web.Shared.CreateDto;
+  using Kritikos.Sphinx.Web.Shared.Criteria;
   using Kritikos.Sphinx.Web.Shared.RetrieveDto;
   using Kritikos.Sphinx.Web.Shared.UpdateDto;
 
-  using Microsoft.AspNetCore.Http;
   using Microsoft.AspNetCore.Mvc;
-  using Microsoft.AspNetCore.Mvc.ModelBinding;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Logging;
 
@@ -39,13 +42,34 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest(ModelState.Values);
       }
 
-      var dataset = new DataSet() { Name = model.Name, };
+      var dataset = Mapper.Map<DatasetCreateDto, DataSet>(model);
 
       DbContext.DataSets.Add(dataset);
       await DbContext.SaveChangesAsync(cancellationToken);
 
-      var dto = new DatasetRetrieveDto { Id = dataset.Id, Name = dataset.Name };
+      var dto = Mapper.Map<DataSet, DatasetRetrieveDto>(dataset);
+
       return CreatedAtAction(nameof(RetrieveDataset), new { id = dataset.Id }, dto);
+    }
+
+    [HttpPost("fetch")]
+    public async Task<ActionResult<PagedResult<DataSet>>> RetrieveAll(
+      PaginationCriteria pagination,
+      CancellationToken cancellationToken = default)
+    {
+      var query = DbContext.DataSets;
+
+      var total = await query.CountAsync(cancellationToken);
+
+      var dataSets = await query
+        .OrderBy(x => x.Id)
+        .Slice(pagination.Page, pagination.ItemsPerPage)
+        .Project<DataSet, DatasetRetrieveDto>(Mapper)
+        .ToListAsync(cancellationToken);
+
+      var result = dataSets.Paginate(pagination, total);
+
+      return Ok(result);
     }
 
     [HttpGet("{id}")]
@@ -58,16 +82,18 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest(ModelState.Values);
       }
 
-      var dataset = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+      var dataset = await DbContext.DataSets
+        .Where(x => x.Id == id)
+        .Project<DataSet, DatasetRetrieveDto>(Mapper)
+        .SingleOrDefaultAsync(cancellationToken);
+
       if (dataset == null)
       {
         Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), id);
         return NotFound();
       }
 
-      var dto = new DatasetRetrieveDto { Id = dataset.Id, Name = dataset.Name };
-
-      return Ok(dto);
+      return Ok(dataset);
     }
 
     [HttpPut("{id}")]
@@ -81,20 +107,20 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest(ModelState.Values);
       }
 
-      var datasetToBeUpdated = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+      var dataSet = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-      if (datasetToBeUpdated == null)
+      if (dataSet == null)
       {
         Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), id);
         return NotFound();
       }
 
-      datasetToBeUpdated.Name = model.Name;
+      Mapper.Map(model, dataSet);
 
-      DbContext.DataSets.Update(datasetToBeUpdated);
+      DbContext.DataSets.Update(dataSet);
       await DbContext.SaveChangesAsync(cancellationToken);
 
-      var dto = new DatasetRetrieveDto { Id = datasetToBeUpdated.Id, Name = datasetToBeUpdated.Name };
+      var dto = new DatasetRetrieveDto { Id = dataSet.Id, Name = dataSet.Name };
 
       return Ok(dto);
     }
