@@ -51,6 +51,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest("The type of the stimuli cannot be significant");
       }
 
+      var datasets = await DbContext.DataSets.Select(x => x.Id).ToListAsync(cancellationToken);
       var dataset = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == model.DataSetId, cancellationToken);
 
       if (dataset == null)
@@ -70,6 +71,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       return CreatedAtAction(nameof(RetrieveInsignificantStimulus), new { id = stimulus.Id }, dto);
     }
 
+    [HttpPost("fetch")]
     public async Task<ActionResult<PagedResult<InsignificantStimulusRetrieveDto>>> RetrieveAll(
       PaginationCriteria pagination,
       CancellationToken cancellationToken = default)
@@ -81,6 +83,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       var insignificantstimuli = await query
         .OrderBy(x => x.Id)
         .Slice(pagination.Page, pagination.ItemsPerPage)
+        .Include(x => x.DataSet)
         .Project<InsignificantStimulus, InsignificantStimulusRetrieveDto>(Mapper)
         .ToListAsync(cancellationToken);
 
