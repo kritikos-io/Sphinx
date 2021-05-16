@@ -5,12 +5,17 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Kritikos.Extensions.Linq;
+  using Kritikos.PureMap;
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
   using Kritikos.Sphinx.Web.Server.Helpers;
+  using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
+  using Kritikos.Sphinx.Web.Shared;
   using Kritikos.Sphinx.Web.Shared.CreateDto;
+  using Kritikos.Sphinx.Web.Shared.Criteria;
   using Kritikos.Sphinx.Web.Shared.Enums;
   using Kritikos.Sphinx.Web.Shared.RetrieveDto;
   using Kritikos.Sphinx.Web.Shared.UpdateDto;
@@ -46,7 +51,6 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest("The type of the stimuli cannot be significant");
       }
 
-      var datasetIds = await DbContext.DataSets.Select(x => x.Id).ToListAsync(cancellationToken);
       var dataset = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == model.DataSetId, cancellationToken);
 
       if (dataset == null)
@@ -55,24 +59,34 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return NotFound("The dataset you want to add this stimulus does not exist");
       }
 
-      var stimulus = new InsignificantStimulus()
-      {
-        MediaType = model.MediaType, Type = model.Type, Content = model.Content, DataSet = dataset,
-      };
+      var stimulus = Mapper.Map<InsignificantStimulusCreateDto, InsignificantStimulus>(model);
 
       DbContext.InsignificantStimuli.Add(stimulus);
       await DbContext.SaveChangesAsync(cancellationToken);
 
-      var dto = new InsignificantStimulusRetrieveDto()
-      {
-        Id = stimulus.Id,
-        Content = stimulus.Content,
-        MediaType = stimulus.MediaType,
-        Type = stimulus.Type,
-        DataSet = new DatasetRetrieveDto() { Id = stimulus.DataSet.Id, Name = stimulus.DataSet.Name, },
-      };
+      var dto = Mapper.Map<InsignificantStimulus, InsignificantStimulusRetrieveDto>(stimulus);
+
 
       return CreatedAtAction(nameof(RetrieveInsignificantStimulus), new { id = stimulus.Id }, dto);
+    }
+
+    public async Task<ActionResult<PagedResult<InsignificantStimulusRetrieveDto>>> RetrieveAll(
+      PaginationCriteria pagination,
+      CancellationToken cancellationToken = default)
+    {
+      var query = DbContext.InsignificantStimuli;
+
+      var total = await query.CountAsync(cancellationToken);
+
+      var insignificantstimuli = await query
+        .OrderBy(x => x.Id)
+        .Slice(pagination.Page, pagination.ItemsPerPage)
+        .Project<InsignificantStimulus, InsignificantStimulusRetrieveDto>(Mapper)
+        .ToListAsync(cancellationToken);
+
+      var result = insignificantstimuli.Paginate(pagination, total);
+
+      return Ok(result);
     }
 
     [HttpGet("{id}")]
@@ -86,7 +100,9 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       var stimulus = await DbContext.InsignificantStimuli
         .Include(x => x.DataSet)
-        .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        .Where(x => x.Id == id)
+        .Project<InsignificantStimulus, InsignificantStimulusRetrieveDto>(Mapper)
+        .SingleOrDefaultAsync(cancellationToken);
 
       if (stimulus == null)
       {
@@ -94,16 +110,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return NotFound();
       }
 
-      var dto = new InsignificantStimulusRetrieveDto()
-      {
-        Id = stimulus.Id,
-        Content = stimulus.Content,
-        MediaType = stimulus.MediaType,
-        Type = stimulus.Type,
-        DataSet = new DatasetRetrieveDto() { Id = stimulus.DataSet.Id, Name = stimulus.DataSet.Name, },
-      };
-
-      return Ok(dto);
+      return Ok(stimulus);
     }
 
     [HttpPut("{id}")]
@@ -141,24 +148,12 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         stimulusToBeUpdated.DataSet = newDataSet;
       }
 
-      stimulusToBeUpdated.MediaType = model.MediaType;
-      stimulusToBeUpdated.Type = model.Type;
-      stimulusToBeUpdated.Content = model.Content;
+      Mapper.Map(model, stimulusToBeUpdated);
 
       DbContext.InsignificantStimuli.Update(stimulusToBeUpdated);
       await DbContext.SaveChangesAsync(cancellationToken);
 
-      var dto = new InsignificantStimulusRetrieveDto()
-      {
-        Id = stimulusToBeUpdated.Id,
-        Content = stimulusToBeUpdated.Content,
-        MediaType = stimulusToBeUpdated.MediaType,
-        Type = stimulusToBeUpdated.Type,
-        DataSet = new DatasetRetrieveDto()
-        {
-          Id = stimulusToBeUpdated.DataSet.Id, Name = stimulusToBeUpdated.DataSet.Name,
-        },
-      };
+      var dto = Mapper.Map<InsignificantStimulus, InsignificantStimulusRetrieveDto>(stimulusToBeUpdated);
 
       return Ok(dto);
     }
