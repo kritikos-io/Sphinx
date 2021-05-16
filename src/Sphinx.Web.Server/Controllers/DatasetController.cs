@@ -53,7 +53,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     }
 
     [HttpPost("fetch")]
-    public async Task<ActionResult<PagedResult<DataSet>>> RetrieveAll(
+    public async Task<ActionResult<PagedResult<DatasetRetrieveDto>>> RetrieveAll(
       PaginationCriteria pagination,
       CancellationToken cancellationToken = default)
     {
