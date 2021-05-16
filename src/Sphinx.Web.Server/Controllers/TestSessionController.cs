@@ -7,11 +7,16 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Kritikos.Extensions.Linq;
+  using Kritikos.PureMap;
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Web.Server.Helpers;
+  using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
+  using Kritikos.Sphinx.Web.Shared;
   using Kritikos.Sphinx.Web.Shared.CreateDto;
+  using Kritikos.Sphinx.Web.Shared.Criteria;
   using Kritikos.Sphinx.Web.Shared.RetrieveDto;
 
   using Microsoft.AspNetCore.Mvc;
@@ -40,9 +45,29 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       DbContext.TestSessions.Add(testSession);
       await DbContext.SaveChangesAsync(cancellationToken);
 
-      var dto = new TestSessionRetrieveDto() { Id = testSession.Id };
+      var dto = Mapper.Map<TestSession, TestSessionRetrieveDto>(testSession);
 
       return CreatedAtAction(nameof(RetrieveTestSession), new { id = testSession.Id }, dto);
+    }
+
+    [HttpPost("fetch")]
+    public async Task<ActionResult<PagedResult<TestSessionRetrieveDto>>> RetrieveAll(
+      PaginationCriteria pagination,
+      CancellationToken cancellationToken = default)
+    {
+      var query = DbContext.TestSessions;
+
+      var total = await query.CountAsync(cancellationToken);
+
+      var testSessions = await query
+        .OrderBy(x => x.Id)
+        .Slice(pagination.Page, pagination.ItemsPerPage)
+        .Project<TestSession, TestSessionRetrieveDto>(Mapper)
+        .ToListAsync(cancellationToken);
+
+      var result = testSessions.Paginate(pagination, total);
+
+      return Ok(result);
     }
 
     [HttpGet("{id}")]
@@ -55,7 +80,10 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest(ModelState.Values);
       }
 
-      var testSession = await DbContext.TestSessions.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+      var testSession = await DbContext.TestSessions
+        .Where(x => x.Id == id)
+        .Project<TestSession, TestSessionRetrieveDto>(Mapper)
+        .SingleOrDefaultAsync(cancellationToken);
 
       if (testSession == null)
       {
@@ -63,9 +91,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return NotFound();
       }
 
-      var dto = new TestSessionRetrieveDto { Id = testSession.Id };
-
-      return Ok(dto);
+      return Ok(testSession);
     }
 
     [HttpDelete("{id}")]
