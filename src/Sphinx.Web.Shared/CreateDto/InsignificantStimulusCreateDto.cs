@@ -1,10 +1,6 @@
 namespace Kritikos.Sphinx.Web.Shared.CreateDto
 {
   using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
-  using System.Threading.Tasks;
 
   using Kritikos.Sphinx.Web.Shared.Enums;
 
@@ -14,7 +10,7 @@ namespace Kritikos.Sphinx.Web.Shared.CreateDto
 
     public StimulusType Type { get; set; }
 
-    public string Content { get; set; }
+    public string Content { get; set; } = string.Empty;
 
     public Guid DataSetId { get; set; }
   }

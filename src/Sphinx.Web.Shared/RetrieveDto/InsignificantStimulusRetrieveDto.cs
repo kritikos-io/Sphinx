@@ -1,11 +1,5 @@
 namespace Kritikos.Sphinx.Web.Shared.RetrieveDto
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
-  using System.Threading.Tasks;
-
   using Kritikos.Sphinx.Web.Shared.Enums;
 
   public class InsignificantStimulusRetrieveDto
@@ -16,8 +10,8 @@ namespace Kritikos.Sphinx.Web.Shared.RetrieveDto
 
     public StimulusType Type { get; set; }
 
-    public string Content { get; set; }
+    public string Content { get; set; } = string.Empty;
 
-    public DatasetRetrieveDto DataSet { get; set; }
+    public DatasetRetrieveDto? DataSet { get; set; }
   }
 }

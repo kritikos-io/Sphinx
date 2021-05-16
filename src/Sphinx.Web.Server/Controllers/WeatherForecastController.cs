@@ -4,6 +4,8 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using System.Collections.Generic;
   using System.Linq;
 
+  using Kritikos.PureMap.Contracts;
+  using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Shared;
 
@@ -21,8 +23,11 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching",
     };
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
-      : base(logger)
+    public WeatherForecastController(
+      SphinxDbContext dbContext,
+      IPureMapper mapper,
+      ILogger<WeatherForecastController> logger)
+      : base(dbContext, mapper, logger)
     {
     }
 

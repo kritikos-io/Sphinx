@@ -12,6 +12,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Shared.CreateDto;
+  using Kritikos.Sphinx.Web.Shared.RetrieveDto;
 
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.EntityFrameworkCore;
