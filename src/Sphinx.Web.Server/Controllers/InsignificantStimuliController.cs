@@ -59,14 +59,13 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), model.DataSetId);
         return NotFound("The dataset you want to add this stimulus does not exist");
       }
-
       var stimulus = Mapper.Map<InsignificantStimulusCreateDto, InsignificantStimulus>(model);
+      stimulus.DataSet = dataset;
 
       DbContext.InsignificantStimuli.Add(stimulus);
       await DbContext.SaveChangesAsync(cancellationToken);
 
       var dto = Mapper.Map<InsignificantStimulus, InsignificantStimulusRetrieveDto>(stimulus);
-
 
       return CreatedAtAction(nameof(RetrieveInsignificantStimulus), new { id = stimulus.Id }, dto);
     }
