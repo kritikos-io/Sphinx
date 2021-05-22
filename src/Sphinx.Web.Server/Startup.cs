@@ -23,10 +23,13 @@ namespace Kritikos.Sphinx.Web.Server
   using Microsoft.AspNetCore.Diagnostics.HealthChecks;
   using Microsoft.AspNetCore.Hosting;
   using Microsoft.AspNetCore.Identity;
+  using Microsoft.AspNetCore.Identity.UI.Services;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.Extensions.Hosting;
+  using Microsoft.Extensions.Logging;
+  using Microsoft.Extensions.Options;
   using Microsoft.OpenApi.Models;
 
   using Serilog;
@@ -90,23 +93,34 @@ namespace Kritikos.Sphinx.Web.Server
         .AddSendGrid(Configuration["SendGrid:ApiKey"], name: "SendGrid")
         .AddAzureBlobStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Blob Storage")
         .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage");
-      
+
       services.AddDatabaseDeveloperPageExceptionFilter();
 
+      services.Configure<SendGridOptions>(Configuration.GetSection("SendGrid"));
+      if (string.IsNullOrWhiteSpace(Configuration["SendGrid:ApiKey"]))
+      {
+        services.AddSingleton<IEmailSender, DummyEmailSender>();
+      }
+      else
+      {
+        services.AddSingleton<IEmailSender, EmailSender>();
+      }
+
       services.AddIdentity<SphinxUser, SphinxRole>(options =>
-       {
-         var isDevelopment = Environment.IsDevelopment();
+        {
+          var isDevelopment = Environment.IsDevelopment();
 
-         options.SignIn.RequireConfirmedAccount = !isDevelopment;
-         options.SignIn.RequireConfirmedEmail = !isDevelopment;
+          options.SignIn.RequireConfirmedAccount = true;
+          options.SignIn.RequireConfirmedEmail = true;
+          options.SignIn.RequireConfirmedPhoneNumber = false;
 
-         options.User.RequireUniqueEmail = !isDevelopment;
+          options.User.RequireUniqueEmail = !isDevelopment;
 
-         options.Password.RequireDigit = !isDevelopment;
-         options.Password.RequireLowercase = !isDevelopment;
-         options.Password.RequireNonAlphanumeric = !isDevelopment;
-         options.Password.RequireUppercase = !isDevelopment;
-       })
+          options.Password.RequireDigit = !isDevelopment;
+          options.Password.RequireLowercase = !isDevelopment;
+          options.Password.RequireNonAlphanumeric = !isDevelopment;
+          options.Password.RequireUppercase = !isDevelopment;
+        })
         .AddEntityFrameworkStores<SphinxDbContext>()
         .AddDefaultUI()
         .AddDefaultTokenProviders();

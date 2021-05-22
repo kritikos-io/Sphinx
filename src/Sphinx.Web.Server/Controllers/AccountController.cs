@@ -7,6 +7,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
   using Microsoft.AspNetCore.DataProtection;
   using Microsoft.AspNetCore.Identity;
+  using Microsoft.AspNetCore.Identity.UI.Services;
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.Extensions.Logging;
 
@@ -25,13 +26,24 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       RoleManager<SphinxRole> rolesManager,
       SphinxDbContext dbContext,
       IPureMapper mapper,
-      ILogger<AccountController> logger)
+      ILogger<AccountController> logger,
+      IEmailSender sender)
       : base(dbContext, mapper, logger)
     {
       dataProtector = protectionProvider.CreateProtector(DataProtectionPurposes.UserManagement);
       userManager = usersManager;
       roleManager = rolesManager;
       razor = razorRenderer;
+      this.sender = sender;
+    }
+
+    private IEmailSender sender { get; }
+
+    [HttpGet("")]
+    public ActionResult Foo()
+    {
+      sender.SendEmailAsync("akritikos@outlook.com", "Boo", "Blah");
+      return Ok();
     }
   }
 }
