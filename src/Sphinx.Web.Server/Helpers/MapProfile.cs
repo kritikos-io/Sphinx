@@ -31,7 +31,7 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
          {
            Content = dto.Content,
            MediaType = dto.MediaType,
-           Type = dto.Type,
+           Type = Shared.Enums.StimulusType.Insignificant,
          })
       .Map<InsignificantStimulusUpdateDto, InsignificantStimulus>(mapper=>(dto, entity)=> UpdateInsignificantStimulus(entity, dto));
 
@@ -45,7 +45,6 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
     {
       entity.Content = dto.Content;
       entity.MediaType = dto.MediaType;
-      entity.Type = dto.Type;
       return entity;
     }
   }

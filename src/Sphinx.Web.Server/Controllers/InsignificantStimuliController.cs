@@ -46,11 +46,6 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest(ModelState.Values);
       }
 
-      if (model.Type is StimulusType.Significant)
-      {
-        return BadRequest("The type of the stimuli cannot be significant");
-      }
-
       var dataset = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == model.DataSetId, cancellationToken);
 
       if (dataset == null)
@@ -58,6 +53,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), model.DataSetId);
         return NotFound("The dataset you want to add this stimulus does not exist");
       }
+
       var stimulus = Mapper.Map<InsignificantStimulusCreateDto, InsignificantStimulus>(model);
       stimulus.DataSet = dataset;
 
@@ -121,11 +117,6 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       if (!ModelState.IsValid)
       {
         return BadRequest(ModelState.Values);
-      }
-
-      if (model.Type is StimulusType.Significant)
-      {
-        return BadRequest("You cannot update the Type of the Stimulus from Insignificant to Significant");
       }
 
       var stimulusToBeUpdated = await DbContext.InsignificantStimuli

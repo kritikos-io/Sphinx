@@ -8,8 +8,6 @@ namespace Kritikos.Sphinx.Web.Shared.CreateDto
   {
     public StimulusMediaType MediaType { get; set; }
 
-    public StimulusType Type { get; set; }
-
     public string Content { get; set; } = string.Empty;
 
     public Guid DataSetId { get; set; }
