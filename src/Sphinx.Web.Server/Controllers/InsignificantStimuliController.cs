@@ -51,7 +51,6 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return BadRequest("The type of the stimuli cannot be significant");
       }
 
-      var datasets = await DbContext.DataSets.Select(x => x.Id).ToListAsync(cancellationToken);
       var dataset = await DbContext.DataSets.SingleOrDefaultAsync(x => x.Id == model.DataSetId, cancellationToken);
 
       if (dataset == null)
