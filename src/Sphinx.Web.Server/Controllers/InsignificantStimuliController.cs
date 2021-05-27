@@ -112,7 +112,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
     [HttpPut("{id}")]
     public async Task<ActionResult<InsignificantStimulusRetrieveDto>> UpdateInsignificantStimulus(
-      long id, InsignificantStimulusUpdateDto model, CancellationToken cancellationToken)
+      long id, InsignificantStimulusUpdateDto model, CancellationToken cancellationToken=default)
     {
       if (!ModelState.IsValid)
       {

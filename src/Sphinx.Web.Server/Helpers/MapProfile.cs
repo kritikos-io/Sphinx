@@ -33,7 +33,34 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
            MediaType = dto.MediaType,
            Type = Shared.Enums.StimulusType.Insignificant,
          })
-      .Map<InsignificantStimulusUpdateDto, InsignificantStimulus>(mapper=>(dto, entity)=> UpdateInsignificantStimulus(entity, dto));
+      .Map<InsignificantStimulusUpdateDto, InsignificantStimulus>(mapper => (dto, entity) => UpdateInsignificantStimulus(entity, dto))
+      .Map<SignificantStimulus, SignificantStimulusRetrieveDto>(mapper => stimulus =>
+        new SignificantStimulusRetrieveDto
+        {
+          Id = stimulus.Id,
+          Content = stimulus.Content,
+          MediaType = stimulus.MediaType,
+          Type = stimulus.Type,
+          DataSet = mapper.Resolve<DataSet, DatasetRetrieveDto>().Invoke(stimulus.DataSet),
+          Title = stimulus.Title,
+        })
+      .Map<SignificantStimulusUpdateDto, SignificantStimulus>(mapper => (dto, entity) => UpdateSignificantStimulus(entity, dto))
+      .Map<PrimarySignificantStimulusCreateDto, SignificantStimulus>(mapper => dto =>
+         new SignificantStimulus
+         {
+           Content = dto.Content,
+           MediaType = dto.MediaType,
+           Type = Shared.Enums.StimulusType.Significant | Shared.Enums.StimulusType.Primary,
+           Title = dto.Title,
+         })
+      .Map<SecondarySignificantStimulus, SignificantStimulus>(mapper => dto =>
+          new SignificantStimulus
+          {
+            Content = dto.Content,
+            MediaType = dto.MediaType,
+            Type = Shared.Enums.StimulusType.Significant | Shared.Enums.StimulusType.Secondary,
+            Title = dto.Title,
+          });
 
     private static DataSet UpdateDataset(DataSet entity, DatasetUpdateDto dto)
     {
@@ -45,6 +72,14 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
     {
       entity.Content = dto.Content;
       entity.MediaType = dto.MediaType;
+      return entity;
+    }
+
+    private static SignificantStimulus UpdateSignificantStimulus(SignificantStimulus entity, SignificantStimulusUpdateDto dto)
+    {
+      entity.Content = dto.Content;
+      entity.MediaType = dto.MediaType;
+      entity.Title = dto.Title;
       return entity;
     }
   }
