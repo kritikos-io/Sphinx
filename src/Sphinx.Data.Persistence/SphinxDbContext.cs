@@ -33,7 +33,7 @@ namespace Kritikos.Sphinx.Data.Persistence
 
     public DbSet<SignificantMatch> SignificantMatches { get; set; }
 
-
+    public DbSet<UserSession> UserSessions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -52,6 +52,7 @@ namespace Kritikos.Sphinx.Data.Persistence
       TestSession.OnModelCreating(builder);
       SessionQuestion.OnModelCreating(builder);
       TestStage.OnModelCreating(builder);
+      UserSession.OnModelCreating(builder);
     }
   }
 }
