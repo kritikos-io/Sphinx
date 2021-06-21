@@ -1,13 +1,13 @@
-
 @page "/tests"
-@using Microsoft.AspNetCore.Authorization
-@using Kritikos.Sphinx.Web.Shared.API
- 
+@*@using Microsoft.AspNetCore.Authorization
+  @attribute [Authorize]*@
+
 <h1>Tests</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>List of Test Sessions</p>
 
-@if (_testSessions == null)
+
+@if (testSessions == null)
 {
   <p>
     <em>Loading...</em>
@@ -15,12 +15,20 @@
 }
 else
 {
-      @foreach (var testSession in _testSessions.Results)
+  <table class="tests-table">
+    <thead>
+      <tr>
+        <th>Id</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var testSession in testSessions.Results)
       {
-        <ul>
-          <li>@testSession.Id</li>
-        </ul>
-      } 
+        <tr>
+          <td>@testSession.Id</td>
+        </tr>
+      }
+    </tbody>
+  </table>
 }
-
 

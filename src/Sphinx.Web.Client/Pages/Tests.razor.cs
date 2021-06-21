@@ -1,6 +1,5 @@
 namespace Kritikos.Sphinx.Web.Client.Pages
 {
-  using System.Collections.Generic;
   using System.Threading.Tasks;
 
   using Kritikos.Sphinx.Web.Shared;
@@ -9,26 +8,37 @@ namespace Kritikos.Sphinx.Web.Client.Pages
 
   using Microsoft.AspNetCore.Components;
   using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+  using Microsoft.Extensions.Logging;
 
   public partial class Tests
   {
-    #region Injects
-    [Inject]
-    private ISphinxApi apiServices { get; set; }
+    #region Fields
+    private PagedResult<TestSessionRetrieveDto>? testSessions;
     #endregion
 
-    #region Fields
-    private PagedResult<TestSessionRetrieveDto> _testSessions;
+    #region Injects
+    [Inject]
+    private ISphinxApi ApiServices { get; set; }
+
+    [Inject]
+    private ILogger<FetchData> Logger { get; set; }
     #endregion
 
     protected override async Task OnInitializedAsync()
     {
-        await Refresh();
+      await Refresh();
     }
 
     private async Task Refresh()
     {
-      _testSessions = await apiServices.GetTestSessions();
+      try
+      {
+        testSessions = await ApiServices.GetTestSessions();
+      }
+      catch (AccessTokenNotAvailableException exception)
+      {
+        exception.Redirect();
+      }
     }
   }
 }
