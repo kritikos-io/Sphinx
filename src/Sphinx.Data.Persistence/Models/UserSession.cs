@@ -30,7 +30,7 @@ namespace Kritikos.Sphinx.Data.Persistence.Models
           .IsRequired();
 
         entity.HasOne(e => e.TestSession)
-          .WithOne()
+          .WithMany()
           .HasForeignKey(TestSessionId)
           .IsRequired();
 
