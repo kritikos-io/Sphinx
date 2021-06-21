@@ -50,7 +50,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       return CreatedAtAction(nameof(RetrieveTestSession), new { id = testSession.Id }, dto);
     }
 
-    [HttpPost("fetch")]
+    [HttpGet]
     public async Task<ActionResult<PagedResult<TestSessionRetrieveDto>>> RetrieveAll(
       PaginationCriteria pagination,
       CancellationToken cancellationToken = default)
