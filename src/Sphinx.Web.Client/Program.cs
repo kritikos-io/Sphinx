@@ -34,6 +34,7 @@ namespace Kritikos.Sphinx.Web.Client
         })
         .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
         .AddHttpMessageHandler<CorrelationMessageHandler>();
+      builder.Services.AddSingleton<CorrelationMessageHandler>();
 
       builder.Services.AddApiAuthorization();
       builder.Services.AddLogging(configure => configure.AddSerilog());
