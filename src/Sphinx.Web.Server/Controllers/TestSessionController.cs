@@ -52,7 +52,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
     [HttpGet]
     public async Task<ActionResult<PagedResult<TestSessionRetrieveDto>>> RetrieveAll(
-      PaginationCriteria pagination,
+      [FromQuery] PaginationCriteria pagination,
       CancellationToken cancellationToken = default)
     {
       var query = DbContext.TestSessions;

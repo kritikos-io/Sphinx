@@ -60,7 +60,12 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
             MediaType = dto.MediaType,
             Type = Shared.Enums.StimulusType.Significant | Shared.Enums.StimulusType.Secondary,
             Title = dto.Title,
-          });
+          })
+      .Map<TestSession, TestSessionRetrieveDto>(mapper => test =>
+         new TestSessionRetrieveDto
+         {
+           Id = test.Id,
+         });
 
     private static DataSet UpdateDataset(DataSet entity, DatasetUpdateDto dto)
     {
