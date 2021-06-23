@@ -10,6 +10,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Kritikos.PureMap;
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
+  using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
   using Kritikos.Sphinx.Web.Server.Helpers;
@@ -20,6 +21,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Kritikos.Sphinx.Web.Shared.RetrieveDto;
   using Kritikos.Sphinx.Web.Shared.UpdateDto;
 
+  using Microsoft.AspNetCore.Identity;
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Logging;
@@ -31,8 +33,9 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     public SignificantStimuliController(
       SphinxDbContext dbContext,
       IPureMapper mapper,
-      ILogger<SignificantStimuliController> logger)
-      : base(dbContext, mapper, logger)
+      ILogger<SignificantStimuliController> logger,
+      UserManager<SphinxUser> userManager)
+      : base(dbContext, mapper, logger, userManager)
     {
     }
 

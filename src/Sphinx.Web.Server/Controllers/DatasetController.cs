@@ -10,6 +10,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Kritikos.PureMap;
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
+  using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
@@ -19,6 +20,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Kritikos.Sphinx.Web.Shared.RetrieveDto;
   using Kritikos.Sphinx.Web.Shared.UpdateDto;
 
+  using Microsoft.AspNetCore.Identity;
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Logging;
@@ -27,8 +29,12 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   [ApiController]
   public class DatasetController : BaseController<DatasetController>
   {
-    public DatasetController(SphinxDbContext dbContext, IPureMapper mapper, ILogger<DatasetController> logger)
-      : base(dbContext, mapper, logger)
+    public DatasetController(
+      SphinxDbContext dbContext,
+      UserManager<SphinxUser> userManager,
+      IPureMapper mapper,
+      ILogger<DatasetController> logger)
+      : base(dbContext, mapper, logger,userManager)
     {
     }
 

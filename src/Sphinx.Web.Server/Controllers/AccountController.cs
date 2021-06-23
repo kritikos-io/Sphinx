@@ -27,8 +27,9 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       SphinxDbContext dbContext,
       IPureMapper mapper,
       ILogger<AccountController> logger,
-      IEmailSender sender)
-      : base(dbContext, mapper, logger)
+      IEmailSender sender,
+      UserManager<SphinxUser> userManager)
+      : base(dbContext, mapper, logger,userManager)
     {
       dataProtector = protectionProvider.CreateProtector(DataProtectionPurposes.UserManagement);
       userManager = usersManager;

@@ -6,10 +6,12 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
+  using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Shared;
 
   using Microsoft.AspNetCore.Authorization;
+  using Microsoft.AspNetCore.Identity;
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.Extensions.Logging;
 
@@ -26,8 +28,9 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     public WeatherForecastController(
       SphinxDbContext dbContext,
       IPureMapper mapper,
-      ILogger<WeatherForecastController> logger)
-      : base(dbContext, mapper, logger)
+      ILogger<WeatherForecastController> logger,
+      UserManager<SphinxUser> userManager)
+      : base(dbContext, mapper, logger,userManager)
     {
     }
 

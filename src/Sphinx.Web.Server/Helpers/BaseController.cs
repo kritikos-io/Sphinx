@@ -1,8 +1,12 @@
 namespace Kritikos.Sphinx.Web.Server.Helpers
 {
+  using System.Threading.Tasks;
+
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
+  using Kritikos.Sphinx.Data.Persistence.Identity;
 
+  using Microsoft.AspNetCore.Identity;
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.Extensions.Logging;
 
@@ -10,11 +14,16 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
   public abstract class BaseController<T> : ControllerBase
     where T : BaseController<T>
   {
-    protected BaseController(SphinxDbContext dbContext, IPureMapper mapper, ILogger<T> logger)
+    protected BaseController(
+      SphinxDbContext dbContext,
+      IPureMapper mapper,
+      ILogger<T> logger,
+      UserManager<SphinxUser> userManager)
     {
       Logger = logger;
       DbContext = dbContext;
       Mapper = mapper;
+      UserManager = userManager;
     }
 
     protected ILogger<T> Logger { get; }
@@ -22,5 +31,17 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
     protected IPureMapper Mapper { get; }
 
     protected SphinxDbContext DbContext { get; }
+
+    protected UserManager<SphinxUser> UserManager { get; }
+
+    protected async Task<SphinxUser?> GetAuthenticatedUser()
+    {
+      if (User.Identity.IsAuthenticated)
+      {
+        return await UserManager.GetUserAsync(this.User);
+      }
+
+      return null;
+    }
   }
 }
