@@ -4,6 +4,7 @@ namespace Kritikos.Sphinx.Data.Persistence.Models
   using System.Collections.Generic;
 
   using Kritikos.Sphinx.Data.Persistence.Helpers;
+  using Kritikos.Sphinx.Data.Persistence.Identity;
 
   using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Models
     // Insignificant-> Dataset
     // Significant -> Dataset & title
     // 
+
+    public SphinxUser User { get; set; }
 
     public IReadOnlyCollection<SessionQuestion> Questions { get; set; }
       = new List<SessionQuestion>(0);
