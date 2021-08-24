@@ -2975,7 +2975,7 @@
         "type": "Project",
         "dependencies": {
           "Kritikos.Configuration.Peristence.IdentityServer": "2.0.0",
-          "Kritikos.Sphinx.Web.Shared": "1.0.0",
+          "Kritikos.Sphinx.Web.Server.Models": "1.0.0",
           "Microsoft.AspNetCore.DataProtection.EntityFrameworkCore": "5.0.9",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.7",
           "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.1.0"
@@ -2984,7 +2984,7 @@
       "Kritikos.Sphinx.Web.Client": {
         "type": "Project",
         "dependencies": {
-          "Kritikos.Sphinx.Web.Shared": "1.0.0",
+          "Kritikos.Sphinx.Web.Server.Models": "1.0.0",
           "Microsoft.AspNetCore.Components.WebAssembly": "5.0.9",
           "Microsoft.AspNetCore.Components.WebAssembly.Authentication": "5.0.9",
           "Microsoft.Extensions.Http": "5.0.0",
@@ -2998,7 +2998,7 @@
           "System.Net.Http.Json": "5.0.0"
         }
       },
-      "Kritikos.Sphinx.Web.Shared": {
+      "Kritikos.Sphinx.Web.Server.Models": {
         "type": "Project",
         "dependencies": {
           "Kritikos.Configuration.Persistence.Contracts": "2.0.0",

@@ -1738,7 +1738,7 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "Kritikos.Sphinx.Web.Shared": {
+      "Kritikos.Sphinx.Web.Server.Models": {
         "type": "Project",
         "dependencies": {
           "Kritikos.Configuration.Persistence.Contracts": "2.0.0",

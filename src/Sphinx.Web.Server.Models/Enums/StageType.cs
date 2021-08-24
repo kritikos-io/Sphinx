@@ -1,8 +1,11 @@
 namespace Kritikos.Sphinx.Web.Shared.Enums
 {
+  using System;
+
+  [Flags]
   public enum StageType
   {
-    Unknown = 0,
+    None = 0,
     AB = 1,
     BA = AB << 1,
     AC = BA << 1,

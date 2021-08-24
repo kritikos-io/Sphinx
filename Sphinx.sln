@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E5763ADA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sphinx.Data.Persistence", "src\Sphinx.Data.Persistence\Sphinx.Data.Persistence.csproj", "{68F934C4-8A9E-4BD9-9C2C-2341D9CD2BAA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sphinx.Web.Shared", "src\Sphinx.Web.Shared\Sphinx.Web.Shared.csproj", "{9BF9C154-30B0-4316-BAF6-2366F00DC550}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sphinx.Web.Server.Models", "src\Sphinx.Web.Server.Models\Sphinx.Web.Server.Models.csproj", "{9BF9C154-30B0-4316-BAF6-2366F00DC550}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sphinx.Web.Server", "src\Sphinx.Web.Server\Sphinx.Web.Server.csproj", "{ACEE1480-39BC-470D-B962-E8FECCECE774}"
 EndProject

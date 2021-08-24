@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sphinx.Web.Shared\Sphinx.Web.Shared.csproj" />
+    <ProjectReference Include="..\Sphinx.Web.Server.Models\Sphinx.Web.Server.Models.csproj" />
   </ItemGroup>
 
 </Project>
