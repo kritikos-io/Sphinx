@@ -1,7 +1,5 @@
 namespace Kritikos.Sphinx.Web.Server.Controllers
 {
-  using System;
-  using System.Collections.Generic;
   using System.Linq;
   using System.Threading;
   using System.Threading.Tasks;
@@ -18,7 +16,6 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Kritikos.Sphinx.Web.Shared.CreateDto;
   using Kritikos.Sphinx.Web.Shared.Criteria;
   using Kritikos.Sphinx.Web.Shared.RetrieveDto;
-  using Kritikos.Sphinx.Web.Shared.UpdateDto;
 
   using Microsoft.AspNetCore.Identity;
   using Microsoft.AspNetCore.Mvc;

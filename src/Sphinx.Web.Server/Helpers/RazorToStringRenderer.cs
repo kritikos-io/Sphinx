@@ -48,15 +48,14 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
       var view = FindView(context, viewName);
       using var output = new StringWriter();
       var viewContext = new ViewContext(
-          context,
-          view,
-          new ViewDataDictionary<TModel>(
-            metadataProvider: new EmptyModelMetadataProvider(),
-            modelState: new ModelStateDictionary())
-          { Model = model, },
-          new TempDataDictionary(context.HttpContext, tempDataProvider),
-          output,
-          new HtmlHelperOptions());
+        context,
+        view,
+        new ViewDataDictionary<TModel>(
+          metadataProvider: new EmptyModelMetadataProvider(),
+          modelState: new ModelStateDictionary()) { Model = model, },
+        new TempDataDictionary(context.HttpContext, tempDataProvider),
+        output,
+        new HtmlHelperOptions());
 
       await view.RenderAsync(viewContext);
 

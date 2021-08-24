@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace Kritikos.Sphinx.Web.Server.Areas.Identity.Pages.Account.Manage
 {
-    public static class ManageNavPages
+  using System;
+
+  using Microsoft.AspNetCore.Mvc.Rendering;
+
+  public static class ManageNavPages
     {
         public static string Index => "Index";
 

@@ -15,29 +15,29 @@ namespace Kritikos.Sphinx.Web.Server.Areas.Identity.Pages.Account
   [AllowAnonymous]
   public class RegisterConfirmationModel : PageModel
   {
-    private readonly UserManager<SphinxUser> _userManager;
-    private readonly IEmailSender _sender;
+    private readonly UserManager<SphinxUser> userManager;
+    private readonly IEmailSender sender;
 
     public RegisterConfirmationModel(UserManager<SphinxUser> userManager, IEmailSender sender)
     {
-      _userManager = userManager;
-      _sender = sender;
+      this.userManager = userManager;
+      this.sender = sender;
     }
 
-    public string Email { get; set; }
+    public string Email { get; set; } = string.Empty;
 
     public bool DisplayConfirmAccountLink { get; set; }
 
-    public string EmailConfirmationUrl { get; set; }
+    public string EmailConfirmationUrl { get; set; } = string.Empty;
 
-    public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
+    public async Task<IActionResult> OnGetAsync(string? email, string? returnUrl = null)
     {
       if (email == null)
       {
         return RedirectToPage("/Index");
       }
 
-      var user = await _userManager.FindByEmailAsync(email);
+      var user = await userManager.FindByEmailAsync(email);
       if (user == null)
       {
         return NotFound($"Unable to load user with email '{email}'.");
@@ -48,8 +48,8 @@ namespace Kritikos.Sphinx.Web.Server.Areas.Identity.Pages.Account
       DisplayConfirmAccountLink = false;
       if (DisplayConfirmAccountLink)
       {
-        var userId = await _userManager.GetUserIdAsync(user);
-        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var userId = await userManager.GetUserIdAsync(user);
+        var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
         EmailConfirmationUrl = Url.Page(
           "/Account/ConfirmEmail",

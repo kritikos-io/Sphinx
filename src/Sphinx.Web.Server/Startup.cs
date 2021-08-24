@@ -3,13 +3,9 @@ namespace Kritikos.Sphinx.Web.Server
   using System;
   using System.IO;
 
-  using HealthChecks.UI.Client;
-
   using Kritikos.Configuration.Persistence.Extensions;
-  using Kritikos.Configuration.Persistence.Interceptors;
   using Kritikos.Configuration.Persistence.Interceptors.SaveChanges;
   using Kritikos.Configuration.Persistence.Interceptors.Services;
-  using Kritikos.Configuration.Persistence.Services;
   using Kritikos.PureMap;
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
@@ -28,8 +24,6 @@ namespace Kritikos.Sphinx.Web.Server
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.Extensions.Hosting;
-  using Microsoft.Extensions.Logging;
-  using Microsoft.Extensions.Options;
   using Microsoft.OpenApi.Models;
 
   using Serilog;
@@ -77,22 +71,10 @@ namespace Kritikos.Sphinx.Web.Server
         .SetApplicationName($"{Environment.ApplicationName}-{Environment.EnvironmentName}")
         .PersistKeysToDbContext<DataProtectionDbContext>();
 
-      services.AddHealthChecksUI(setup =>
-        {
-          setup.SetHeaderText("Sphinx - Health Status");
-          setup.AddHealthCheckEndpoint("self", "status");
-          setup.SetEvaluationTimeInSeconds(60);
-          setup.MaximumHistoryEntriesPerEndpoint(200);
-        })
-        .AddInMemoryStorage();
-
       services
         .AddHealthChecks()
         .AddDbContextCheck<SphinxDbContext>(nameof(SphinxDbContext))
-        .AddDbContextCheck<DataProtectionDbContext>(nameof(DataProtectionDbContext))
-        .AddSendGrid(Configuration["SendGrid:ApiKey"], name: "SendGrid")
-        .AddAzureBlobStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Blob Storage")
-        .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage");
+        .AddDbContextCheck<DataProtectionDbContext>(nameof(DataProtectionDbContext));
 
       services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -215,16 +197,7 @@ namespace Kritikos.Sphinx.Web.Server
       {
         endpoints.MapHealthChecks(
           "/status",
-          new HealthCheckOptions()
-          {
-            Predicate = r => true,
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-            AllowCachingResponses = false,
-          });
-        endpoints.MapHealthChecksUI(setup =>
-        {
-          setup.UIPath = "/health";
-        });
+          new HealthCheckOptions() { Predicate = r => true, AllowCachingResponses = false, });
         endpoints.MapControllers();
         endpoints.MapRazorPages();
         endpoints.MapFallbackToFile("index.html");

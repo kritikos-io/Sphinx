@@ -1,7 +1,5 @@
 namespace Kritikos.Sphinx.Web.Server.Controllers
 {
-  using System;
-  using System.Collections.Generic;
   using System.Linq;
   using System.Threading;
   using System.Threading.Tasks;
@@ -39,6 +37,12 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     {
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
+    /// <response code="404">If the dataset does not exist.</response>
     [HttpPost("/primary")]
     public async Task<ActionResult<SignificantStimulusRetrieveDto>> CreatePrimaryStimulus(
       PrimarySignificantStimulusCreateDto model,
@@ -63,6 +67,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       DbContext.SignificantStimuli.Add(stimulus);
       await DbContext.SaveChangesAsync(cancellationToken);
 
+
       var dto = Mapper.Map<SignificantStimulus, SignificantStimulusRetrieveDto>(stimulus);
       return CreatedAtAction(nameof(RetrieveSignificantStimulus), new { id = stimulus.Id }, dto);
     }
@@ -86,7 +91,9 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       }
 
       var primaryStimulus = await DbContext.SignificantStimuli
-        .SingleOrDefaultAsync(x => x.Id == model.PrimaryStimulusId && x.Type == Shared.Enums.StimulusType.Primary);
+        .SingleOrDefaultAsync(
+          x => x.Id == model.PrimaryStimulusId && x.Type == Shared.Enums.StimulusType.Primary,
+          cancellationToken: cancellationToken);
 
       if (primaryStimulus == null)
       {
@@ -102,8 +109,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       var significantMatch = new SignificantMatch
       {
-        Primary = primaryStimulus as PrimarySignificantStimulus,
-        Secondary = stimulus as SecondarySignificantStimulus,
+        Primary = primaryStimulus as PrimarySignificantStimulus, Secondary = stimulus as SecondarySignificantStimulus,
       };
 
       DbContext.SignificantMatches.Add(significantMatch);
@@ -201,11 +207,6 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteSignificantStimulus(long id, CancellationToken cancellationToken)
     {
-      if (!ModelState.IsValid)
-      {
-        return BadRequest(ModelState.Values);
-      }
-
       var stimulus = await DbContext.SignificantStimuli.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
       if (stimulus == null)

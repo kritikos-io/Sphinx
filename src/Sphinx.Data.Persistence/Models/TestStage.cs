@@ -1,8 +1,6 @@
 #nullable disable
 namespace Kritikos.Sphinx.Data.Persistence.Models
 {
-  using System.Collections.Generic;
-
   using Kritikos.Sphinx.Data.Persistence.Helpers;
   using Kritikos.Sphinx.Web.Shared.Enums;
 

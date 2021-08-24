@@ -6,6 +6,7 @@ namespace Kritikos.Sphinx.Web.Shared.API
 
   using Kritikos.Sphinx.Web.Shared.Criteria;
   using Kritikos.Sphinx.Web.Shared.RetrieveDto;
+
   using Refit;
 
   public interface ISphinxApi

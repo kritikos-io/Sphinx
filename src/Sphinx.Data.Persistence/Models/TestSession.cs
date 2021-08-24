@@ -1,3 +1,4 @@
+#nullable disable
 namespace Kritikos.Sphinx.Data.Persistence.Models
 {
   using System;
@@ -15,8 +16,6 @@ namespace Kritikos.Sphinx.Data.Persistence.Models
     // A, B, C, D, E
     // Insignificant-> Dataset
     // Significant -> Dataset & title
-    // 
-
     public SphinxUser User { get; set; }
 
     public IReadOnlyCollection<SessionQuestion> Questions { get; set; }

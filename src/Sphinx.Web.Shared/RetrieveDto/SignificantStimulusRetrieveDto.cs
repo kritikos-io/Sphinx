@@ -6,8 +6,8 @@ namespace Kritikos.Sphinx.Web.Shared.RetrieveDto
   using System.Text;
   using System.Threading.Tasks;
 
-  public class SignificantStimulusRetrieveDto:InsignificantStimulusRetrieveDto
+  public class SignificantStimulusRetrieveDto : InsignificantStimulusRetrieveDto
   {
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
   }
 }

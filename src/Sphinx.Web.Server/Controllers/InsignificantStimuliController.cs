@@ -1,7 +1,6 @@
 namespace Kritikos.Sphinx.Web.Server.Controllers
 {
   using System.Linq;
-  using System.Security.Cryptography.X509Certificates;
   using System.Threading;
   using System.Threading.Tasks;
 
@@ -17,7 +16,6 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using Kritikos.Sphinx.Web.Shared;
   using Kritikos.Sphinx.Web.Shared.CreateDto;
   using Kritikos.Sphinx.Web.Shared.Criteria;
-  using Kritikos.Sphinx.Web.Shared.Enums;
   using Kritikos.Sphinx.Web.Shared.RetrieveDto;
   using Kritikos.Sphinx.Web.Shared.UpdateDto;
 

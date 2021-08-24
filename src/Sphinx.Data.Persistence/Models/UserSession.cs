@@ -1,12 +1,6 @@
 #nullable disable
 namespace Kritikos.Sphinx.Data.Persistence.Models
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
-  using System.Threading.Tasks;
-
   using Kritikos.Sphinx.Data.Persistence.Identity;
 
   using Microsoft.EntityFrameworkCore;

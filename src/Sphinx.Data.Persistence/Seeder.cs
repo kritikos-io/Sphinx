@@ -8,7 +8,6 @@ namespace Kritikos.Sphinx.Data.Persistence
   using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
   using Kritikos.Sphinx.Web.Shared.Enums;
 
-  using Microsoft.AspNetCore.Hosting;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.Extensions.Logging;

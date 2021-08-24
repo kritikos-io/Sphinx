@@ -1,8 +1,5 @@
 namespace Kritikos.Sphinx.Web.Server.Controllers
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
   using System.Threading;
   using System.Threading.Tasks;
 
@@ -28,7 +25,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       IPureMapper mapper,
       ILogger<UserSessionController> logger,
       UserManager<SphinxUser> userManager)
-      : base(dbContext, mapper, logger,userManager)
+      : base(dbContext, mapper, logger, userManager)
     {
     }
 
@@ -50,13 +47,10 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
         return NotFound("The dataset you want to add this stimulus does not exist");
       }
 
-      var testSession = await DbContext.TestSessions.SingleOrDefaultAsync(x => x.Id == model.TestSessionId, cancellationToken);
+      var testSession =
+        await DbContext.TestSessions.SingleOrDefaultAsync(x => x.Id == model.TestSessionId, cancellationToken);
 
-      var userSession = new UserSession
-      {
-        TestSession = testSession,
-        User = user,
-      };
+      var userSession = new UserSession { TestSession = testSession, User = user, };
 
       DbContext.UserSessions.Add(userSession);
 
@@ -65,6 +59,5 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       var dto = Mapper.Map<UserSession, UserSessionRetrieveDto>(userSession);
       return CreatedAtAction(nameof(CreateUserSession), dto);
     }
-
   }
 }

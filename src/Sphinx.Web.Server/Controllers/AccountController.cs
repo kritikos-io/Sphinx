@@ -29,21 +29,21 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       ILogger<AccountController> logger,
       IEmailSender sender,
       UserManager<SphinxUser> userManager)
-      : base(dbContext, mapper, logger,userManager)
+      : base(dbContext, mapper, logger, userManager)
     {
       dataProtector = protectionProvider.CreateProtector(DataProtectionPurposes.UserManagement);
-      userManager = usersManager;
+      this.userManager = usersManager;
       roleManager = rolesManager;
       razor = razorRenderer;
-      this.sender = sender;
+      this.Sender = sender;
     }
 
-    private IEmailSender sender { get; }
+    private IEmailSender Sender { get; }
 
     [HttpGet("")]
     public ActionResult Foo()
     {
-      sender.SendEmailAsync("akritikos@outlook.com", "Boo", "Blah");
+      Sender.SendEmailAsync("akritikos@outlook.com", "Boo", "Blah");
       return Ok();
     }
   }

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Kritikos.Sphinx.Data.Persistence.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 namespace Kritikos.Sphinx.Web.Server.Areas.Identity.Pages.Account.Manage
 {
-    public class ChangePasswordModel : PageModel
+  using System.ComponentModel.DataAnnotations;
+  using System.Threading.Tasks;
+
+  using Kritikos.Sphinx.Data.Persistence.Identity;
+
+  using Microsoft.AspNetCore.Identity;
+  using Microsoft.AspNetCore.Mvc;
+  using Microsoft.AspNetCore.Mvc.RazorPages;
+  using Microsoft.Extensions.Logging;
+
+  public class ChangePasswordModel : PageModel
     {
         private readonly UserManager<SphinxUser> _userManager;
         private readonly SignInManager<SphinxUser> _signInManager;

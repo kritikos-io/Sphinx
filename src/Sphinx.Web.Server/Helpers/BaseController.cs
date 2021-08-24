@@ -35,13 +35,8 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
     protected UserManager<SphinxUser> UserManager { get; }
 
     protected async Task<SphinxUser?> GetAuthenticatedUser()
-    {
-      if (User.Identity.IsAuthenticated)
-      {
-        return await UserManager.GetUserAsync(this.User);
-      }
-
-      return null;
-    }
+      => User.Identity?.IsAuthenticated ?? false
+        ? await UserManager.GetUserAsync(this.User)
+        : null;
   }
 }
