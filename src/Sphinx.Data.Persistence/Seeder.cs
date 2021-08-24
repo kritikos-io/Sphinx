@@ -1,5 +1,6 @@
 namespace Kritikos.Sphinx.Data.Persistence
 {
+  using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Threading.Tasks;
@@ -165,7 +166,7 @@ namespace Kritikos.Sphinx.Data.Persistence
 
     public static async Task Seed(IServiceScopeFactory scopeFactory, ILogger<SphinxDbContext> logger)
     {
-      using var scope = scopeFactory.CreateScope();
+      using var scope = scopeFactory?.CreateScope() ?? throw new ArgumentNullException(nameof(scopeFactory));
       var ctx = scope.ServiceProvider.GetRequiredService<SphinxDbContext>();
       var migrations = (await ctx.Database.GetPendingMigrationsAsync()).ToList();
 
