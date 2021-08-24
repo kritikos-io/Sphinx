@@ -23,7 +23,7 @@ namespace Kritikos.Sphinx.Web.Server.Pages
     public void OnGet()
     {
       RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-      Logger.LogError(LogTemplates.Razor.ErrorHandlingRequest, RequestId);
+      Logger.LogError(LogTemplates.RazorMessages.ErrorHandlingRequest, RequestId);
     }
   }
 }

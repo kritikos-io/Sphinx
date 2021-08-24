@@ -94,7 +94,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (dataset == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), id);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(DataSet), id);
         return NotFound();
       }
 
@@ -116,7 +116,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (dataSet == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), id);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(DataSet), id);
         return NotFound();
       }
 
@@ -142,7 +142,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (dataset == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), id);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(DataSet), id);
         return NotFound();
       }
 

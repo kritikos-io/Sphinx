@@ -57,7 +57,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (dataset == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), model.DataSetId);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(DataSet), model.DataSetId);
         return NotFound("The dataset you want to add this stimulus does not exist");
       }
 
@@ -86,7 +86,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (dataset == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(DataSet), model.DataSetId);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(DataSet), model.DataSetId);
         return NotFound("The dataset you want to add this stimulus does not exist");
       }
 
@@ -97,7 +97,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (primaryStimulus == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(SignificantStimulus), model.PrimaryStimulusId);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(SignificantStimulus), model.PrimaryStimulusId);
         return NotFound("The dataset you want to add this stimulus does not exist");
       }
 
@@ -157,7 +157,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (stimulus == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(Stimulus), id);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(Stimulus), id);
         return NotFound();
       }
 
@@ -179,7 +179,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (stimulusToBeUpdated == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(SignificantStimulus), id);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(SignificantStimulus), id);
         return NotFound();
       }
 
@@ -211,7 +211,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (stimulus == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(SignificantStimulus), id);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(SignificantStimulus), id);
         return NotFound();
       }
 

@@ -90,7 +90,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (testSession == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(TestSession), id);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(TestSession), id);
         return NotFound();
       }
 
@@ -109,7 +109,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (testSession == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(TestSession), id);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(TestSession), id);
         return NotFound();
       }
 

@@ -49,7 +49,7 @@ namespace Kritikos.Sphinx.Web.Server
       }
       catch (Exception e)
       {
-        logger.LogCritical(e, LogTemplates.Generic.BootstrappingError, e.Message);
+        logger.LogCritical(e, LogTemplates.GenericMessages.BootstrappingError, e.Message);
       }
 
       return 1;

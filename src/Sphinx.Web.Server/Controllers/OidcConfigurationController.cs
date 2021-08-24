@@ -24,7 +24,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
     public IActionResult GetClientRequestParameters([FromRoute] string clientId)
     {
       var parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId);
-      logger.LogDebug(LogTemplates.Oidc.ClientParametersRequested, clientId, parameters);
+      logger.LogDebug(LogTemplates.OidcMessages.ClientParametersRequested, clientId, parameters);
       return Ok(parameters);
     }
   }

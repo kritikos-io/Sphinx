@@ -43,7 +43,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
 
       if (user == null)
       {
-        Logger.LogWarning(LogTemplates.Entity.NotFound, nameof(User), model.UserId);
+        Logger.LogWarning(LogTemplates.EntityMessages.NotFound, nameof(User), model.UserId);
         return NotFound("The dataset you want to add this stimulus does not exist");
       }
 
