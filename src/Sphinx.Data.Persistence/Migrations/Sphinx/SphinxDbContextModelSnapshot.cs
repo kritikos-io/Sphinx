@@ -16,7 +16,7 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.ApiResource", b =>
@@ -858,8 +858,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -872,8 +872,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -900,8 +900,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -909,6 +909,14 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -939,8 +947,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -964,8 +972,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -974,8 +982,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -996,14 +1004,14 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.Property<long>("SecondaryStimulusId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -1044,8 +1052,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
@@ -1061,8 +1069,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
@@ -1082,21 +1090,77 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TestSessions");
+                });
+
+            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.TestStage", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TestSessionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TestSessions");
+                    b.HasIndex("TestSessionId");
+
+                    b.ToTable("TestStages");
+                });
+
+            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.UserSession", b =>
+                {
+                    b.Property<Guid>("SphinxUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TestSessionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("SphinxUserId", "TestSessionId");
+
+                    b.HasIndex("TestSessionId");
+
+                    b.ToTable("UserSessions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1476,6 +1540,45 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
                     b.Navigation("DataSet");
                 });
 
+            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.TestSession", b =>
+                {
+                    b.HasOne("Kritikos.Sphinx.Data.Persistence.Identity.SphinxUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.TestStage", b =>
+                {
+                    b.HasOne("Kritikos.Sphinx.Data.Persistence.Models.TestSession", "TestSession")
+                        .WithMany("TestStages")
+                        .HasForeignKey("TestSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TestSession");
+                });
+
+            modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.UserSession", b =>
+                {
+                    b.HasOne("Kritikos.Sphinx.Data.Persistence.Identity.SphinxUser", "User")
+                        .WithMany()
+                        .HasForeignKey("SphinxUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Kritikos.Sphinx.Data.Persistence.Models.TestSession", "TestSession")
+                        .WithMany()
+                        .HasForeignKey("TestSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TestSession");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Kritikos.Sphinx.Data.Persistence.Identity.SphinxRole", null)
@@ -1581,6 +1684,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Migrations.Sphinx
             modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.TestSession", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("TestStages");
                 });
 
             modelBuilder.Entity("Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli.PrimarySignificantStimulus", b =>

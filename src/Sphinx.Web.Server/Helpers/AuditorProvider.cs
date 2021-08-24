@@ -3,7 +3,7 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
   using System;
   using System.Security.Claims;
 
-  using Kritikos.Configuration.Persistence.Services;
+  using Kritikos.Configuration.Persistence.Interceptors.Services;
 
   using Microsoft.AspNetCore.Http;
 
@@ -17,12 +17,10 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
     }
 
     /// <inheritdoc />
-    public Guid GetAuditor()
-    {
-      return Guid.TryParse(accessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier), out var guid)
+    public Guid GetAuditor() =>
+      Guid.TryParse(accessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier), out var guid)
         ? guid
         : GetFallbackAuditor();
-    }
 
     /// <inheritdoc />
     public Guid GetFallbackAuditor() => new("195ab048-e818-5133-a6cf-4868a8a31d61");

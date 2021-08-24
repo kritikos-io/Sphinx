@@ -1,0 +1,60 @@
+@page "/testsession/{id}"
+@using Kritikos.Sphinx.Web.Shared.API
+@using System.Threading.Tasks;
+@using Kritikos.Sphinx.Web.Shared.RetrieveDto;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+@inject ISphinxApi Api
+
+<h1>Test Session</h1>
+
+@if (testSession == null)
+{
+  <p>
+    <em>Loading...</em>
+  </p>
+}
+else
+{
+  <table class="test-session-table">
+    <thead>
+      <tr>
+        <th>Test Session Questions</th>
+      </tr>
+    </thead>
+    <tbody>
+ 
+        <tr>
+          <td>@testSession.Id</td>
+          <td><a href="@($"testsession/{testSession.Id}")" class="btn btn-primary m-1"> > </a></td>
+        </tr>
+ 
+    </tbody>
+  </table>
+}
+
+@code{
+    [Parameter]
+    public Guid SessionId { get; set; }
+
+    private TestSessionRetrieveDto? testSession;
+
+    protected override async Task OnInitializedAsync()
+    {
+      await Refresh();
+    }
+
+    private async Task Refresh()
+    {
+      try
+      {
+        testSession = await Api.GetTestSession(SessionId);
+      }
+      catch (AccessTokenNotAvailableException exception)
+      {
+        exception.Redirect();
+      }
+    }
+}

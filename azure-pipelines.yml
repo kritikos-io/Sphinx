@@ -67,6 +67,7 @@ stages:
       branch: develop
   - template: /ci/azure-pipelines/stages/dotnet/02. nuget-deploy.yml@templates
     parameters:
+      gitHubConnection: kritikos-io
       packagesToPush: '*.nupkg'
       artifact: nuget
       environmentPullRequest: Pull Requests

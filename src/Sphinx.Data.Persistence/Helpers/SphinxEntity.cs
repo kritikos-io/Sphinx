@@ -4,7 +4,7 @@ namespace Kritikos.Sphinx.Data.Persistence.Helpers
 {
   using System;
 
-  using Kritikos.Configuration.Persistence.Abstractions;
+  using Kritikos.Configuration.Persistence.Contracts.Behavioral;
 
   using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,9 +14,9 @@ namespace Kritikos.Sphinx.Data.Persistence.Helpers
 
     public Guid UpdatedBy { get; set; }
 
-    public DateTimeOffset CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTimeOffset UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
   }
 
   public abstract class SphinxEntity<TKey, TEntity> : SphinxEntity, IEntity<TKey>

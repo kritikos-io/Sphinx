@@ -3,11 +3,11 @@ namespace Kritikos.Sphinx.Web.Server
   using System;
   using System.IO;
 
-  using HealthChecks.UI.Client;
-
   using Kritikos.Configuration.Persistence.Extensions;
-  using Kritikos.Configuration.Persistence.Interceptors;
-  using Kritikos.Configuration.Persistence.Services;
+  using Kritikos.Configuration.Persistence.Interceptors.SaveChanges;
+  using Kritikos.Configuration.Persistence.Interceptors.Services;
+  using Kritikos.PureMap;
+  using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Web.Server.Helpers;
@@ -19,6 +19,7 @@ namespace Kritikos.Sphinx.Web.Server
   using Microsoft.AspNetCore.Diagnostics.HealthChecks;
   using Microsoft.AspNetCore.Hosting;
   using Microsoft.AspNetCore.Identity;
+  using Microsoft.AspNetCore.Identity.UI.Services;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +48,7 @@ namespace Kritikos.Sphinx.Web.Server
       services.AddHttpContextAccessor();
       services.AddScoped<RazorToStringRenderer>();
       services.AddApplicationInsightsTelemetry();
+      services.AddSingleton<IPureMapper>(_ => new PureMapper(MapProfile.DtoMapping));
 
       services.AddSingleton<IAuditorProvider<Guid>, AuditorProvider>();
       services.AddSingleton<AuditSaveChangesInterceptor<Guid>>();
@@ -69,42 +71,38 @@ namespace Kritikos.Sphinx.Web.Server
         .SetApplicationName($"{Environment.ApplicationName}-{Environment.EnvironmentName}")
         .PersistKeysToDbContext<DataProtectionDbContext>();
 
-      services.AddHealthChecksUI(setup =>
-        {
-          setup.SetHeaderText("Sphinx - Health Status");
-          setup.AddHealthCheckEndpoint("self", "status");
-          setup.SetEvaluationTimeInSeconds(60);
-          setup.MaximumHistoryEntriesPerEndpoint(200);
-        })
-        .AddInMemoryStorage();
-
       services
         .AddHealthChecks()
         .AddDbContextCheck<SphinxDbContext>(nameof(SphinxDbContext))
-        .AddDbContextCheck<DataProtectionDbContext>(nameof(DataProtectionDbContext))
-        .AddSendGrid(Configuration["SendGrid:ApiKey"], name: "SendGrid")
-        .AddAzureBlobStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Blob Storage")
-        .AddAzureQueueStorage(Configuration.GetConnectionString("SphinxStorageAccount"), name: "Queue Storage");
-
-      services.AddHostedService<MigrationService<SphinxDbContext>>();
-      services.AddHostedService<MigrationService<DataProtectionDbContext>>();
+        .AddDbContextCheck<DataProtectionDbContext>(nameof(DataProtectionDbContext));
 
       services.AddDatabaseDeveloperPageExceptionFilter();
 
+      services.Configure<SendGridOptions>(Configuration.GetSection("SendGrid"));
+      if (string.IsNullOrWhiteSpace(Configuration["SendGrid:ApiKey"]))
+      {
+        services.AddSingleton<IEmailSender, DummyEmailSender>();
+      }
+      else
+      {
+        services.AddSingleton<IEmailSender, EmailSender>();
+      }
+
       services.AddIdentity<SphinxUser, SphinxRole>(options =>
-       {
-         var isDevelopment = Environment.IsDevelopment();
+        {
+          var isDevelopment = Environment.IsDevelopment();
 
-         options.SignIn.RequireConfirmedAccount = !isDevelopment;
-         options.SignIn.RequireConfirmedEmail = !isDevelopment;
+          options.SignIn.RequireConfirmedAccount = true;
+          options.SignIn.RequireConfirmedEmail = true;
+          options.SignIn.RequireConfirmedPhoneNumber = false;
 
-         options.User.RequireUniqueEmail = !isDevelopment;
+          options.User.RequireUniqueEmail = !isDevelopment;
 
-         options.Password.RequireDigit = !isDevelopment;
-         options.Password.RequireLowercase = !isDevelopment;
-         options.Password.RequireNonAlphanumeric = !isDevelopment;
-         options.Password.RequireUppercase = !isDevelopment;
-       })
+          options.Password.RequireDigit = !isDevelopment;
+          options.Password.RequireLowercase = !isDevelopment;
+          options.Password.RequireNonAlphanumeric = !isDevelopment;
+          options.Password.RequireUppercase = !isDevelopment;
+        })
         .AddEntityFrameworkStores<SphinxDbContext>()
         .AddDefaultUI()
         .AddDefaultTokenProviders();
@@ -199,16 +197,7 @@ namespace Kritikos.Sphinx.Web.Server
       {
         endpoints.MapHealthChecks(
           "/status",
-          new HealthCheckOptions()
-          {
-            Predicate = r => true,
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-            AllowCachingResponses = false,
-          });
-        endpoints.MapHealthChecksUI(setup =>
-        {
-          setup.UIPath = "/health";
-        });
+          new HealthCheckOptions() { Predicate = r => true, AllowCachingResponses = false, });
         endpoints.MapControllers();
         endpoints.MapRazorPages();
         endpoints.MapFallbackToFile("index.html");
