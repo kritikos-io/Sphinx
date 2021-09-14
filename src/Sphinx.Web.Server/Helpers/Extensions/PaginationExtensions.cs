@@ -1,5 +1,6 @@
 namespace Kritikos.Sphinx.Web.Server.Helpers.Extensions
 {
+  using System;
   using System.Collections.Generic;
 
   using Kritikos.Sphinx.Web.Shared;
@@ -11,9 +12,13 @@ namespace Kritikos.Sphinx.Web.Server.Helpers.Extensions
       => new()
       {
         Results = source,
-        Page = pagination.Page,
-        TotalElements = totalCount,
-        TotalPages = (totalCount / pagination.ItemsPerPage) + 1,
+        Metadata = new()
+        {
+          TotalCount = totalCount,
+          PageSize = pagination?.ItemsPerPage ?? throw new ArgumentNullException(nameof(pagination)),
+          CurrentPage = pagination.Page,
+          TotalPages = (int)Math.Ceiling(totalCount / (double)pagination.ItemsPerPage),
+        },
       };
   }
 }

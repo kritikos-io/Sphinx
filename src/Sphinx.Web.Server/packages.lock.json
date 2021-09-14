@@ -1533,8 +1533,8 @@
       },
       "Newtonsoft.Json": {
         "type": "Transitive",
-        "resolved": "12.0.3",
-        "contentHash": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg=="
+        "resolved": "12.0.2",
+        "contentHash": "rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA=="
       },
       "Npgsql": {
         "type": "Transitive",
@@ -1859,45 +1859,6 @@
         "type": "Transitive",
         "resolved": "6.1.5",
         "contentHash": "/YwEGAdkDK8rEPSuPURNNgJ3mWmtsCI/xnVlWBaM2UDNVTr8wBUO0qhLvHFgrf6NjjjNq6cyO3M7lZMLXcGusw=="
-      },
-      "Syncfusion.Blazor.Core": {
-        "type": "Transitive",
-        "resolved": "19.2.0.57",
-        "contentHash": "qDGfUa73JEL7D/7tjelF/8Qdo0vAcIpit3JIGeOLW9JIY55cbJ3gi/CX5Y/NqrUhTVX/uraDYQ7YbdlyuX5DDw==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Components.Web": "5.0.0",
-          "Microsoft.CSharp": "4.7.0",
-          "Newtonsoft.Json": "12.0.3",
-          "Syncfusion.Blazor.Themes": "19.2.0.57",
-          "Syncfusion.Licensing": "19.2.0.57"
-        }
-      },
-      "Syncfusion.Blazor.Data": {
-        "type": "Transitive",
-        "resolved": "19.2.0.57",
-        "contentHash": "uZCy4+PaIkGJzlL2jMYmbub7GZ+qHhi9fGAwwXzZDvD7sglZ3vZzrCGoCU4WfPFeUwAaH9GIKqmtfZo6E8mcMg==",
-        "dependencies": {
-          "Syncfusion.Blazor.Core": "19.2.0.57"
-        }
-      },
-      "Syncfusion.Blazor.ProgressBar": {
-        "type": "Transitive",
-        "resolved": "19.2.0.57",
-        "contentHash": "enELQPkTbWH04qWXXVgnOGEgsxkK0I4+G0fL9Mg66N+86a+aBgWajxB4tjspiCIXfb+U/U6GxvQ5rwUsw53fyA==",
-        "dependencies": {
-          "Syncfusion.Blazor.Core": "19.2.0.57",
-          "Syncfusion.Blazor.Data": "19.2.0.57"
-        }
-      },
-      "Syncfusion.Blazor.Themes": {
-        "type": "Transitive",
-        "resolved": "19.2.0.57",
-        "contentHash": "5v7z9NLC/3aVx3pgsbh+K5n0Mm5u1XU5p+cT4E2Lt5/rdxKDksCsfmiO980QEoMmOFAMlY0L+Xjc/xY/QynaBg=="
-      },
-      "Syncfusion.Licensing": {
-        "type": "Transitive",
-        "resolved": "19.2.0.57",
-        "contentHash": "of2WgliT7AsdpGV73ERgowljMujZibTBqjuy75tEzQq44Y3qglW3oVqMJY77lm7KVsJufPub0EThMSeyeOHOUA=="
       },
       "System.AppContext": {
         "type": "Transitive",
@@ -2975,6 +2936,7 @@
         "type": "Project",
         "dependencies": {
           "Kritikos.Configuration.Peristence.IdentityServer": "2.0.0",
+          "Kritikos.Sphinx.Web.CommonIdentity": "1.0.0",
           "Kritikos.Sphinx.Web.Server.Models": "1.0.0",
           "Microsoft.AspNetCore.DataProtection.EntityFrameworkCore": "5.0.9",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.7",
@@ -2984,6 +2946,7 @@
       "Kritikos.Sphinx.Web.Client": {
         "type": "Project",
         "dependencies": {
+          "Kritikos.Sphinx.Web.CommonIdentity": "1.0.0",
           "Kritikos.Sphinx.Web.Server.Models": "1.0.0",
           "Microsoft.AspNetCore.Components.WebAssembly": "5.0.9",
           "Microsoft.AspNetCore.Components.WebAssembly.Authentication": "5.0.9",
@@ -2993,9 +2956,13 @@
           "Serilog.Extensions.Logging": "3.0.1",
           "Serilog.Sinks.BrowserConsole": "1.0.0",
           "Serilog.Sinks.BrowserHttp": "1.0.0-dev-00021",
-          "Syncfusion.Blazor.Core": "19.2.0.57",
-          "Syncfusion.Blazor.ProgressBar": "19.2.0.57",
           "System.Net.Http.Json": "5.0.0"
+        }
+      },
+      "Kritikos.Sphinx.Web.CommonIdentity": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "5.0.9"
         }
       },
       "Kritikos.Sphinx.Web.Server.Models": {

@@ -59,7 +59,7 @@ else
       try
       {
         testSessions = await Api.GetTestSessions(new PaginationCriteria() { Page = currentPage });
-        totalPages = testSessions.TotalPages;
+        totalPages = testSessions.Metadata.TotalPages;
       }
       catch (AccessTokenNotAvailableException exception)
       {

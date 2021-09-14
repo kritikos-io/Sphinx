@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.config\dotnet.ruleset = .config\dotnet.ruleset
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sphinx.Web.CommonIdentity", "src\Sphinx.Web.CommonIdentity\Sphinx.Web.CommonIdentity.csproj", "{70644E8F-E92E-4C01-9767-DBEE0C7BE0C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{5C423D89-66F6-40CA-A16B-79D97D0941B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C423D89-66F6-40CA-A16B-79D97D0941B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C423D89-66F6-40CA-A16B-79D97D0941B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70644E8F-E92E-4C01-9767-DBEE0C7BE0C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70644E8F-E92E-4C01-9767-DBEE0C7BE0C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70644E8F-E92E-4C01-9767-DBEE0C7BE0C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70644E8F-E92E-4C01-9767-DBEE0C7BE0C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{9BF9C154-30B0-4316-BAF6-2366F00DC550} = {299F30B1-A089-4BCE-A51B-9F6A89F5B492}
 		{ACEE1480-39BC-470D-B962-E8FECCECE774} = {299F30B1-A089-4BCE-A51B-9F6A89F5B492}
 		{5C423D89-66F6-40CA-A16B-79D97D0941B8} = {299F30B1-A089-4BCE-A51B-9F6A89F5B492}
+		{70644E8F-E92E-4C01-9767-DBEE0C7BE0C5} = {299F30B1-A089-4BCE-A51B-9F6A89F5B492}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C915712-1D17-4686-BBDB-51934432EA1D}
