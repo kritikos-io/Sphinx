@@ -21,7 +21,6 @@ namespace Kritikos.Sphinx.Web.Server
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Builder;
   using Microsoft.AspNetCore.DataProtection;
-  using Microsoft.AspNetCore.Diagnostics.HealthChecks;
   using Microsoft.AspNetCore.Hosting;
   using Microsoft.AspNetCore.Identity;
   using Microsoft.AspNetCore.Identity.UI.Services;
@@ -75,11 +74,6 @@ namespace Kritikos.Sphinx.Web.Server
       services.AddDataProtection()
         .SetApplicationName($"{Environment.ApplicationName}-{Environment.EnvironmentName}")
         .PersistKeysToDbContext<DataProtectionDbContext>();
-
-      services
-        .AddHealthChecks()
-        .AddDbContextCheck<SphinxDbContext>(nameof(SphinxDbContext))
-        .AddDbContextCheck<DataProtectionDbContext>(nameof(DataProtectionDbContext));
 
       services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -215,9 +209,6 @@ namespace Kritikos.Sphinx.Web.Server
 
       app.UseEndpoints(endpoints =>
       {
-        endpoints.MapHealthChecks(
-          "/status",
-          new HealthCheckOptions() { Predicate = r => true, AllowCachingResponses = false, });
         endpoints.MapControllers();
         endpoints.MapRazorPages();
         endpoints.MapFallbackToFile("index.html");
