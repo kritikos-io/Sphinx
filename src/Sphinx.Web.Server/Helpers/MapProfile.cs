@@ -29,7 +29,9 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
       .Map<InsignificantStimulusCreateDto, InsignificantStimulus>(mapper => dto =>
         new InsignificantStimulus
         {
-          Content = dto.Content, MediaType = dto.MediaType, Type = Shared.Enums.StimulusType.Insignificant,
+          Content = dto.Content,
+          MediaType = dto.MediaType,
+          Type = Shared.Enums.StimulusType.Insignificant,
         })
       .Map<InsignificantStimulusUpdateDto, InsignificantStimulus>(mapper =>
         (dto, entity) => UpdateInsignificantStimulus(entity, dto))
@@ -62,7 +64,7 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
           Title = dto.Title,
         })
       .Map<TestSession, TestSessionRetrieveDto>(mapper => test =>
-        new TestSessionRetrieveDto { Id = test.Id, });
+        new TestSessionRetrieveDto { Id = test.Id, Title = test.Title });
 
     private static DataSet UpdateDataset(DataSet entity, DatasetUpdateDto dto)
     {

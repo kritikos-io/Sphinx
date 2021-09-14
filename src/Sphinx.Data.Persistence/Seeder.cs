@@ -5,10 +5,13 @@ namespace Kritikos.Sphinx.Data.Persistence
   using System.Linq;
   using System.Threading.Tasks;
 
+  using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
+  using Kritikos.Sphinx.Web.CommonIdentity;
   using Kritikos.Sphinx.Web.Shared.Enums;
 
+  using Microsoft.AspNetCore.Identity;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.Extensions.Logging;
@@ -174,6 +177,13 @@ namespace Kritikos.Sphinx.Data.Persistence
       {
         logger.LogWarning("Could not seed, database has pending migrations. {Migrations}", migrations);
         return;
+      }
+
+      var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<SphinxRole>>();
+      var roles = await ctx.Roles.ToListAsync();
+      foreach (var role in SphinxRoleHelper.Roles.Where(x => roles.All(y => y.Name != x)))
+      {
+        await roleManager.CreateAsync(new SphinxRole { Name = role });
       }
 
       if (!await ctx.DataSets.AnyAsync(x => x.Name == "Pre-test"))

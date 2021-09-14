@@ -36,8 +36,6 @@ namespace Kritikos.Sphinx.Web.Client
         .AddHttpMessageHandler<CorrelationMessageHandler>();
       builder.Services.AddSingleton<CorrelationMessageHandler>();
 
-      builder.Services.AddSyncfusionBlazor();
-
       builder.Services.AddApiAuthorization()
         .AddAccountClaimsPrincipalFactory<MultipleRoleClaimsPrincipalFactory>();
       builder.Services.AddLogging(configure => configure.AddSerilog());

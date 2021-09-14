@@ -5,5 +5,7 @@ namespace Kritikos.Sphinx.Web.Shared.RetrieveDto
   public class TestSessionRetrieveDto
   {
     public Guid Id { get; set; }
+
+    public string Title { get; set; } = string.Empty;
   }
 }

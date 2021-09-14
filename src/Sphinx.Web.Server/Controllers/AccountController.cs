@@ -31,11 +31,11 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       UserManager<SphinxUser> userManager)
       : base(dbContext, mapper, logger, userManager)
     {
-      dataProtector = protectionProvider.CreateProtector(DataProtectionPurposes.UserManagement);
-      this.userManager = usersManager;
-      roleManager = rolesManager;
-      razor = razorRenderer;
-      this.Sender = sender;
+      dataProtector = protectionProvider!.CreateProtector(DataProtectionPurposes.UserManagement);
+      this.userManager = usersManager!;
+      roleManager = rolesManager!;
+      razor = razorRenderer!;
+      this.Sender = sender!;
     }
 
     private IEmailSender Sender { get; }

@@ -11,6 +11,8 @@ namespace Kritikos.Sphinx.Data.Persistence.Models
 
   public class TestSession : SphinxEntity<Guid, TestSession>
   {
+    public string Title { get; set; }
+
     public bool IsPublic { get; set; }
 
     // A, B, C, D, E
