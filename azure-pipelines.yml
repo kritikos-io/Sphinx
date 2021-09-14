@@ -48,7 +48,7 @@ stages:
       buildOnLinux: true
       buildOnWindows: true
       publishOnWindows: true
-      packOnLinux: true
+      packOnLinux: false
       projectsToPack: src/Sphinx.Web.Shared/Sphinx.Web.Shared.csproj
       projectsToPublish: src/Sphinx.Web.Server/Sphinx.Web.Server.csproj
       publishArtifactName: azure
