@@ -1,7 +1,11 @@
 namespace Kritikos.Sphinx.Web.Server
 {
   using System;
+  using System.IdentityModel.Tokens.Jwt;
   using System.IO;
+  using System.Linq;
+
+  using IdentityServer4.Models;
 
   using Kritikos.Configuration.Persistence.Extensions;
   using Kritikos.Configuration.Persistence.Interceptors.SaveChanges;
@@ -10,6 +14,7 @@ namespace Kritikos.Sphinx.Web.Server
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
+  using Kritikos.Sphinx.Web.CommonIdentity;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
 
@@ -109,7 +114,22 @@ namespace Kritikos.Sphinx.Web.Server
 
       services
         .AddIdentityServer()
-        .AddApiAuthorization<SphinxUser, SphinxDbContext>();
+        .AddApiAuthorization<SphinxUser, SphinxDbContext>(options =>
+        {
+          options.IdentityResources[new IdentityResources.OpenId().Name]
+            .UserClaims.Add("role");
+          options.IdentityResources[new IdentityResources.OpenId().Name]
+            .UserClaims.Add(SphinxClaimHelpers.ClaimBaseName);
+
+          options.ApiResources.Single()
+            .UserClaims
+            .Add("role");
+          options.ApiResources.Single()
+            .UserClaims
+            .Add(SphinxClaimHelpers.ClaimBaseName);
+        });
+      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
+      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove(SphinxClaimHelpers.ClaimBaseName);
 
       services.AddAuthentication()
         .AddIdentityServerJwt();

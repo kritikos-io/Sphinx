@@ -14,12 +14,11 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.BrowserConsole" Version="1.0.0" />
     <PackageReference Include="Serilog.Sinks.BrowserHttp" Version="1.0.0-dev-00021" />
-    <PackageReference Include="Syncfusion.Blazor.Core" Version="19.2.0.57" />
-    <PackageReference Include="Syncfusion.Blazor.ProgressBar" Version="19.2.0.57" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sphinx.Web.CommonIdentity\Sphinx.Web.CommonIdentity.csproj" />
     <ProjectReference Include="..\Sphinx.Web.Server.Models\Sphinx.Web.Server.Models.csproj" />
   </ItemGroup>
 

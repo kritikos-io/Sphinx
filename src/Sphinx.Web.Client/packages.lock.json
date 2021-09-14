@@ -126,29 +126,6 @@
           "StyleCop.Analyzers.Unstable": "1.2.0.354"
         }
       },
-      "Syncfusion.Blazor.Core": {
-        "type": "Direct",
-        "requested": "[19.2.0.57, )",
-        "resolved": "19.2.0.57",
-        "contentHash": "qDGfUa73JEL7D/7tjelF/8Qdo0vAcIpit3JIGeOLW9JIY55cbJ3gi/CX5Y/NqrUhTVX/uraDYQ7YbdlyuX5DDw==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Components.Web": "5.0.0",
-          "Microsoft.CSharp": "4.7.0",
-          "Newtonsoft.Json": "12.0.3",
-          "Syncfusion.Blazor.Themes": "19.2.0.57",
-          "Syncfusion.Licensing": "19.2.0.57"
-        }
-      },
-      "Syncfusion.Blazor.ProgressBar": {
-        "type": "Direct",
-        "requested": "[19.2.0.57, )",
-        "resolved": "19.2.0.57",
-        "contentHash": "enELQPkTbWH04qWXXVgnOGEgsxkK0I4+G0fL9Mg66N+86a+aBgWajxB4tjspiCIXfb+U/U6GxvQ5rwUsw53fyA==",
-        "dependencies": {
-          "Syncfusion.Blazor.Core": "19.2.0.57",
-          "Syncfusion.Blazor.Data": "19.2.0.57"
-        }
-      },
       "System.Net.Http.Json": {
         "type": "Direct",
         "requested": "[5.0.0, )",
@@ -217,11 +194,6 @@
         "type": "Transitive",
         "resolved": "5.0.9",
         "contentHash": "ITEZAAGTl58j3mPiYg+iDnhLw9YqWoPmDOSmiyb9mVnrK+a6nMU6Bnf90Gh/cYJ8QbvFpq1DhWx39YHID8eIDQ=="
-      },
-      "Microsoft.CSharp": {
-        "type": "Transitive",
-        "resolved": "4.7.0",
-        "contentHash": "pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Transitive",
@@ -360,11 +332,6 @@
         "resolved": "1.1.0",
         "contentHash": "aOZA3BWfz9RXjpzt0sRJJMjAscAUm3Hoa4UWAfceV9UTYxgwZ1lZt5nO2myFf+/jetYQo4uTP7zS8sJY67BBxg=="
       },
-      "Newtonsoft.Json": {
-        "type": "Transitive",
-        "resolved": "12.0.3",
-        "contentHash": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg=="
-      },
       "Refit": {
         "type": "Transitive",
         "resolved": "6.0.94",
@@ -400,24 +367,6 @@
         "type": "Transitive",
         "resolved": "1.2.0.354",
         "contentHash": "/3RlM31XbJ02gaWh7dVumWOyMvGHswb/zygGJXd9oEJMRyyYc/HFJlAC5gBPxvi9cB4CMvIyyUTmZz5VLKwTvg=="
-      },
-      "Syncfusion.Blazor.Data": {
-        "type": "Transitive",
-        "resolved": "19.2.0.57",
-        "contentHash": "uZCy4+PaIkGJzlL2jMYmbub7GZ+qHhi9fGAwwXzZDvD7sglZ3vZzrCGoCU4WfPFeUwAaH9GIKqmtfZo6E8mcMg==",
-        "dependencies": {
-          "Syncfusion.Blazor.Core": "19.2.0.57"
-        }
-      },
-      "Syncfusion.Blazor.Themes": {
-        "type": "Transitive",
-        "resolved": "19.2.0.57",
-        "contentHash": "5v7z9NLC/3aVx3pgsbh+K5n0Mm5u1XU5p+cT4E2Lt5/rdxKDksCsfmiO980QEoMmOFAMlY0L+Xjc/xY/QynaBg=="
-      },
-      "Syncfusion.Licensing": {
-        "type": "Transitive",
-        "resolved": "19.2.0.57",
-        "contentHash": "of2WgliT7AsdpGV73ERgowljMujZibTBqjuy75tEzQq44Y3qglW3oVqMJY77lm7KVsJufPub0EThMSeyeOHOUA=="
       },
       "System.Collections": {
         "type": "Transitive",
@@ -593,6 +542,12 @@
           "Microsoft.NETCore.Platforms": "1.0.1",
           "Microsoft.NETCore.Targets": "1.0.1",
           "System.Runtime": "4.1.0"
+        }
+      },
+      "Kritikos.Sphinx.Web.CommonIdentity": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "5.0.9"
         }
       },
       "Kritikos.Sphinx.Web.Server.Models": {
