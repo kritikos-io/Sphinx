@@ -4,10 +4,12 @@ namespace Kritikos.Sphinx.Web.Client
   using System.Threading.Tasks;
 
   using Kritikos.Sphinx.Web.Client.Helpers;
-  using Kritikos.Sphinx.Web.Shared.API;
+  using Kritikos.Sphinx.Web.CommonIdentity;
+  using Kritikos.Sphinx.Web.Server.Models.API;
 
   using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
   using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+  using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
 
   using Refit;
@@ -26,18 +28,21 @@ namespace Kritikos.Sphinx.Web.Client
       Log.Logger = CreateLoggerBuilder($"{builder.HostEnvironment.BaseAddress}ingest").CreateLogger();
 
       builder.RootComponents.Add<App>("#app");
-
       builder.Services.AddRefitClient<ISphinxApi>()
         .ConfigureHttpClient(c =>
         {
           c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         })
         .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
-        .AddHttpMessageHandler<CorrelationMessageHandler>();
+        //.AddHttpMessageHandler<CorrelationMessageHandler>()
+        ;
       builder.Services.AddSingleton<CorrelationMessageHandler>();
 
       builder.Services.AddApiAuthorization()
         .AddAccountClaimsPrincipalFactory<MultipleRoleClaimsPrincipalFactory>();
+
+      builder.Services.AddAuthorizationCore(options => options.RegisterSphinxPolicies());
+
       builder.Services.AddLogging(configure => configure.AddSerilog());
 
       var host = builder.Build();

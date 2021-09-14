@@ -1,4 +1,4 @@
-namespace Kritikos.Sphinx.Web.Server.Areas.Identity.Pages.Account
+ namespace Kritikos.Sphinx.Web.Server.Areas.Identity.Pages.Account
 {
   using System;
   using System.Collections.Generic;

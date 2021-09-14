@@ -1,4 +1,4 @@
-namespace Kritikos.Sphinx.Web.Shared
+namespace Kritikos.Sphinx.Web.Server.Models
 {
   using System;
 

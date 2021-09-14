@@ -1,4 +1,4 @@
-namespace Kritikos.Sphinx.Web.Shared.RetrieveDto
+namespace Kritikos.Sphinx.Web.Server.Models.old.RetrieveDto
 {
   using System;
 

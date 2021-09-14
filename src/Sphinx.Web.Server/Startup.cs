@@ -128,6 +128,11 @@ namespace Kritikos.Sphinx.Web.Server
       services.AddAuthentication()
         .AddIdentityServerJwt();
 
+      services.AddAuthorization(options =>
+      {
+        options.RegisterSphinxPolicies();
+      });
+
       services.AddSwaggerGen(swag =>
       {
         swag.SwaggerDoc(
@@ -145,7 +150,7 @@ namespace Kritikos.Sphinx.Web.Server
           $"{typeof(Startup).Assembly.GetName().Name}.xml"));
       });
 
-      services.AddCorrelation();
+      // services.AddCorrelation();
 
       services.AddControllersWithViews();
       services.AddMvc();
@@ -192,7 +197,7 @@ namespace Kritikos.Sphinx.Web.Server
       });
 
       app.UseHttpsRedirection();
-      app.UseCorrelation();
+      // app.UseCorrelation();
       app.UseBlazorFrameworkFiles();
       app.UseStaticFiles();
 

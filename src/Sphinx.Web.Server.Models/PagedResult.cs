@@ -1,6 +1,6 @@
 #pragma warning disable SA1402 // File may only contain a single type
 #pragma warning disable CA2227 // Collection properties should be read only
-namespace Kritikos.Sphinx.Web.Shared
+namespace Kritikos.Sphinx.Web.Server.Models
 {
   using System.Collections.Generic;
 

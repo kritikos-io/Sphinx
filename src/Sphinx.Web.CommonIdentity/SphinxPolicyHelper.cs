@@ -27,11 +27,11 @@ namespace Kritikos.Sphinx.Web.CommonIdentity
       }
     }
 
-    public static AuthorizationPolicy IsAdminPolicy()
+    private static AuthorizationPolicy IsAdminPolicy()
       => BaseRolePolicy(SphinxRoleHelper.Administrator)
         .Build();
 
-    public static AuthorizationPolicy CanManageSessions()
+    private static AuthorizationPolicy CanManageSessions()
       => BaseClaimPolicy(SphinxClaimHelpers.CanManageSessions)
         .Build();
 

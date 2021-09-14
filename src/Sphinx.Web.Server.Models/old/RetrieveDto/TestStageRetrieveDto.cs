@@ -1,6 +1,6 @@
-namespace Kritikos.Sphinx.Web.Shared.RetrieveDto
+namespace Kritikos.Sphinx.Web.Server.Models.old.RetrieveDto
 {
-  using Kritikos.Sphinx.Web.Shared.Enums;
+  using Kritikos.Sphinx.Web.Server.Models.Enums;
 
   public class TestStageRetrieveDto
   {

@@ -1,4 +1,4 @@
-namespace Kritikos.Sphinx.Web.Shared.CreateDto
+namespace Kritikos.Sphinx.Web.Server.Models.old.CreateDto
 {
   public class DatasetCreateDto
   {

@@ -7,12 +7,12 @@ namespace Kritikos.Sphinx.Data.Persistence
 
   using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Data.Persistence.Models;
-  using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
   using Kritikos.Sphinx.Web.CommonIdentity;
-  using Kritikos.Sphinx.Web.Shared.Enums;
+  using Kritikos.Sphinx.Web.Server.Models.Enums;
 
   using Microsoft.AspNetCore.Identity;
   using Microsoft.EntityFrameworkCore;
+  using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.Extensions.Logging;
 
@@ -170,14 +170,9 @@ namespace Kritikos.Sphinx.Data.Persistence
     public static async Task Seed(IServiceScopeFactory scopeFactory, ILogger<SphinxDbContext> logger)
     {
       using var scope = scopeFactory?.CreateScope() ?? throw new ArgumentNullException(nameof(scopeFactory));
+      var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
       var ctx = scope.ServiceProvider.GetRequiredService<SphinxDbContext>();
       var migrations = (await ctx.Database.GetPendingMigrationsAsync()).ToList();
-
-      if (migrations.Any())
-      {
-        logger.LogWarning("Could not seed, database has pending migrations. {Migrations}", migrations);
-        return;
-      }
 
       var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<SphinxRole>>();
       var roles = await ctx.Roles.ToListAsync();
@@ -186,7 +181,36 @@ namespace Kritikos.Sphinx.Data.Persistence
         await roleManager.CreateAsync(new SphinxRole { Name = role });
       }
 
-      if (!await ctx.DataSets.AnyAsync(x => x.Name == "Pre-test"))
+      var userManager = scope.ServiceProvider.GetRequiredService<UserManager<SphinxUser>>();
+      var managers = await userManager.GetUsersInRoleAsync(SphinxRoleHelper.Administrator);
+
+      if (!managers.Any())
+      {
+        var managerEmail = configuration["Admin:Email"];
+        managerEmail = string.IsNullOrWhiteSpace(managerEmail)
+          ? "admin@sphinx"
+          : managerEmail;
+        var managerPassword = configuration["Admin:Password"];
+        managerPassword = string.IsNullOrWhiteSpace(managerPassword)
+          ? "admin1234"
+          : managerPassword;
+
+        var user = new SphinxUser
+        {
+          UserName = managerEmail,
+          Email = managerEmail,
+          EmailConfirmed = true,
+          FirstName = "Administrator",
+          LastName = "Administrator",
+          PhoneNumber = "000 000 0000",
+          LockoutEnabled = false,
+        };
+
+        await userManager.CreateAsync(user, managerPassword);
+        await userManager.AddToRoleAsync(user, SphinxRoleHelper.Administrator);
+      }
+
+      if (!await ctx.Datasets.AnyAsync(x => x.Title == "Pre-test"))
       {
         logger.LogInformation("Seeding pre-test dataset...");
         AddPreTest(ctx);
@@ -197,26 +221,19 @@ namespace Kritikos.Sphinx.Data.Persistence
 
     private static void AddPreTest(SphinxDbContext ctx)
     {
-      var dataset = new DataSet { Name = "Pre-test", };
+      var dataset = new SphinxDataset { Title = "Pre-test", IsSignificant = true };
+      var greekGroup = new StimuliGroup { Title = "Greek Words", Dataset = dataset, IsPrimary = true, };
+      var italianGroup = new StimuliGroup { Title = "Italian Words", Dataset = dataset };
+      var englishGroup = new StimuliGroup { Title = "English Words", Dataset = dataset };
+
       foreach (var (greek, english, italian) in PreTest)
       {
-        var primary = new PrimarySignificantStimulus
-        {
-          DataSet = dataset, Content = greek, MediaType = StimulusMediaType.Text, Title = "Greek Words",
-        };
+        var g = new Stimulus { Content = greek, MediaType = StimulusMediaType.Text, Group = greekGroup };
+        var e = new Stimulus { Content = english, MediaType = StimulusMediaType.Text, Group = englishGroup };
+        var i = new Stimulus { Content = italian, MediaType = StimulusMediaType.Text, Group = italianGroup };
 
-        var secondaryEnglish = new SecondarySignificantStimulus
-        {
-          DataSet = dataset, Content = english, MediaType = StimulusMediaType.Text, Title = "English Words",
-        };
-
-        var secondaryItalian = new SecondarySignificantStimulus
-        {
-          DataSet = dataset, Content = italian, MediaType = StimulusMediaType.Text, Title = "Italian Words",
-        };
-
-        ctx.SignificantMatches.Add(new SignificantMatch { Primary = primary, Secondary = secondaryEnglish });
-        ctx.SignificantMatches.Add(new SignificantMatch { Primary = primary, Secondary = secondaryItalian });
+        ctx.SignificantMatches.Add(new SignificantStimuliMatch { Primary = g, Secondary = e });
+        ctx.SignificantMatches.Add(new SignificantStimuliMatch { Primary = g, Secondary = i });
       }
     }
   }

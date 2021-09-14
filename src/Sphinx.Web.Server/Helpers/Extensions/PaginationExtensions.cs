@@ -3,8 +3,8 @@ namespace Kritikos.Sphinx.Web.Server.Helpers.Extensions
   using System;
   using System.Collections.Generic;
 
-  using Kritikos.Sphinx.Web.Shared;
-  using Kritikos.Sphinx.Web.Shared.Criteria;
+  using Kritikos.Sphinx.Web.Server.Models;
+  using Kritikos.Sphinx.Web.Server.Models.Criteria;
 
   public static class PaginationExtensions
   {

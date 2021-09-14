@@ -4,7 +4,7 @@ namespace Kritikos.Sphinx.Web.Client.Components
   using System.Threading.Tasks;
 
   using Kritikos.Sphinx.Web.Client.Helpers;
-  using Kritikos.Sphinx.Web.Shared;
+  using Kritikos.Sphinx.Web.Server.Models;
 
   using Microsoft.AspNetCore.Components;
 

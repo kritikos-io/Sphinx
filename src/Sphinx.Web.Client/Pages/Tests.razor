@@ -1,11 +1,11 @@
 @page "/tests"
-@using Kritikos.Sphinx.Web.Shared.API
 @using System.Threading.Tasks;
-@using Kritikos.Sphinx.Web.Shared;
-@using Kritikos.Sphinx.Web.Shared.RetrieveDto;
+@using Kritikos.Sphinx.Web.Server.Models
+@using Kritikos.Sphinx.Web.Server.Models.API
+@using Kritikos.Sphinx.Web.Server.Models.Criteria
+@using Kritikos.Sphinx.Web.Server.Models.old.RetrieveDto
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 @using Microsoft.AspNetCore.Authorization
-@using Kritikos.Sphinx.Web.Shared.Criteria;
 
 @attribute [Authorize]
 @inject ISphinxApi Api

@@ -1,4 +1,4 @@
-namespace Kritikos.Sphinx.Web.Shared.Criteria
+namespace Kritikos.Sphinx.Web.Server.Models.Criteria
 {
   using System.ComponentModel.DataAnnotations;
 

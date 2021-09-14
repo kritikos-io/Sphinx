@@ -1,0 +1,85 @@
+@page "/CreateTestSession"
+@using Microsoft.AspNetCore.Authorization
+@using Kritikos.Sphinx.Web.Server.Models.API
+@using Kritikos.Sphinx.Web.Server.Models.CreateDto
+@using Kritikos.Sphinx.Web.Server.Models.RetrieveDto
+
+@inject ILogger<TestSessions> logger
+@inject ISphinxApi api
+
+@if (Groups == null)
+{
+	<p>
+		<em>Loading...</em>
+	</p>
+}
+else
+{
+	<h1>Creating new test session</h1>
+	<form onsubmit="@OnValidFormSubmit()">
+		<div class="form-group row">
+			<label class="col-md-2">Session Name</label>
+			<div class="col-md-10">
+				<input @bind="Session.Title" />
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="row col-md-2">Stimulus A</label>
+			<select class="form-control col-md-10" @bind="GroupA.Id">
+				@foreach (var g in Groups)
+				{
+					<option value="@g.Id">@g.Title</option>
+				}
+			</select>
+		</div>
+		<div class="form-group row">
+			<label class="row col-md-2">Stimulus B</label>
+			<select class="form-control col-md-10" @bind="GroupB.Id">
+				@foreach (var g in Groups)
+				{
+					<option value="@g.Id">@g.Title</option>
+				}
+			</select>
+		</div>
+		<div class="form-group row">
+			<label class="row col-md-2">Stimulus A</label>
+			<select class="form-control col-md-10" @bind="GroupC.Id">
+				@foreach (var g in Groups)
+				{
+					<option value="@g.Id">@g.Title</option>
+				}
+			</select>
+		</div>
+
+
+		<div class="form-group row">
+			<button type="submit" class="btn btn-primary">Create</button>
+		</div>
+	</form>
+}
+
+@code {
+
+	public List<StimuliGroupWithDatasetDto>? Groups { get; set; }
+	public TestSessionCreateDto Session { get; } = new();
+	public StimuliGroupWithDatasetDto GroupA { get; } = new();
+	public StimuliGroupWithDatasetDto GroupB { get; } = new();
+	public StimuliGroupWithDatasetDto GroupC { get; } = new();
+
+	/// <inheritdoc />
+	protected override async Task OnInitializedAsync()
+	{
+		Groups = await api.GetGroupsWithDatasetTitle();
+	}
+
+  async Task OnValidFormSubmit()
+  {
+    Session.GroupA=GroupA.Id;
+    Session.GroupB=GroupB.Id;
+    Session.GroupC=GroupC.Id;
+
+	logger.LogError("SAVING SESSION");
+    await api.CreateSession(Session);
+  }
+}

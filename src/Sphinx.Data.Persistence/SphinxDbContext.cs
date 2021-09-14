@@ -6,7 +6,6 @@ namespace Kritikos.Sphinx.Data.Persistence
   using Kritikos.Configuration.Peristence.IdentityServer;
   using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Data.Persistence.Models;
-  using Kritikos.Sphinx.Data.Persistence.Models.Discriminated.Stimuli;
 
   using Microsoft.EntityFrameworkCore;
 
@@ -17,42 +16,28 @@ namespace Kritikos.Sphinx.Data.Persistence
     {
     }
 
-    public DbSet<TestStage> TestStages { get; set; }
+    public DbSet<SphinxDataset> Datasets { get; set; }
+
+    public DbSet<StimuliGroup> StimulusGroups { get; set; }
 
     public DbSet<Stimulus> Stimuli { get; set; }
 
-    public DbSet<DataSet> DataSets { get; set; }
+    public DbSet<SignificantStimuliMatch> SignificantMatches { get; set; }
 
     public DbSet<TestSession> TestSessions { get; set; }
 
-    public DbSet<SessionQuestion> SessionQuestions { get; set; }
-
-    public DbSet<InsignificantStimulus> InsignificantStimuli { get; set; }
-
-    public DbSet<SignificantStimulus> SignificantStimuli { get; set; }
-
-    public DbSet<SignificantMatch> SignificantMatches { get; set; }
-
-    public DbSet<UserSession> UserSessions { get; set; }
+    public DbSet<TestSessionQuestion> SessionQuestions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
 
-      DataSet.OnModelCreating(builder);
-
+      SphinxDataset.OnModelCreating(builder);
+      StimuliGroup.OnModelCreating(builder);
       Stimulus.OnModelCreating(builder);
-      InsignificantStimulus.OnModelCreating(builder);
-      SignificantStimulus.OnModelCreating(builder);
-      PrimarySignificantStimulus.OnModelCreating(builder);
-      SecondarySignificantStimulus.OnModelCreating(builder);
-
-      SignificantMatch.OnModelCreating(builder);
-
+      SignificantStimuliMatch.OnModelCreating(builder);
       TestSession.OnModelCreating(builder);
-      SessionQuestion.OnModelCreating(builder);
-      TestStage.OnModelCreating(builder);
-      UserSession.OnModelCreating(builder);
+      TestSessionQuestion.OnModelCreating(builder);
     }
   }
 }

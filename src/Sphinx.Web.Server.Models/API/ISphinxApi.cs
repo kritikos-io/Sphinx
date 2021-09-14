@@ -1,11 +1,13 @@
-namespace Kritikos.Sphinx.Web.Shared.API
+namespace Kritikos.Sphinx.Web.Server.Models.API
 {
   using System;
   using System.Collections.Generic;
   using System.Threading.Tasks;
 
-  using Kritikos.Sphinx.Web.Shared.Criteria;
-  using Kritikos.Sphinx.Web.Shared.RetrieveDto;
+  using Kritikos.Sphinx.Web.Server.Models.CreateDto;
+  using Kritikos.Sphinx.Web.Server.Models.Criteria;
+  using Kritikos.Sphinx.Web.Server.Models.old.RetrieveDto;
+  using Kritikos.Sphinx.Web.Server.Models.RetrieveDto;
 
   using Refit;
 
@@ -19,5 +21,11 @@ namespace Kritikos.Sphinx.Web.Shared.API
 
     [Get("/api/testsession/{id}")]
     Task<TestSessionRetrieveDto> GetTestSession(Guid id);
+
+    [Get("/api/dataset/grouped")]
+    Task<List<StimuliGroupWithDatasetDto>> GetGroupsWithDatasetTitle();
+
+    [Post("/api/testSession")]
+    Task CreateSession(TestSessionCreateDto dto);
   }
 }

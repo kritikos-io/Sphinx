@@ -1,10 +1,10 @@
-namespace Kritikos.Sphinx.Web.Shared.CreateDto
+namespace Kritikos.Sphinx.Web.Server.Models.old.UpdateDto
 {
   using System;
 
-  using Kritikos.Sphinx.Web.Shared.Enums;
+  using Kritikos.Sphinx.Web.Server.Models.Enums;
 
-  public class InsignificantStimulusCreateDto
+  public class InsignificantStimulusUpdateDto
   {
     public StimulusMediaType MediaType { get; set; }
 

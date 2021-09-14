@@ -7,12 +7,17 @@ namespace Kritikos.Sphinx.Web.Client.Helpers
 
   using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
   using Microsoft.AspNetCore.Components.WebAssembly.Authentication.Internal;
+  using Microsoft.Extensions.Logging;
 
   public class MultipleRoleClaimsPrincipalFactory : AccountClaimsPrincipalFactory<RemoteUserAccount>
   {
-    public MultipleRoleClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor)
+    private readonly ILogger<MultipleRoleClaimsPrincipalFactory> logger;
+
+    public MultipleRoleClaimsPrincipalFactory(IAccessTokenProviderAccessor accessor,
+      ILogger<MultipleRoleClaimsPrincipalFactory> logger)
       : base(accessor)
     {
+      this.logger = logger;
     }
 
     public override async ValueTask<ClaimsPrincipal> CreateUserAsync(
@@ -29,8 +34,9 @@ namespace Kritikos.Sphinx.Web.Client.Helpers
       return user;
     }
 
-    private static void MapArrayClaimsToMultipleSeparateClaims(RemoteUserAccount account, ClaimsIdentity claimsIdentity)
+    private void MapArrayClaimsToMultipleSeparateClaims(RemoteUserAccount account, ClaimsIdentity claimsIdentity)
     {
+      logger.LogDebug("Adding claims to account {User}", claimsIdentity);
       foreach (var prop in account.AdditionalProperties)
       {
         var key = prop.Key;

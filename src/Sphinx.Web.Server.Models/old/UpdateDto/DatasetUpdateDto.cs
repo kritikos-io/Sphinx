@@ -1,4 +1,4 @@
-namespace Kritikos.Sphinx.Web.Shared.UpdateDto
+namespace Kritikos.Sphinx.Web.Server.Models.old.UpdateDto
 {
   public class DatasetUpdateDto
   {

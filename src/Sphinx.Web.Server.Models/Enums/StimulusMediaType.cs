@@ -1,4 +1,4 @@
-namespace Kritikos.Sphinx.Web.Shared.Enums
+namespace Kritikos.Sphinx.Web.Server.Models.Enums
 {
   using System;
 
