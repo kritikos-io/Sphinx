@@ -1,0 +1,105 @@
+@using Kritikos.Sphinx.Web.Client.Components
+@using Microsoft.AspNetCore.Authorization
+@using Kritikos.Sphinx.Web.Shared.API
+@using Kritikos.Sphinx.Web.Shared.Criteria
+@using Kritikos.Sphinx.Web.Shared.RetrieveDto
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Kritikos.Sphinx.Web.Shared
+@page "/testSessions"
+@attribute [Authorize]
+@inject ILogger<TestSessions> logger
+@inject ISphinxApi api
+
+<h1>Test Session Management</h1>
+
+@if (!Sessions?.Any() ?? false)
+{
+  <p>
+    <em>Loading...</em>
+  </p>
+}
+else
+{
+  <div class="row">
+    <div class="col-md-8">
+    </div>
+    <div class="col-md-4 text-center">
+      <AuthorizeView Policy="@SphinxPolicyHelper.IsAdmin">
+        <a class="btn btn-primary" href="/NewSession">Create New</a>
+      </AuthorizeView>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Identifier</th>
+        <th scope="col">Title</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var session in Sessions!)
+      {
+        <tr>
+          <th scope="row">@session.Id</th>
+          <td>@session.Title</td>
+          <td>
+            <button type="button" class="btn btn-danger">Delete</button>
+          </td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <Pagination Metadata="Metadata" Spread="5" SelectedPage="SelectedPage"></Pagination>
+  </div>
+}
+
+@code{
+
+  public PaginationMetadata Metadata { get; set; } = new();
+  public PaginationCriteria Criteria { get; set; } = new();
+  public TestSessionRetrieveDto[]? Sessions { get; private set; } = Array.Empty<TestSessionRetrieveDto>();
+
+  protected override async Task OnInitializedAsync()
+  {
+    Metadata.CurrentPage = 5;
+    Metadata.PageSize = 2;
+    Metadata.TotalCount = 20;
+    Metadata.TotalPages = 10;
+    await Refresh();
+  }
+
+  private async Task SelectedPage(int page)
+  {
+    Criteria.ItemsPerPage = page;
+    await Refresh();
+  }
+
+  private async Task Refresh()
+  {
+    try
+    {
+      Sessions = new TestSessionRetrieveDto[]
+      {
+        new()
+        {
+          Id = Guid.NewGuid(),
+          Title = "Blah"
+        },
+        new()
+        {
+          Id = Guid.NewGuid(),
+          Title = "Bleh"
+        },
+      };
+    }
+    catch (AccessTokenNotAvailableException exception)
+    {
+      exception.Redirect();
+    }
+  }
+
+}
