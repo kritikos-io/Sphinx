@@ -12,86 +12,90 @@
 
 <h1>Test Session Management</h1>
 
-@if (!Sessions?.Any() ?? false)
+@if (Sessions == null)
 {
-  <p>
-    <em>Loading...</em>
-  </p>
+	<p>
+		<em>Loading...</em>
+	</p>
 }
 else
 {
-  <div class="row">
-    <div class="col-md-8">
-    </div>
-    <div class="col-md-4 text-center">
-      <AuthorizeView Policy="@SphinxPolicyHelper.IsAdmin">
-        <a class="btn btn-primary" href="/NewSession">Create New</a>
-      </AuthorizeView>
-    </div>
-  </div>
-  <div class="row">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col">Identifier</th>
-        <th scope="col">Title</th>
-        <th scope="col">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      @foreach (var session in Sessions??new List<TestSessionRetrieveDto>())
-      {
-        <tr>
-          <th scope="row">@session.Id</th>
-          <td>@session.Title</td>
-          <td>
-            <button type="button" class="btn btn-danger">Delete</button>
-          </td>
-        </tr>
-      }
-      </tbody>
-    </table>
-  </div>
-  <div class="row">
-    <Pagination Metadata="Metadata" Spread="5" SelectedPage="SelectedPage"></Pagination>
-  </div>
+	<div class="row">
+		<div class="col-md-8">
+		</div>
+		<div class="col-md-4 text-center">
+			<AuthorizeView Policy="@SphinxPolicyHelper.IsAdmin">
+				<a class="btn btn-primary" href="/NewSession">Create New</a>
+			</AuthorizeView>
+		</div>
+	</div>
+	<div class="row">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Identifier</th>
+					<th scope="col">Title</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var session in Sessions ?? new List<TestSessionRetrieveDto>())
+				{
+					<tr>
+						<th scope="row">@session.Id</th>
+						<td>@session.Title</td>
+						<td>
+							<button type="button" class="btn btn-danger">Delete</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+	<div class="row">
+		<Pagination Metadata="Metadata" Spread="5" SelectedPage="SelectedPage"></Pagination>
+	</div>
 }
 
-@code{
+@code {
 
-  public PaginationMetadata Metadata { get; set; } = new();
-  public PaginationCriteria Criteria { get; set; } = new();
-  
-  public List<TestSessionRetrieveDto>? Sessions { get; private set; }
+	public PaginationMetadata Metadata { get; set; } = new();
+	public PaginationCriteria Criteria { get; set; } = new();
 
-  protected override async Task OnInitializedAsync()
-  {
-    await Refresh();
-  }
+	public List<TestSessionRetrieveDto>? Sessions { get; private set; }
 
-  private async Task SelectedPage(int page)
-  {
-    Criteria.Page = page;
-    await Refresh();
-  }
+	protected override async Task OnInitializedAsync()
+	{
+		await Refresh();
+	}
 
-  private async Task Refresh()
-  {
-    try
-    {
-      var apiCall =await api.GetTestSessions(Criteria);
-      if (!apiCall.IsSuccessStatusCode)
-      {
-		logger.LogError(apiCall.Error,"Unknown Error!");
-      }
+	private async Task SelectedPage(int page)
+	{
+		Criteria.Page = page == 0 ? 1 : page;
+		await Refresh();
+	}
 
-	  Metadata = apiCall.Content?.Metadata ?? new PaginationMetadata();
-      Sessions = apiCall.Content?.Results.ToList()?? new List<TestSessionRetrieveDto>();
-    }
-    catch (AccessTokenNotAvailableException exception)
-    {
-      exception.Redirect();
-    }
-  }
+	private async Task Refresh()	
+	{
+		try
+		{
+			var apiCall = await api.GetTestSessions(Criteria);
+	  if (!apiCall.IsSuccessStatusCode)
+			{
+				logger.LogError(apiCall.Error, "Unknown Error!");
+			}
+			else
+			{
+				logger.LogInformation("Successfully received test sessions {Sessions}", apiCall.Content?.Results);
+			}
+
+			Metadata = apiCall.Content?.Metadata ?? new PaginationMetadata();
+			Sessions = apiCall.Content?.Results.ToList() ?? new List<TestSessionRetrieveDto>();
+		}
+		catch (AccessTokenNotAvailableException exception)
+		{
+			exception.Redirect();
+		}
+	}
 
 }

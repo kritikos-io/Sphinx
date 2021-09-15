@@ -2,6 +2,7 @@ namespace Kritikos.Sphinx.Web.Server.Models.API
 {
   using System;
   using System.Collections.Generic;
+  using System.Net.Http;
   using System.Threading.Tasks;
 
   using Kritikos.Sphinx.Web.Server.Models.CreateDto;
@@ -17,6 +18,9 @@ namespace Kritikos.Sphinx.Web.Server.Models.API
 
     [Get("/api/testsession")]
     Task<ApiResponse<PagedResult<TestSessionRetrieveDto>>> GetTestSessions(PaginationCriteria criteria);
+
+    [Get("/api/testsession")]
+    Task<HttpResponseMessage> RawGetTestSessions(PaginationCriteria criteria);
 
     [Get("/api/testsession/{id}")]
     Task<TestSessionRetrieveDto> GetTestSession(Guid id);

@@ -33,9 +33,7 @@ namespace Kritikos.Sphinx.Web.Client
         {
           c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         })
-        .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
-        //.AddHttpMessageHandler<CorrelationMessageHandler>()
-        ;
+        .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
       builder.Services.AddSingleton<CorrelationMessageHandler>();
 
       builder.Services.AddApiAuthorization()
