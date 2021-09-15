@@ -39,8 +39,8 @@ else
   </table>
 
   <div class="pagination">
-    <button class="btn btn-sm btn-primary" @onclick="@(async () => await ChangePage(currentPage - 1))">Previous</button>
-    <button class="btn btn-sm btn-primary" @onclick="@(async () => await ChangePage(currentPage + 1))">Next</button>
+    <button class="btn btn-sm btn-primary" @onclick="">Previous</button>
+    <button class="btn btn-sm btn-primary" @onclick="">Next</button>
   </div>
 }
 
@@ -58,7 +58,7 @@ else
     {
       try
       {
-        testSessions = await Api.GetTestSessions(new PaginationCriteria() { Page = currentPage });
+        testSessions = (await Api.GetTestSessions(new PaginationCriteria() { Page = currentPage })).Content;
         totalPages = testSessions.Metadata.TotalPages;
       }
       catch (AccessTokenNotAvailableException exception)
