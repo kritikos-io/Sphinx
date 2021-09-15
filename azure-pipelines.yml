@@ -50,7 +50,7 @@ stages:
       publishOnWindows: true
       packOnLinux: true
       projectsToPack: src/Sphinx.Web.Server.Models/Sphinx.Web.Server.Models.csproj
-      projectsToPublish: src/Sphinx.Web.Server.Models/Sphinx.Web.Server.Models.csproj
+      projectsToPublish: src/Sphinx.Web.Server/Sphinx.Web.Server.csproj
       publishArtifactName: azure
   - template: /ci/azure-pipelines/stages/dotnet/01. test.yml@templates
     parameters:
