@@ -86,3 +86,4 @@ stages:
       slotNameStage: stage
       deployToSlot: true
       artifact: azure-win
+      packagesToPush: Sphinx.Web.Server.zip
