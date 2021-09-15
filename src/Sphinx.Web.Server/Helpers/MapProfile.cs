@@ -14,6 +14,11 @@ namespace Kritikos.Sphinx.Web.Server.Helpers
       {
         Id = group.Id,
         Title = $"{group.Dataset.Title} - {group.Title}",
+      })
+      .Map<TestSession, TestSessionRetrieveDto>(_ => session => new TestSessionRetrieveDto
+      {
+        Id = session.Id,
+        Title = session.Title,
       });
   }
 }

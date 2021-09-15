@@ -5,13 +5,18 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Kritikos.Extensions.Linq;
+  using Kritikos.PureMap;
   using Kritikos.PureMap.Contracts;
   using Kritikos.Sphinx.Data.Persistence;
   using Kritikos.Sphinx.Data.Persistence.Identity;
   using Kritikos.Sphinx.Data.Persistence.Models;
   using Kritikos.Sphinx.Web.Server.Helpers;
   using Kritikos.Sphinx.Web.Server.Helpers.Extensions;
+  using Kritikos.Sphinx.Web.Server.Models;
   using Kritikos.Sphinx.Web.Server.Models.CreateDto;
+  using Kritikos.Sphinx.Web.Server.Models.Criteria;
+  using Kritikos.Sphinx.Web.Server.Models.RetrieveDto;
 
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Identity;
@@ -30,6 +35,26 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       UserManager<SphinxUser> userManager)
       : base(dbContext, mapper, logger, userManager)
     {
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<PagedResult<TestSessionRetrieveDto>>> RetrieveAll(
+      [FromQuery] PaginationCriteria pagination,
+      CancellationToken cancellationToken = default)
+    {
+      var query = DbContext.TestSessions;
+
+      var total = await query.CountAsync(cancellationToken);
+
+      var testSessions = await query
+        .OrderBy(x => x.Id)
+        .Slice(pagination.Page, pagination.ItemsPerPage)
+        .Project<TestSession, TestSessionRetrieveDto>(Mapper)
+        .ToListAsync(cancellationToken);
+
+      var result = testSessions.Paginate(pagination, total);
+
+      return Ok(result);
     }
 
     [HttpPost("")]
@@ -105,7 +130,7 @@ namespace Kritikos.Sphinx.Web.Server.Controllers
       return Ok();
     }
 
-    List<TestSessionQuestion> Foo(
+    private List<TestSessionQuestion> Foo(
       IReadOnlyCollection<Stimulus> first,
       IReadOnlyCollection<Stimulus> second,
       List<SignificantStimuliMatch> matches,

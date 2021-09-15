@@ -2,7 +2,7 @@
 @using Kritikos.Sphinx.Web.Server.Models
 @using Kritikos.Sphinx.Web.Server.Models.API
 @using Kritikos.Sphinx.Web.Server.Models.Criteria
-@using Kritikos.Sphinx.Web.Server.Models.old.RetrieveDto
+@using Kritikos.Sphinx.Web.Server.Models.RetrieveDto
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @page "/testSessions"
@@ -39,7 +39,7 @@ else
       </tr>
       </thead>
       <tbody>
-      @foreach (var session in Sessions!)
+      @foreach (var session in Sessions??new List<TestSessionRetrieveDto>())
       {
         <tr>
           <th scope="row">@session.Id</th>
@@ -66,16 +66,12 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    Metadata.CurrentPage = 5;
-    Metadata.PageSize = 2;
-    Metadata.TotalCount = 20;
-    Metadata.TotalPages = 10;
     await Refresh();
   }
 
   private async Task SelectedPage(int page)
   {
-    Criteria.ItemsPerPage = page;
+    Criteria.Page = page;
     await Refresh();
   }
 
@@ -84,8 +80,13 @@ else
     try
     {
       var apiCall =await api.GetTestSessions(Criteria);
-      Metadata = apiCall.Metadata;
-      Sessions = apiCall.Results.ToList();
+      if (!apiCall.IsSuccessStatusCode)
+      {
+		logger.LogError(apiCall.Error,"Unknown Error!");
+      }
+
+	  Metadata = apiCall.Content?.Metadata ?? new PaginationMetadata();
+      Sessions = apiCall.Content?.Results.ToList()?? new List<TestSessionRetrieveDto>();
     }
     catch (AccessTokenNotAvailableException exception)
     {

@@ -6,7 +6,6 @@ namespace Kritikos.Sphinx.Web.Server.Models.API
 
   using Kritikos.Sphinx.Web.Server.Models.CreateDto;
   using Kritikos.Sphinx.Web.Server.Models.Criteria;
-  using Kritikos.Sphinx.Web.Server.Models.old.RetrieveDto;
   using Kritikos.Sphinx.Web.Server.Models.RetrieveDto;
 
   using Refit;
@@ -17,7 +16,7 @@ namespace Kritikos.Sphinx.Web.Server.Models.API
     Task<List<WeatherForecast>> GetForecast();
 
     [Get("/api/testsession")]
-    Task<PagedResult<TestSessionRetrieveDto>> GetTestSessions(PaginationCriteria criteria);
+    Task<ApiResponse<PagedResult<TestSessionRetrieveDto>>> GetTestSessions(PaginationCriteria criteria);
 
     [Get("/api/testsession/{id}")]
     Task<TestSessionRetrieveDto> GetTestSession(Guid id);
