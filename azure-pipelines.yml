@@ -49,8 +49,8 @@ stages:
       buildOnWindows: true
       publishOnWindows: true
       packOnLinux: false
-      projectsToPack: src/Sphinx.Web.Shared/Sphinx.Web.Shared.csproj
-      projectsToPublish: src/Sphinx.Web.Server/Sphinx.Web.Server.csproj
+      projectsToPack: src/Sphinx.Web.Server.Models/Sphinx.Web.Server.Models.csproj
+      projectsToPublish: src/Sphinx.Web.Server.Models/Sphinx.Web.Server.Models.csproj
       publishArtifactName: azure
   - template: /ci/azure-pipelines/stages/dotnet/01. test.yml@templates
     parameters:
@@ -65,17 +65,17 @@ stages:
       useCache: false
       updateAssemblyInfo: true
       branch: develop
-  # - template: /ci/azure-pipelines/stages/dotnet/02. nuget-deploy.yml@templates
-  #   parameters:
-  #     gitHubConnection: kritikos-io
-  #     packagesToPush: '*.nupkg'
-  #     artifact: nuget
-  #     environmentPullRequest: Pull Requests
-  #     jobNamePullRequest: PullRequests
-  #     feedNamePullRequest: NugetKritikos
-  #     environmentRelease: Release
-  #     jobNameRelease: Release
-  #     feedNameRelease: NugetKritikos
+  - template: /ci/azure-pipelines/stages/dotnet/02. nuget-deploy.yml@templates
+    parameters:
+      gitHubConnection: kritikos-io
+      packagesToPush: '*.nupkg'
+      artifact: nuget
+      environmentPullRequest: Pull Requests
+      jobNamePullRequest: PullRequests
+      feedNamePullRequest: NugetKritikos
+      environmentRelease: Release
+      jobNameRelease: Release
+      feedNameRelease: NugetKritikos
   - template: /ci/azure-pipelines/stages/general/01. azureapp.yml@templates
     parameters:
       environment: Release
